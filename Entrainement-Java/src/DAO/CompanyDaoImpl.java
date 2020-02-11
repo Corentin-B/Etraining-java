@@ -13,7 +13,7 @@ public class CompanyDaoImpl implements CompanyDao{
 
 	private DaoFactory daoFactory;
 
-	CompanyDaoImpl(DaoFactory daoFactory){
+	public CompanyDaoImpl(DaoFactory daoFactory){
 		this.daoFactory = daoFactory;
 	}
 

@@ -29,9 +29,9 @@ public class ComputerDaoImpl implements ComputerDao{
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement("INSERT INTO company(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);");
 			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setString(2, computer.getName());
-			preparedStatement.setString(3, computer.getName());
-			preparedStatement.setString(4, computer.getName());
+			preparedStatement.setObject(2, computer.getIntroduced());
+			preparedStatement.setObject(3, computer.getDiscontinued());
+			preparedStatement.setLong(4, computer.getCompany_id());
 
 			preparedStatement.executeUpdate();
 
@@ -68,7 +68,7 @@ public class ComputerDaoImpl implements ComputerDao{
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("UPDATE company SET (?);");
+			preparedStatement = connexion.prepareStatement("UPDATE company SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;");
 			preparedStatement.setString(1, computer.getName());
 
 			preparedStatement.executeUpdate();

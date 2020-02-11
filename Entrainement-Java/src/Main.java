@@ -2,7 +2,7 @@ import java.sql.SQLException;
 
 import Company.Company;
 import DAO.DaoFactory;
-import DAO.UtilisateurDaoImpl;
+import DAO.CompanyDaoImpl;
 
 
 public class Main {
@@ -18,13 +18,10 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(dao);
-
-		Company agfa = new Company(0, "MySherpa");
+		CompanyDaoImpl companyDao = new CompanyDaoImpl(dao);
 		
-		utilisateurDao.ajouter(agfa);
 		
-		for (Company details : utilisateurDao.lister()) {
+		for (Company details : companyDao.lister()) {
 			System.out.println(details.getId() + " " + details.getName());
 		}
 
