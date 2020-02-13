@@ -1,6 +1,7 @@
 package Services;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import Client.UserInterface;
 import Computer.Computer;
@@ -9,7 +10,7 @@ import DAO.DaoFactory;
 
 public class ServicesComputer {
 
-	public static void computerList() {
+	public static List<Computer> computerList() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
@@ -19,7 +20,7 @@ public class ServicesComputer {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
 
-		UserInterface.displayComputerList(computerDao.lister());
+		return computerDao.lister();
 	}
 
 	public static void computerAdd() {
@@ -38,7 +39,7 @@ public class ServicesComputer {
 		computerDao.ajouter(newComputer);
 	}
 
-	public static void computerUpdate(int idComputer) {
+	public static Computer computerSelectForUpdate(int idComputer) {
 
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
@@ -49,16 +50,11 @@ public class ServicesComputer {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
 
-		Computer selectedComputer = computerDao.selectionner(idComputer);
-		Computer computerUpdate = UserInterface.menuUpdateComputer(selectedComputer);
-
-		computerDao.modifier(computerUpdate);
+		return computerDao.selectionner(idComputer);
 	}
-	
-	public static void computerRemove() {
 
-		int id = UserInterface.menuRemoveComputer();
-		
+	public static void computerUpdate(Computer modifiedComputer) {
+
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
@@ -67,6 +63,22 @@ public class ServicesComputer {
 		}
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-		computerDao.supprimer(id);
+
+		//Computer computerUpdate = UserInterface.menuUpdateComputer(modifiedComputer);
+
+		computerDao.modifier(modifiedComputer);
+	}
+
+	public static void computerRemove(int idComputer) {
+
+		DaoFactory dao = DaoFactory.getInstance();
+		try {
+			dao.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
+		computerDao.supprimer(idComputer);
 	}
 }

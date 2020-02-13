@@ -15,7 +15,7 @@ public final class DaoFactory {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public static DaoFactory getInstance() {
 
 		if (DaoFactory.instance == null) {
@@ -29,8 +29,8 @@ public final class DaoFactory {
 						e.printStackTrace();
 					}
 
-					DaoFactory.instance = new DaoFactory("jdbc:mysql://localhost:3306/computer-database-db", "admincdb",
-							"qwerty1234");
+					DaoFactory.instance = new DaoFactory(
+							"jdbc:mysql://localhost:3306/computer-database-db?useSSL=false", "admincdb", "qwerty1234");
 				}
 			}
 		}

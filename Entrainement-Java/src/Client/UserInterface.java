@@ -12,19 +12,22 @@ public class UserInterface {
 
 	public static void menuPrincipal() {
 
-		System.out.println("Que voulez vous faire ?" + "\n1 - Lister les Entreprises" + "\n2 - Lister les ordinateurs"
-				+ "\n3 - Ajouter un oridnateur" + "\n4 - Modifier un ordinateur" + "\n5 - Supprimer un ordinateur");
+		boolean wantStay = true;
 
-		int choix = Scanners.ScanNumbers(1, 5);
+		System.out.println("Que voulez vous faire ?" + "\n1 - Lister les Entreprises" + "\n2 - Lister les ordinateurs"
+				+ "\n3 - Ajouter un oridnateur" + "\n4 - Modifier un ordinateur" + "\n5 - Supprimer un ordinateur"
+				+ "\n6 - Quitter");
+
+		int choix = Scanners.ScanNumbers(1, 6);
 
 		switch (choix) {
 		case 1:
 			System.out.println("Lister les Entreprises");
-			ServicesCompany.companyList();
+			displayCompanyList();
 			break;
 		case 2:
 			System.out.println("Lister les ordinateurs");
-			ServicesComputer.computerList();
+			displayComputerList();
 			break;
 		case 3:
 			System.out.println("Ajouter un oridnateur");
@@ -32,21 +35,27 @@ public class UserInterface {
 			break;
 		case 4:
 			System.out.println("Modifier un ordinateur");
-			System.out.println("Quel est l'id de l'ordinateur que vous voulez modifier ?");
-			ServicesComputer.computerUpdate(Scanners.ScanNumber());
+			menuUpdateCreationComputer();
 			break;
 		case 5:
 			System.out.println("Supprimer un ordinateur");
-			ServicesComputer.computerRemove();
+			menuRemoveComputer();
+			break;
+		case 6:
+			wantStay = false;
 			break;
 		default:
 			System.out.println("Retour au menu principal");
 			break;
 		}
-		menuPrincipal();
+		if (wantStay) {
+			menuPrincipal();
+		}
 	}
 
-	public static void displayCompanyList(List<Company> company) {
+	public static void displayCompanyList() {
+
+		List<Company> company = ServicesCompany.companyList();
 
 		for (Company details : company) {
 
@@ -54,7 +63,9 @@ public class UserInterface {
 		}
 	}
 
-	public static void displayComputerList(List<Computer> computer) {
+	public static void displayComputerList() {
+
+		List<Computer> computer = ServicesComputer.computerList();
 
 		for (Computer details : computer) {
 
@@ -81,7 +92,14 @@ public class UserInterface {
 		return computerNew;
 	}
 
-	public static Computer menuUpdateComputer(Computer computerUpdate) {
+	public static void menuUpdateCreationComputer() {
+
+		System.out.println("Quel est l'id de l'ordinateur que vous voulez modifier ?");
+
+		menuUpdateComputer(ServicesComputer.computerSelectForUpdate(Scanners.ScanNumber()));
+	}
+
+	public static void menuUpdateComputer(Computer computerUpdate) {
 
 		int choix = 0;
 		boolean fini = false;
@@ -121,12 +139,12 @@ public class UserInterface {
 				break;
 			}
 		} while (!fini);
-		return computerUpdate;
+		ServicesComputer.computerUpdate(computerUpdate);
 	}
 
-	public static int menuRemoveComputer() {
+	public static void menuRemoveComputer() {
 
 		System.out.println("Id de l'ordinateur ?");
-		return Scanners.ScanNumber();
+		ServicesComputer.computerRemove(Scanners.ScanNumber());
 	}
 }

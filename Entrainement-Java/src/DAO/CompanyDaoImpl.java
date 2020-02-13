@@ -1,19 +1,19 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import Company.Company;
 
-public class CompanyDaoImpl implements CompanyDao{
+public class CompanyDaoImpl implements CompanyDao {
 
 	private DaoFactory daoFactory;
 
-	public CompanyDaoImpl(DaoFactory daoFactory){
+	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
@@ -23,25 +23,28 @@ public class CompanyDaoImpl implements CompanyDao{
 		List<Company> company = new ArrayList<Company>();
 
 		Connection connexion = null;
-		Statement statement = null;
-		ResultSet resultat = null;
+		PreparedStatement preparedStatement = null;
 
 		try {
 			connexion = daoFactory.getConnection();
-			statement = connexion.createStatement();
-			resultat = statement.executeQuery("SELECT id, name FROM company");
+			preparedStatement = connexion.prepareStatement("SELECT id, name FROM company LIMIT ?, ?");
+			preparedStatement.setInt(1, 0);
+			preparedStatement.setInt(2, 20);
+			ResultSet resultat = preparedStatement.executeQuery();
 
-
-			while(resultat.next()) {
+			while (resultat.next()) {
 
 				long id = resultat.getLong("id");
 				String name = resultat.getString("name");
 
-				Company newcompany = new Company(id, name);		
+				Company newcompany = new Company(id, name);
 				company.add(newcompany);
 			}
 
-		}catch (SQLException e) {
+			preparedStatement.close();
+			connexion.close();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return company;

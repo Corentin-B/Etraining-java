@@ -1,14 +1,15 @@
 package Services;
 
 import java.sql.SQLException;
+import java.util.List;
 
-import Client.UserInterface;
+import Company.Company;
 import DAO.CompanyDaoImpl;
 import DAO.DaoFactory;
 
 public class ServicesCompany {
 
-	public static void companyList() {
+	public static List<Company>  companyList() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
@@ -18,6 +19,6 @@ public class ServicesCompany {
 
 		CompanyDaoImpl companyDao = new CompanyDaoImpl(dao);
 
-		UserInterface.displayCompanyList(companyDao.lister());
+		return companyDao.lister();
 	}
 }

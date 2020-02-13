@@ -14,7 +14,7 @@ public class Scanners {
 			choix = Integer.parseInt(monScanner.nextLine());
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			System.out.println("Entrez un nombre valide \n");
 		}
 
 		if (choix >= min && choix <= max) {
