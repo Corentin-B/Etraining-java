@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import Computer.Computer;
+import computer.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
 

@@ -1,12 +1,12 @@
-package Services;
+package services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Client.UserInterface;
-import Computer.Computer;
-import DAO.ComputerDaoImpl;
-import DAO.DaoFactory;
+import client.UserInterface;
+import computer.Computer;
+import dao.ComputerDaoImpl;
+import dao.DaoFactory;
 
 public class ServicesComputer {
 

@@ -1,8 +1,8 @@
-package DAO;
+package dao;
 
 import java.util.List;
 
-import Computer.Computer;
+import computer.Computer;
 
 public interface ComputerDao {
 

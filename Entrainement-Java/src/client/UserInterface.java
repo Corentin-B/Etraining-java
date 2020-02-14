@@ -1,15 +1,15 @@
-package Client;
+package client;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import Company.Company;
-import Computer.Computer;
-import Enumerations.MenuModifSwitch;
-import Enumerations.MenuPrincipalSwitch;
-import Services.ServicesCompany;
-import Services.ServicesComputer;
+import company.Company;
+import computer.Computer;
+import enumerations.MenuModifSwitch;
+import enumerations.MenuPrincipalSwitch;
+import services.ServicesCompany;
+import services.ServicesComputer;
 
 public class UserInterface {
 

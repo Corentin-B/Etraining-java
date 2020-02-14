@@ -1,11 +1,11 @@
-package Services;
+package services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import Company.Company;
-import DAO.CompanyDaoImpl;
-import DAO.DaoFactory;
+import company.Company;
+import dao.CompanyDaoImpl;
+import dao.DaoFactory;
 
 public class ServicesCompany {
 

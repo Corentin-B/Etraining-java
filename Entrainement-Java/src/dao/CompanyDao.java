@@ -1,8 +1,8 @@
-package DAO;
+package dao;
 
 import java.util.List;
 
-import Company.Company;
+import company.Company;
 
 public interface CompanyDao {
 

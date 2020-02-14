@@ -1,4 +1,4 @@
-import Client.UserInterface;
+import client.UserInterface;
 
 public class Main {
 
