@@ -20,7 +20,7 @@ public class UserInterface {
 		System.out.println("Que voulez vous faire ?" 
 						 + "\n1 - Lister les Entreprises" 
 						 + "\n2 - Lister les ordinateurs"
-						 + "\n3 - Ajouter un oridnateur" 
+						 + "\n3 - Ajouter un ordinateur" 
 						 + "\n4 - Modifier un ordinateur" 
 						 + "\n5 - Supprimer un ordinateur"
 						 + "\n6 - Quitter");
@@ -30,33 +30,34 @@ public class UserInterface {
 		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choixMenuPrincipal];
 
 		switch (menuPrincipalSwitch) {
-		case LIST_ENTREPRISE:
+		case LIST_ENTREPRISE:// 1
 			System.out.println("Lister les Entreprises");
 			displayCompanyList();
 			break;
-		case LIST_ORDI:
+		case LIST_ORDI:// 2
 			System.out.println("Lister les ordinateurs");
 			displayComputerList();
 			break;
-		case AJOUTER_ORDI:
-			System.out.println("Ajouter un oridnateur");
-			ServicesComputer.computerAdd();
+		case AJOUTER_ORDI:// 3
+			System.out.println("Ajouter un ordinateur");
+			menuCreationComputer();
 			break;
-		case CHANGE_ORDI:
+		case CHANGE_ORDI:// 4
 			System.out.println("Modifier un ordinateur");
-			menuUpdateCreationComputer();
+			menuUpdateComputer();
 			break;
-		case SUPP_ORDI:
+		case SUPP_ORDI:// 5
 			System.out.println("Supprimer un ordinateur");
 			menuRemoveComputer();
 			break;
-		case QUITTER:
+		case QUITTER:// 6
 			wantStay = false;
 			break;
 		default:
 			System.out.println("Retour au menu principal");
 			break;
 		}
+			
 		if (wantStay) {
 			menuPrincipal();
 		}
@@ -106,72 +107,78 @@ public class UserInterface {
 		} while (computer.size() == 20);
 	}
 
-	public static Computer menuCreationComputer() {
+	public static void menuCreationComputer() {
 
+		String name;
+		Date introduced;
+		Date discontinued;
+		int idCompany;
+		
 		System.out.println("Nom de l'ordinateur ?");
-		String name = Scanners.scanText();
+		name = Scanners.scanText();
 
 		System.out.println("Date de mise en servie ? (AAAA-MM-JJ)");
-		Date introduced = Date.valueOf(Scanners.scanText());
+		introduced = Date.valueOf(Scanners.scanText());
 
 		System.out.println("Date de fin de servie ? (AAAA-MM-JJ)");
-		Date discontinued = Date.valueOf(Scanners.scanText());
+		discontinued = Date.valueOf(Scanners.scanText());
 
 		System.out.println("Id de l'entreprise ?");
-		int idCompany = Scanners.scanNumber();
+		idCompany = Scanners.scanNumber();
 
 		Computer computerNew = new Computer(0, name, introduced, discontinued, idCompany);
 
-		return computerNew;
+		ServicesComputer.computerAdd(computerNew);
 	}
 
-	public static void menuUpdateCreationComputer() {
-
-		System.out.println("Quel est l'id de l'ordinateur que vous voulez modifier ?");
-		menuUpdateComputer(ServicesComputer.computerSelectForUpdate(Scanners.scanNumber()));
-	}
-
-	public static void menuUpdateComputer(Computer computerUpdate) {
+	public static void menuUpdateComputer() {
 
 		boolean fini = false;
 		boolean execute = true;
 
+		System.out.println("Quel est l'id de l'ordinateur que vous voulez modifier ?");
+		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Scanners.scanNumber());
+
 		do {
-			System.out.println("Ordinateur : " + computerUpdate.getName() + " - " + computerUpdate.getIntroduced()
-					+ " - " + computerUpdate.getDiscontinued() + " - " + computerUpdate.getCompany_id());
+			System.out.println("Ordinateur : " + computerUpdate.getName() 
+							 + " - " + computerUpdate.getIntroduced()
+							 + " - " + computerUpdate.getDiscontinued() 
+							 + " - " + computerUpdate.getCompany_id());
+			
 			System.out.println("Que voulez vous modifier ?" 
 							 + "\n1 - Nom de l'ordinateur"
 							 + "\n2 - Date de mise en servie ?" 
 							 + "\n3 - Date de fin de servie ?" 
 							 + "\n4 - Id de l'entreprise ?"
-							 + "\n5 - Fin" + "\n6 - Retour Menu Principale");
+							 + "\n5 - Fin" 
+							 + "\n6 - Retour Menu Principale");
 
 			int choixMenuModification = Scanners.scanNumbers(1, 6);
 
 			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choixMenuModification];
 
 			switch (menuModifSwitch) {
-			case MODIF_NAME_ORDI:
+			case MODIF_NAME_ORDI: //1
 				System.out.println("Nom de l'ordinateur ?");
 				computerUpdate.setName(Scanners.scanText());
 				break;
-			case MODIF_INTRODUCED_ORDI:
+			case MODIF_INTRODUCED_ORDI: //2
 				System.out.println("Date de mise en servie ? (AAAA-MM-JJ)");
 				computerUpdate.setIntroduced(Date.valueOf(Scanners.scanText()));
 				break;
-			case MODIF_DISCONTINUED_ORDI:
+			case MODIF_DISCONTINUED_ORDI: //3
 				System.out.println("Date de fin de servie ? (AAAA-MM-JJ)");
 				computerUpdate.setDiscontinued(Date.valueOf(Scanners.scanText()));
 				break;
-			case MODIF_ID__ORDI_ENTREPRISE:
+			case MODIF_ID__ORDI_ENTREPRISE: //4
 				System.out.println("Id de l'entreprise ?");
 				computerUpdate.setCompany_id(Scanners.scanNumber());
 				break;
-			case ENVOYER_MODIFICATION:
+			case ENVOYER_MODIFICATION: //5
 				System.out.println("Ajout des modification à la base");
 				fini = true;
 				break;
-			case QUITTER:
+			case QUITTER: //6
 				System.out.println("Retour Menu Principale");
 				execute = false;
 				fini = true;

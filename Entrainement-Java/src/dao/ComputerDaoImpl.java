@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import computer.Computer;
 
@@ -18,7 +19,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
 	final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
 	final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, ?;";
+	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, 20;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -86,18 +87,17 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public Computer selectionner(int idComputer) {
+	public Optional<Computer> selectionner(int idComputer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-
 		Computer selectedComputer = new Computer(idComputer, null, null, null, 0);
 
 		try {
-
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPUTER);
 			preparedStatement.setInt(1, idComputer);
+			
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -114,16 +114,15 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//TODO log & wrapper
 		}
-		return selectedComputer;
+		return Optional.ofNullable(selectedComputer);
 	}
 
 	@Override
-	public List<Computer> lister(int range) {
+	public Optional<List<Computer>> lister(int range) {
 
 		List<Computer> computer = new ArrayList<Computer>();
-
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
@@ -131,7 +130,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER);
 			preparedStatement.setInt(1, range);
-			preparedStatement.setInt(2, 20);
+			
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -143,14 +142,15 @@ public class ComputerDaoImpl implements ComputerDao {
 				long company_id = resultat.getLong("company_id");
 
 				Computer newComputer = new Computer(id, name, introduced, discontinued, company_id);
+				
 				computer.add(newComputer);
 			}
 
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//TODO log & wrapper
 		}
-		return computer;
+		return Optional.ofNullable(computer);
 	}
 }

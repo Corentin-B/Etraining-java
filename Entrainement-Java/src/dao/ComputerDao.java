@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import computer.Computer;
 
@@ -12,7 +13,7 @@ public interface ComputerDao {
 	
 	void modifier(Computer computer);
 	
-	Computer selectionner(int idComputer);
+	Optional<Computer> selectionner(int idComputer);
 
-	List<Computer> lister(int range);
+	Optional<List<Computer>> lister(int range);
 }

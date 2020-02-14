@@ -3,7 +3,6 @@ package services;
 import java.sql.SQLException;
 import java.util.List;
 
-import client.UserInterface;
 import computer.Computer;
 import dao.ComputerDaoImpl;
 import dao.DaoFactory;
@@ -13,21 +12,19 @@ public class ServicesComputer {
 	public static List<Computer> computerList(int range) {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
-		return computerDao.lister(range);
+		return computerDao.lister(range).get();
 	}
 
-	public static void computerAdd() {
-
-		Computer newComputer = UserInterface.menuCreationComputer();
+	public static void computerAdd(Computer computerNew) {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
-		computerDao.ajouter(newComputer);
+		computerDao.ajouter(computerNew);
 	}
 
 	public static Computer computerSelectForUpdate(int idComputer) {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
-		return computerDao.selectionner(idComputer);
+		return computerDao.selectionner(idComputer).get();
 	}
 
 	public static void computerUpdate(Computer modifiedComputer) {

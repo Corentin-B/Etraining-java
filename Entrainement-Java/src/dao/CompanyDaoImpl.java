@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import company.Company;
 
@@ -13,18 +14,16 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	private DaoFactory daoFactory;
 
-	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, ?;";
+	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, 20;";
 
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
 	@Override
-	public List<Company> lister(int range) {
+	public Optional<List<Company>> lister(int range) {
 	
-
 		List<Company>company = new ArrayList<Company>();
-
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
@@ -32,7 +31,6 @@ public class CompanyDaoImpl implements CompanyDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
 			preparedStatement.setInt(1, range);
-			preparedStatement.setInt(2, 20);
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -49,7 +47,8 @@ public class CompanyDaoImpl implements CompanyDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			//TODO Log & wrapper
 		}
-		return company;
+		return Optional.ofNullable(company);
 	}
 }
