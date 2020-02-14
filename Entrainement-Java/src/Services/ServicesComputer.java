@@ -10,7 +10,7 @@ import DAO.DaoFactory;
 
 public class ServicesComputer {
 
-	public static List<Computer> computerList() {
+	public static List<Computer> computerList(int range) {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
@@ -20,7 +20,7 @@ public class ServicesComputer {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
 
-		return computerDao.lister();
+		return computerDao.lister(range);
 	}
 
 	public static void computerAdd() {

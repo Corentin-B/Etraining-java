@@ -9,7 +9,7 @@ import DAO.DaoFactory;
 
 public class ServicesCompany {
 
-	public static List<Company>  companyList() {
+	public static List<Company>  companyList(int range) {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
@@ -19,6 +19,6 @@ public class ServicesCompany {
 
 		CompanyDaoImpl companyDao = new CompanyDaoImpl(dao);
 
-		return companyDao.lister();
+		return companyDao.lister(range);
 	}
 }

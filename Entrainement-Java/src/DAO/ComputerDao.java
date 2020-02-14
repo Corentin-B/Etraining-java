@@ -8,11 +8,11 @@ public interface ComputerDao {
 
 	void ajouter(Computer computer);
 	
-	void supprimer(int Id);
+	void supprimer(int id);
 	
 	void modifier(Computer computer);
 	
-	Computer selectionner(int Id);
+	Computer selectionner(int idComputer);
 
-	List<Computer> lister();
+	List<Computer> lister(int range);
 }

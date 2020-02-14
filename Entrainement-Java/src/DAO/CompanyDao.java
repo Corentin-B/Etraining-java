@@ -6,5 +6,5 @@ import Company.Company;
 
 public interface CompanyDao {
 
-	List<Company> lister();
+	List<Company> lister(int range);
 }

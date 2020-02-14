@@ -14,15 +14,16 @@ public class CompanyDaoImpl implements CompanyDao {
 	private DaoFactory daoFactory;
 
 	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, ?;";
-	
+
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
 	@Override
-	public List<Company> lister() {
+	public List<Company> lister(int range) {
+	
 
-		List<Company> company = new ArrayList<Company>();
+		List<Company>company = new ArrayList<Company>();
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -30,7 +31,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
-			preparedStatement.setInt(1, 0);
+			preparedStatement.setInt(1, range);
 			preparedStatement.setInt(2, 20);
 			ResultSet resultat = preparedStatement.executeQuery();
 

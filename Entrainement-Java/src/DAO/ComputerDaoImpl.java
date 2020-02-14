@@ -18,7 +18,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
 	final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
 	final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer;";
+	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, ?;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -46,7 +46,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public void supprimer(int Id) {
+	public void supprimer(int id) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -54,7 +54,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(DELETE_COMPUTER);
-			preparedStatement.setLong(1, Id);
+			preparedStatement.setLong(1, id);
 
 			preparedStatement.executeUpdate();
 
@@ -120,7 +120,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public List<Computer> lister() {
+	public List<Computer> lister(int range) {
 
 		List<Computer> computer = new ArrayList<Computer>();
 
@@ -129,8 +129,9 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion
-					.prepareStatement(SELECT_ALLCOMPUTER);
+			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER);
+			preparedStatement.setInt(1, range);
+			preparedStatement.setInt(2, 20);
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {

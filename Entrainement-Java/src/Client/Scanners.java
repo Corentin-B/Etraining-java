@@ -1,10 +1,11 @@
 package Client;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Scanners {
 
-	protected static int ScanNumbers(int min, int max) {
+	protected static int scanNumbers(int min, int max) {
 
 		Scanner monScanner = new Scanner(System.in);
 		int choix = 0;
@@ -24,7 +25,7 @@ public class Scanners {
 		}
 	}
 
-	protected static int ScanNumber() {
+	protected static int scanNumber() {
 
 		Scanner monScanner = new Scanner(System.in);
 		int choix = 0;
@@ -40,9 +41,19 @@ public class Scanners {
 		return choix;
 	}
 
-	protected static String ScanText() {
+	protected static String scanText() {
 
 		Scanner monScanner = new Scanner(System.in);
 		return monScanner.nextLine();
+	}
+	
+	protected static void scanAnyInput() {
+
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
