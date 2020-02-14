@@ -14,6 +14,12 @@ public class ComputerDaoImpl implements ComputerDao {
 
 	private DaoFactory daoFactory;
 
+	final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
+	final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
+	final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
+	final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
+	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer;";
+
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -26,8 +32,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(
-					"INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);");
+			preparedStatement = connexion.prepareStatement(INSERT_NEWCOMPUTER);
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
@@ -36,7 +41,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Echec d'ajout");
 		}
 	}
 
@@ -48,13 +53,13 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("DELETE FROM computer WHERE id = ? ");
+			preparedStatement = connexion.prepareStatement(DELETE_COMPUTER);
 			preparedStatement.setLong(1, Id);
 
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Echec de la supression");
 		}
 	}
 
@@ -66,8 +71,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(
-					"UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;");
+			preparedStatement = connexion.prepareStatement(UPDATE_COMPUTER);
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
@@ -77,7 +81,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Echec de la mise à jour");
 		}
 	}
 
@@ -92,8 +96,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		try {
 
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(
-					"SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?");
+			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPUTER);
 			preparedStatement.setInt(1, idComputer);
 			ResultSet resultat = preparedStatement.executeQuery();
 
@@ -127,7 +130,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion
-					.prepareStatement("SELECT id, name, introduced, discontinued, company_id FROM computer");
+					.prepareStatement(SELECT_ALLCOMPUTER);
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {

@@ -13,6 +13,8 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	private DaoFactory daoFactory;
 
+	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, ?;";
+	
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -27,7 +29,7 @@ public class CompanyDaoImpl implements CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement("SELECT id, name FROM company LIMIT ?, ?");
+			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
 			preparedStatement.setInt(1, 0);
 			preparedStatement.setInt(2, 20);
 			ResultSet resultat = preparedStatement.executeQuery();

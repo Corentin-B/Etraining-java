@@ -64,8 +64,6 @@ public class ServicesComputer {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
 
-		//Computer computerUpdate = UserInterface.menuUpdateComputer(modifiedComputer);
-
 		computerDao.modifier(modifiedComputer);
 	}
 
