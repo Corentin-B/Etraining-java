@@ -17,13 +17,17 @@ public class UserInterface {
 
 		boolean wantStay = true;
 
-		System.out.println("Que voulez vous faire ?" + "\n1 - Lister les Entreprises" + "\n2 - Lister les ordinateurs"
-				+ "\n3 - Ajouter un oridnateur" + "\n4 - Modifier un ordinateur" + "\n5 - Supprimer un ordinateur"
-				+ "\n6 - Quitter");
+		System.out.println("Que voulez vous faire ?" 
+						 + "\n1 - Lister les Entreprises" 
+						 + "\n2 - Lister les ordinateurs"
+						 + "\n3 - Ajouter un oridnateur" 
+						 + "\n4 - Modifier un ordinateur" 
+						 + "\n5 - Supprimer un ordinateur"
+						 + "\n6 - Quitter");
 
-		int choix = Scanners.scanNumbers(1, 6);
+		int choixMenuPrincipal = Scanners.scanNumbers(1, 6);
 
-		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choix];
+		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choixMenuPrincipal];
 
 		switch (menuPrincipalSwitch) {
 		case LIST_ENTREPRISE:
@@ -124,26 +128,27 @@ public class UserInterface {
 	public static void menuUpdateCreationComputer() {
 
 		System.out.println("Quel est l'id de l'ordinateur que vous voulez modifier ?");
-
 		menuUpdateComputer(ServicesComputer.computerSelectForUpdate(Scanners.scanNumber()));
 	}
 
 	public static void menuUpdateComputer(Computer computerUpdate) {
 
-		int choix = 0;
 		boolean fini = false;
 		boolean execute = true;
 
 		do {
 			System.out.println("Ordinateur : " + computerUpdate.getName() + " - " + computerUpdate.getIntroduced()
 					+ " - " + computerUpdate.getDiscontinued() + " - " + computerUpdate.getCompany_id());
-			System.out.println(
-					"Que voulez vous modifier ?" + "\n1 - Nom de l'ordinateur" + "\n2 - Date de mise en servie ?"
-							+ "\n3 - Date de fin de servie ?" + "\n4 - Id de l'entreprise ?" + "\n5 - Fin" + "\n6 - Retour Menu Principale");
+			System.out.println("Que voulez vous modifier ?" 
+							 + "\n1 - Nom de l'ordinateur"
+							 + "\n2 - Date de mise en servie ?" 
+							 + "\n3 - Date de fin de servie ?" 
+							 + "\n4 - Id de l'entreprise ?"
+							 + "\n5 - Fin" + "\n6 - Retour Menu Principale");
 
-			choix = Scanners.scanNumbers(1, 6);
+			int choixMenuModification = Scanners.scanNumbers(1, 6);
 
-			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choix];
+			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choixMenuModification];
 
 			switch (menuModifSwitch) {
 			case MODIF_NAME_ORDI:
@@ -180,7 +185,6 @@ public class UserInterface {
 		if (execute) {
 			ServicesComputer.computerUpdate(computerUpdate);
 		}
-
 	}
 
 	public static void menuRemoveComputer() {

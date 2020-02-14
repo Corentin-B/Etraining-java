@@ -46,14 +46,13 @@ public class Scanners {
 		Scanner monScanner = new Scanner(System.in);
 		return monScanner.nextLine();
 	}
-	
+
 	protected static void scanAnyInput() {
 
 		try {
 			System.in.read();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Impossible de lire l'entrée");
 		}
 	}
 }

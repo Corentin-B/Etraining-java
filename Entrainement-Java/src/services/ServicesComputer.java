@@ -11,15 +11,8 @@ import dao.DaoFactory;
 public class ServicesComputer {
 
 	public static List<Computer> computerList(int range) {
-		DaoFactory dao = DaoFactory.getInstance();
-		try {
-			dao.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
 		return computerDao.lister(range);
 	}
 
@@ -27,56 +20,35 @@ public class ServicesComputer {
 
 		Computer newComputer = UserInterface.menuCreationComputer();
 
-		DaoFactory dao = DaoFactory.getInstance();
-		try {
-			dao.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
 		computerDao.ajouter(newComputer);
 	}
 
 	public static Computer computerSelectForUpdate(int idComputer) {
 
-		DaoFactory dao = DaoFactory.getInstance();
-		try {
-			dao.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
 		return computerDao.selectionner(idComputer);
 	}
 
 	public static void computerUpdate(Computer modifiedComputer) {
 
-		DaoFactory dao = DaoFactory.getInstance();
-		try {
-			dao.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
 		computerDao.modifier(modifiedComputer);
 	}
 
 	public static void computerRemove(int idComputer) {
 
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		computerDao.supprimer(idComputer);
+	}
+
+	private static DaoFactory getDaoFacotry() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(dao);
-		computerDao.supprimer(idComputer);
+		return dao;
 	}
 }

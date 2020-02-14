@@ -10,15 +10,18 @@ import dao.DaoFactory;
 public class ServicesCompany {
 
 	public static List<Company>  companyList(int range) {
+
+		CompanyDaoImpl companyDao = new CompanyDaoImpl(getDaoFacotry());
+		return companyDao.lister(range);
+	}
+	
+	private static DaoFactory getDaoFacotry() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		CompanyDaoImpl companyDao = new CompanyDaoImpl(dao);
-
-		return companyDao.lister(range);
+		return dao;
 	}
 }
