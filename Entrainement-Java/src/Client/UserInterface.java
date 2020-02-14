@@ -6,6 +6,8 @@ import java.util.List;
 
 import Company.Company;
 import Computer.Computer;
+import Enumerations.MenuModifSwitch;
+import Enumerations.MenuPrincipalSwitch;
 import Services.ServicesCompany;
 import Services.ServicesComputer;
 
@@ -21,28 +23,30 @@ public class UserInterface {
 
 		int choix = Scanners.scanNumbers(1, 6);
 
-		switch (choix) {
-		case 1:
+		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choix];
+
+		switch (menuPrincipalSwitch) {
+		case LIST_ENTREPRISE:
 			System.out.println("Lister les Entreprises");
 			displayCompanyList();
 			break;
-		case 2:
+		case LIST_ORDI:
 			System.out.println("Lister les ordinateurs");
 			displayComputerList();
 			break;
-		case 3:
+		case AJOUTER_ORDI:
 			System.out.println("Ajouter un oridnateur");
 			ServicesComputer.computerAdd();
 			break;
-		case 4:
+		case CHANGE_ORDI:
 			System.out.println("Modifier un ordinateur");
 			menuUpdateCreationComputer();
 			break;
-		case 5:
+		case SUPP_ORDI:
 			System.out.println("Supprimer un ordinateur");
 			menuRemoveComputer();
 			break;
-		case 6:
+		case QUITTER:
 			wantStay = false;
 			break;
 		default:
@@ -68,7 +72,7 @@ public class UserInterface {
 				System.out.println(details.getId() + " " + details.getName());
 			}
 
-			System.out.println("Entrez une touche pour afficher la suite");			
+			System.out.println("Entrez une touche pour afficher la suite");
 			Scanners.scanAnyInput();
 
 			range = range + 20;
@@ -128,35 +132,43 @@ public class UserInterface {
 
 		int choix = 0;
 		boolean fini = false;
+		boolean execute = true;
 
 		do {
 			System.out.println("Ordinateur : " + computerUpdate.getName() + " - " + computerUpdate.getIntroduced()
 					+ " - " + computerUpdate.getDiscontinued() + " - " + computerUpdate.getCompany_id());
 			System.out.println(
 					"Que voulez vous modifier ?" + "\n1 - Nom de l'ordinateur" + "\n2 - Date de mise en servie ?"
-							+ "\n3 - Date de fin de servie ?" + "\n4 - Id de l'entreprise ?" + "\n5 - Fin");
+							+ "\n3 - Date de fin de servie ?" + "\n4 - Id de l'entreprise ?" + "\n5 - Fin" + "\n6 - Retour Menu Principale");
 
-			choix = Scanners.scanNumbers(1, 5);
+			choix = Scanners.scanNumbers(1, 6);
 
-			switch (choix) {
-			case 1:
+			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choix];
+
+			switch (menuModifSwitch) {
+			case MODIF_NAME_ORDI:
 				System.out.println("Nom de l'ordinateur ?");
 				computerUpdate.setName(Scanners.scanText());
 				break;
-			case 2:
+			case MODIF_INTRODUCED_ORDI:
 				System.out.println("Date de mise en servie ? (AAAA-MM-JJ)");
 				computerUpdate.setIntroduced(Date.valueOf(Scanners.scanText()));
 				break;
-			case 3:
+			case MODIF_DISCONTINUED_ORDI:
 				System.out.println("Date de fin de servie ? (AAAA-MM-JJ)");
 				computerUpdate.setDiscontinued(Date.valueOf(Scanners.scanText()));
 				break;
-			case 4:
+			case MODIF_ID__ORDI_ENTREPRISE:
 				System.out.println("Id de l'entreprise ?");
 				computerUpdate.setCompany_id(Scanners.scanNumber());
 				break;
-			case 5:
+			case ENVOYER_MODIFICATION:
 				System.out.println("Ajout des modification à la base");
+				fini = true;
+				break;
+			case QUITTER:
+				System.out.println("Retour Menu Principale");
+				execute = false;
 				fini = true;
 				break;
 			default:
@@ -164,7 +176,11 @@ public class UserInterface {
 				break;
 			}
 		} while (!fini);
-		ServicesComputer.computerUpdate(computerUpdate);
+
+		if (execute) {
+			ServicesComputer.computerUpdate(computerUpdate);
+		}
+
 	}
 
 	public static void menuRemoveComputer() {
