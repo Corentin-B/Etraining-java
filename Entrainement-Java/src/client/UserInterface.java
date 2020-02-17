@@ -3,6 +3,7 @@ package client;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import company.Company;
 import computer.Computer;
@@ -65,17 +66,15 @@ public class UserInterface {
 
 	public static void displayCompanyList() {
 
-		List<Company> company = new ArrayList<Company>();
+		List<Company> company = new ArrayList<>();
+				
 		int range = 0;
 
 		do {
 			company.removeAll(company);
 			company = ServicesCompany.companyList(range);
 
-			for (Company details : company) {
-
-				System.out.println(details.getId() + " " + details.getName());
-			}
+			company.stream().forEach(companyDetails->System.out.println(companyDetails.getId() + " " + companyDetails.getName()));
 
 			System.out.println("Entrez une touche pour afficher la suite");
 			Scanners.scanAnyInput();
@@ -87,17 +86,14 @@ public class UserInterface {
 
 	public static void displayComputerList() {
 
-		List<Computer> computer = new ArrayList<Computer>();
+		List<Computer> computer = new ArrayList<>();
 		int range = 0;
 
 		do {
 			computer.removeAll(computer);
 			computer = ServicesComputer.computerList(range);
-
-			for (Computer details : computer) {
-
-				System.out.println(details.getId() + " " + details.getName());
-			}
+			
+			computer.stream().forEach(computerDetails->System.out.println(computerDetails.getId() + " " + computerDetails.getName()));
 
 			System.out.println("Entrez une touche pour afficher la suite");
 			Scanners.scanAnyInput();

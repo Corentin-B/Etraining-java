@@ -23,7 +23,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Override
 	public Optional<List<Company>> lister(int range) {
 	
-		List<Company>company = new ArrayList<Company>();
+		List<Company>company = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 

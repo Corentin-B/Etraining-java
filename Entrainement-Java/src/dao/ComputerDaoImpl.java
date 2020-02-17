@@ -122,7 +122,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	@Override
 	public Optional<List<Computer>> lister(int range) {
 
-		List<Computer> computer = new ArrayList<Computer>();
+		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
