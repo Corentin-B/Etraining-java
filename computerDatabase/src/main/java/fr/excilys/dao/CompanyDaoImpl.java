@@ -1,4 +1,4 @@
-package dao;
+package fr.excilys.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import company.Company;
+import fr.excilys.company.Company;
 
 public class CompanyDaoImpl implements CompanyDao {
 

@@ -1,4 +1,4 @@
-package computer;
+package fr.excilys.computer;
 import java.sql.Date;
 
 public class Computer {

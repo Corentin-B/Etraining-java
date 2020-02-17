@@ -1,4 +1,4 @@
-package dao;
+package fr.excilys.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import computer.Computer;
+import fr.excilys.computer.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
 	

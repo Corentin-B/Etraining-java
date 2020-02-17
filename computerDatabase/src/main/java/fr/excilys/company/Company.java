@@ -1,4 +1,4 @@
-package company;
+package fr.excilys.company;
 
 public class Company {
 

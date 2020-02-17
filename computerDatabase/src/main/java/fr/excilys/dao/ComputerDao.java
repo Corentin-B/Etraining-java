@@ -1,9 +1,9 @@
-package dao;
+package fr.excilys.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-import computer.Computer;
+import fr.excilys.computer.Computer;
 
 public interface ComputerDao {
 

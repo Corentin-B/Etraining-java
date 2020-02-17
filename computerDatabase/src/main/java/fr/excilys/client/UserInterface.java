@@ -1,16 +1,16 @@
-package client;
+package fr.excilys.client;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import company.Company;
-import computer.Computer;
-import enumerations.MenuModifSwitch;
-import enumerations.MenuPrincipalSwitch;
-import services.ServicesCompany;
-import services.ServicesComputer;
+import fr.excilys.company.Company;
+import fr.excilys.computer.Computer;
+import fr.excilys.enumerations.MenuModifSwitch;
+import fr.excilys.enumerations.MenuPrincipalSwitch;
+import fr.excilys.services.ServicesCompany;
+import fr.excilys.services.ServicesComputer;
 
 public class UserInterface {
 

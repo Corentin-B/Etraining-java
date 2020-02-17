@@ -1,4 +1,4 @@
-package client;
+package fr.excilys.client;
 
 import java.io.IOException;
 import java.util.Scanner;

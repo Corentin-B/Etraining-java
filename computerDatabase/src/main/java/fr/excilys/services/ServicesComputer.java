@@ -1,11 +1,11 @@
-package services;
+package fr.excilys.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import computer.Computer;
-import dao.ComputerDaoImpl;
-import dao.DaoFactory;
+import fr.excilys.computer.Computer;
+import fr.excilys.dao.ComputerDaoImpl;
+import fr.excilys.dao.DaoFactory;
 
 public class ServicesComputer {
 

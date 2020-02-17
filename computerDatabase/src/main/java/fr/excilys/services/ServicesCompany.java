@@ -1,11 +1,11 @@
-package services;
+package fr.excilys.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import company.Company;
-import dao.CompanyDaoImpl;
-import dao.DaoFactory;
+import fr.excilys.company.Company;
+import fr.excilys.dao.CompanyDaoImpl;
+import fr.excilys.dao.DaoFactory;
 
 public class ServicesCompany {
 

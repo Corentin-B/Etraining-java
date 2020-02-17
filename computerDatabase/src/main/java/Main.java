@@ -1,4 +1,4 @@
-import client.UserInterface;
+import fr.excilys.client.UserInterface;
 
 public class Main {
 
