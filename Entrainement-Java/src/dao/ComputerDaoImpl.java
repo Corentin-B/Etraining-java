@@ -12,7 +12,7 @@ import java.util.Optional;
 import computer.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
-
+	
 	private DaoFactory daoFactory;
 
 	final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
@@ -150,6 +150,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion.close();
 		} catch (SQLException e) {
 			//TODO log & wrapper
+			
 		}
 		return Optional.ofNullable(computer);
 	}

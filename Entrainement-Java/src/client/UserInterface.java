@@ -75,7 +75,7 @@ public class UserInterface {
 			company = ServicesCompany.companyList(range);
 
 			company.stream().forEach(companyDetails->System.out.println(companyDetails.getId() + " " + companyDetails.getName()));
-
+			
 			System.out.println("Entrez une touche pour afficher la suite");
 			Scanners.scanAnyInput();
 
@@ -94,7 +94,7 @@ public class UserInterface {
 			computer = ServicesComputer.computerList(range);
 			
 			computer.stream().forEach(computerDetails->System.out.println(computerDetails.getId() + " " + computerDetails.getName()));
-
+			
 			System.out.println("Entrez une touche pour afficher la suite");
 			Scanners.scanAnyInput();
 
