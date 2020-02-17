@@ -3,7 +3,6 @@ package fr.excilys.client;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import fr.excilys.company.Company;
 import fr.excilys.computer.Computer;

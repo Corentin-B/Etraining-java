@@ -11,7 +11,7 @@ import java.util.Optional;
 import fr.excilys.company.Company;
 
 public class CompanyDaoImpl implements CompanyDao {
-
+		
 	private DaoFactory daoFactory;
 
 	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, 20;";
@@ -26,7 +26,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		List<Company>company = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-
+		
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
