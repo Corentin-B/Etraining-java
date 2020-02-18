@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import fr.excilys.DefaultLogger.Logger;
 import fr.excilys.computer.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
-	
+
 	private DaoFactory daoFactory;
 
-	final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
-	final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
-	final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
-	final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, 20;";
+	private final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
+	private final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
+	private final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
+	private final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
+	private final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, 20;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -42,7 +43,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec d'ajout");
+			Logger.writeLogException("ERROR", e);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec de la supression");
+			Logger.writeLogException("ERROR", e);
 		}
 	}
 
@@ -82,7 +83,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec de la mise à jour");
+			Logger.writeLogException("ERROR", e);
 		}
 	}
 
@@ -97,7 +98,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPUTER);
 			preparedStatement.setInt(1, idComputer);
-			
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -114,7 +115,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			//TODO log & wrapper
+			Logger.writeLogException("ERROR", e);
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
@@ -130,7 +131,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER);
 			preparedStatement.setInt(1, range);
-			
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
@@ -142,15 +143,14 @@ public class ComputerDaoImpl implements ComputerDao {
 				long company_id = resultat.getLong("company_id");
 
 				Computer newComputer = new Computer(id, name, introduced, discontinued, company_id);
-				
+
 				computer.add(newComputer);
 			}
 
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			//TODO log & wrapper
-			
+			Logger.writeLogException("ERROR", e);
 		}
 		return Optional.ofNullable(computer);
 	}

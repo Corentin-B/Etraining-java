@@ -1,0 +1,4 @@
+2020-02-18
+ERROR
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '4DELETE FROM computer WHERE id = 585' at line 1
+

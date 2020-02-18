@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import fr.excilys.DefaultLogger.Logger;
 import fr.excilys.company.Company;
 
 public class CompanyDaoImpl implements CompanyDao {
-		
+
 	private DaoFactory daoFactory;
 
-	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, 20;";
+	private final String SELECT_ALLCOMPANY="SELECT id, name FROM company LIMIT ?, 20;";
 
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -22,11 +23,11 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	@Override
 	public Optional<List<Company>> lister(int range) {
-	
-		List<Company>company = new ArrayList<>();
+
+		List<Company> company = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
@@ -46,8 +47,7 @@ public class CompanyDaoImpl implements CompanyDao {
 			connexion.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//TODO Log & wrapper
+			Logger.writeLogException("ERROR", e);
 		}
 		return Optional.ofNullable(company);
 	}
