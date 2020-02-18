@@ -39,7 +39,7 @@ public class CompanyDaoImpl implements CompanyDao {
 				long id = resultat.getLong("id");
 				String name = resultat.getString("name");
 
-				Company newcompany = new Company(id, name);
+				Company newcompany = new Company.CompanyBuilder().setId(id).setName(name).build();
 				company.add(newcompany);
 			}
 
