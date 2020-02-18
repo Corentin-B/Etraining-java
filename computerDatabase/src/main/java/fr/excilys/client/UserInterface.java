@@ -3,7 +3,6 @@ package fr.excilys.client;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import fr.excilys.company.Company;
 import fr.excilys.computer.Computer;
@@ -15,7 +14,7 @@ import fr.excilys.services.ServicesComputer;
 public class UserInterface {
 
 	private final static String REGEX_DATEFORMAT = "([0-9]{4}-[0-9]{2}-[0-9]{2})";
-	private final static String REGEX_ANYNUMBER = "\\d";
+	private final static String REGEX_ANYNUMBER = "([0-9]{1,})";
 
 	
 	public static void menuPrincipal() {
@@ -114,8 +113,7 @@ public class UserInterface {
 		String name;
 		Date introduced;
 		Date discontinued;
-		int idCompany;
-
+		long idCompany;
 
 		System.out.println("Nom de l'ordinateur ?");
 		name = Scanners.scanText();
@@ -126,7 +124,7 @@ public class UserInterface {
 
 		idCompany = Integer.parseInt(match("Id de l'entreprise ?",REGEX_ANYNUMBER));
 
-		Computer computerNew = new Computer(0, name, introduced, discontinued, idCompany);
+		Computer computerNew = new Computer.ComputerBuilder().setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(idCompany).build();
 
 		ServicesComputer.computerAdd(computerNew);
 	}
@@ -193,7 +191,7 @@ public class UserInterface {
 	public static void menuRemoveComputer() {
 
 		System.out.println("Id de l'ordinateur ?");
-		ServicesComputer.computerRemove(Integer.parseInt(match("\"Id de l'ordinateur ?\"",REGEX_ANYNUMBER)));
+		ServicesComputer.computerRemove(Integer.parseInt(match("Id de l'ordinateur ?",REGEX_ANYNUMBER)));
 	}
 	
 	public static String match(String message, String regex) {

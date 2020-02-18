@@ -92,7 +92,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		Computer selectedComputer = new Computer(idComputer, null, null, null, 0);
+		Computer selectedComputer = new Computer.ComputerBuilder().build();
 
 		try {
 			connexion = daoFactory.getConnection();
@@ -109,7 +109,8 @@ public class ComputerDaoImpl implements ComputerDao {
 				Date discontinued = (Date) resultat.getDate("discontinued");
 				long company_id = resultat.getLong("company_id");
 
-				selectedComputer = new Computer(id, name, introduced, discontinued, company_id);
+				selectedComputer = new Computer.ComputerBuilder().setId(id).setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(company_id).build();
+
 			}
 
 			preparedStatement.close();
@@ -142,7 +143,7 @@ public class ComputerDaoImpl implements ComputerDao {
 				Date discontinued = (Date) resultat.getDate("discontinued");
 				long company_id = resultat.getLong("company_id");
 
-				Computer newComputer = new Computer(id, name, introduced, discontinued, company_id);
+				Computer newComputer = new Computer.ComputerBuilder().setId(id).setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(company_id).build();
 
 				computer.add(newComputer);
 			}
