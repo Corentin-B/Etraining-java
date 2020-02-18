@@ -3,6 +3,7 @@ package fr.excilys.services;
 import java.sql.SQLException;
 import java.util.List;
 
+import fr.excilys.DefaultLogger.Logger;
 import fr.excilys.computer.Computer;
 import fr.excilys.dao.ComputerDaoImpl;
 import fr.excilys.dao.DaoFactory;
@@ -44,7 +45,7 @@ public class ServicesComputer {
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Logger.writeLog("ERROR", "can't get DAO Connection");
 		}
 		return dao;
 	}

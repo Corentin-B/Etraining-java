@@ -8,36 +8,36 @@ import java.sql.SQLException;
 public class Logger {
 	
 	private final static String LOG_FILE = "log.log";
+	private final static String LOGSQL_FILE = "logsql.log";
+
 
 	public static void writeLog(String titre, String message) {
 
 		try {
 			FileWriter fileWriter = new FileWriter(LOG_FILE, true);
 			PrintWriter printWriter = new PrintWriter(fileWriter);
-			printWriter.print(java.time.LocalDate.now() + "\n");
-			printWriter.print(titre + "\n");
-			printWriter.print(message + "\n\n");
+			printWriter.println(java.time.LocalDate.now());
+			printWriter.println(titre);
+			printWriter.println(message + "\n");
 			printWriter.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			 javax.swing.JOptionPane.showMessageDialog(null,e.toString());
 		}
 	}
 	
-	public static void writeLogException(String titre, SQLException exception) {
+	public static void writeLogSQLException(String titre, SQLException sqlException) {
 
 		try {
-			FileWriter fileWriter = new FileWriter(LOG_FILE, true);
+			FileWriter fileWriter = new FileWriter(LOGSQL_FILE, true);
 			PrintWriter printWriter = new PrintWriter(fileWriter);
-			printWriter.print(java.time.LocalDate.now() + "\n");
-			printWriter.print(titre + "\n");
-			printWriter.print(exception + "\n\n");
+			printWriter.println(java.time.LocalDate.now());
+			printWriter.println(titre);
+			printWriter.println(sqlException + "\n");
 			printWriter.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			writeLog("WARN",e.toString());
 		}
 	}
 }

@@ -47,7 +47,7 @@ public class CompanyDaoImpl implements CompanyDao {
 			connexion.close();
 
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 		return Optional.ofNullable(company);
 	}

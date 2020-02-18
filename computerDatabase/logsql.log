@@ -1,0 +1,4 @@
+2020-02-18
+ERROR
+com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Incorrect datetime value: '2040-06-09' for column 'discontinued' at row 1
+

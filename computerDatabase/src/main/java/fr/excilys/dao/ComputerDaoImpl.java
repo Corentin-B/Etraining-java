@@ -43,7 +43,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
@@ -150,7 +150,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLogException("ERROR", e);
+			Logger.writeLogSQLException("ERROR", e);
 		}
 		return Optional.ofNullable(computer);
 	}
