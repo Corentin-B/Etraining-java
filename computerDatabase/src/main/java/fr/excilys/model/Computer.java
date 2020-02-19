@@ -1,4 +1,4 @@
-package fr.excilys.computer;
+package fr.excilys.model;
 
 import java.sql.Date;
 
@@ -8,7 +8,8 @@ public class Computer {
 	private String name;
 	private Date introduced;
 	private Date discontinued;
-	private long company_id;
+	//private long company_id;
+	private Company company; 
 
 	public static class ComputerBuilder {
 
@@ -16,7 +17,8 @@ public class Computer {
 		private String nameBuilder;
 		private Date introducedBuilder;
 		private Date discontinuedBuilder;
-		private long company_idBuilder;
+		private Company companyBuilder; 
+
 
 		public ComputerBuilder setId(long id) {
 			this.idBuilder = id;
@@ -41,10 +43,10 @@ public class Computer {
 
 			return this;
 		}
-
-		public ComputerBuilder setCompany_id(Long company_id) {
-			this.company_idBuilder = company_id;
-
+		
+		public ComputerBuilder setCompany(Company company ) {
+			this.companyBuilder = company;
+			
 			return this;
 		}
 		
@@ -58,14 +60,8 @@ public class Computer {
 		this.name = builder.nameBuilder;
 		this.introduced = builder.introducedBuilder;
 		this.discontinued = builder.discontinuedBuilder;
-		this.company_id = builder.company_idBuilder;
+		this.company = builder.companyBuilder;
 	}
-
-	/*
-	 * public Computer(long id, String name, Date introduced, Date discontinued,
-	 * long company_id) { this.id = id; this.name = name; this.introduced =
-	 * introduced; this.discontinued = discontinued; this.company_id = company_id; }
-	 */
 
 	public long getId() {
 		return id;
@@ -98,12 +94,12 @@ public class Computer {
 	public void setDiscontinued(Date discontinued) {
 		this.discontinued = discontinued;
 	}
-
-	public long getCompany_id() {
-		return company_id;
+	
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setCompany_id(long company_id) {
-		this.company_id = company_id;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

@@ -13,6 +13,8 @@ public class Logger {
 
 	public static void writeLog(String titre, String message) {
 
+		System.out.println(titre + " :\n" + message);
+		
 		try {
 			FileWriter fileWriter = new FileWriter(LOG_FILE, true);
 			PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -28,6 +30,8 @@ public class Logger {
 	
 	public static void writeLogSQLException(String titre, SQLException sqlException) {
 
+		System.out.println(titre + " :\n" + sqlException);
+		
 		try {
 			FileWriter fileWriter = new FileWriter(LOGSQL_FILE, true);
 			PrintWriter printWriter = new PrintWriter(fileWriter);

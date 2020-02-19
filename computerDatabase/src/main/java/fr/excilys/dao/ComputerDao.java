@@ -3,7 +3,7 @@ package fr.excilys.dao;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.computer.Computer;
+import fr.excilys.model.Computer;
 
 public interface ComputerDao {
 

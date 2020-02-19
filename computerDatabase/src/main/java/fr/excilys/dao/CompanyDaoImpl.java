@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import fr.excilys.DefaultLogger.Logger;
-import fr.excilys.company.Company;
+import fr.excilys.model.Company;
 
 public class CompanyDaoImpl implements CompanyDao {
 

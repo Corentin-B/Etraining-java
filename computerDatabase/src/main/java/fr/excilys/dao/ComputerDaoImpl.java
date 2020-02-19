@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import fr.excilys.DefaultLogger.Logger;
-import fr.excilys.computer.Computer;
+import fr.excilys.model.Company;
+import fr.excilys.model.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
 
@@ -19,8 +20,8 @@ public class ComputerDaoImpl implements ComputerDao {
 	private final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
 	private final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
 	private final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
-	private final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	private final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, 20;";
+	private final String SELECT_ONECOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id = ?;";
+	private final String SELECT_ALLCOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ?, 20;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -38,7 +39,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
-			preparedStatement.setLong(4, computer.getCompany_id());
+			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
 
@@ -77,7 +78,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
-			preparedStatement.setLong(4, computer.getCompany_id());
+			preparedStatement.setLong(4, computer.getCompany().getId());
 			preparedStatement.setLong(5, computer.getId());
 
 			preparedStatement.executeUpdate();
@@ -101,18 +102,26 @@ public class ComputerDaoImpl implements ComputerDao {
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			while (resultat.next()) {
-
+			if(resultat.first()) {
 				long id = resultat.getLong("id");
 				String name = resultat.getString("name");
 				Date introduced = (Date) resultat.getDate("introduced");
 				Date discontinued = (Date) resultat.getDate("discontinued");
 				long company_id = resultat.getLong("company_id");
-
-				selectedComputer = new Computer.ComputerBuilder().setId(id).setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(company_id).build();
-
+				String company_name = resultat.getString("company.name");
+				
+				selectedComputer = new Computer.ComputerBuilder()
+											   .setId(id)
+											   .setName(name)
+											   .setIntroduced(introduced)
+											   .setDiscontinued(discontinued)
+											   .setCompany(new Company.CompanyBuilder()
+														 			  .setId(company_id)
+														 			  .setName(company_name)
+														 			  .build())
+											   .build();
 			}
-
+			
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
@@ -137,14 +146,24 @@ public class ComputerDaoImpl implements ComputerDao {
 
 			while (resultat.next()) {
 
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-				Date introduced = (Date) resultat.getDate("introduced");
-				Date discontinued = (Date) resultat.getDate("discontinued");
-				long company_id = resultat.getLong("company_id");
+				long id = resultat.getLong("computer.id");
+				String name = resultat.getString("computer.name");
+				Date introduced = (Date) resultat.getDate("computer.introduced");
+				Date discontinued = (Date) resultat.getDate("computer.discontinued");
+				long company_id = resultat.getLong("computer.company_id");
+				String company_name = resultat.getString("company.name");
 
-				Computer newComputer = new Computer.ComputerBuilder().setId(id).setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(company_id).build();
-
+				Computer newComputer = new Computer.ComputerBuilder()
+												   .setId(id)
+												   .setName(name)
+												   .setIntroduced(introduced)
+												   .setDiscontinued(discontinued)
+												   .setCompany(new Company.CompanyBuilder()
+															 			  .setId(company_id)
+															 			  .setName(company_name)
+															 			  .build())
+												   .build();
+				
 				computer.add(newComputer);
 			}
 

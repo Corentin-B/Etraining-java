@@ -4,10 +4,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.excilys.company.Company;
-import fr.excilys.computer.Computer;
+import fr.excilys.model.Computer;
 import fr.excilys.enumerations.MenuModifSwitch;
 import fr.excilys.enumerations.MenuPrincipalSwitch;
+import fr.excilys.model.Company;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
 
@@ -27,7 +27,7 @@ public class UserInterface {
 						 + "\n3 - Ajouter un ordinateur" 
 						 + "\n4 - Modifier un ordinateur" 
 						 + "\n5 - Supprimer un ordinateur"
-						 + "\n6 - Quitter");
+						 + "\n6 - Quitter\n");
 
 		int choixMenuPrincipal = Scanners.scanNumbers(1, 6);
 
@@ -35,30 +35,30 @@ public class UserInterface {
 
 		switch (menuPrincipalSwitch) {
 		case LIST_ENTREPRISE:// 1
-			System.out.println("Lister les Entreprises");
+			System.out.println("Lister les Entreprises\n");
 			displayCompanyList();
 			break;
 		case LIST_ORDI:// 2
-			System.out.println("Lister les ordinateurs");
+			System.out.println("Lister les ordinateurs\n");
 			displayComputerList();
 			break;
 		case AJOUTER_ORDI:// 3
-			System.out.println("Ajouter un ordinateur");
+			System.out.println("Ajouter un ordinateur\n");
 			menuCreationComputer();
 			break;
 		case CHANGE_ORDI:// 4
-			System.out.println("Modifier un ordinateur");
+			System.out.println("Modifier un ordinateur\n");
 			menuUpdateComputer();
 			break;
 		case SUPP_ORDI:// 5
-			System.out.println("Supprimer un ordinateur");
+			System.out.println("Supprimer un ordinateur\n");
 			menuRemoveComputer();
 			break;
 		case QUITTER:// 6
 			wantStay = false;
 			break;
 		default:
-			System.out.println("Retour au menu principal");
+			System.out.println("Retour au menu principal\n");
 			break;
 		}
 
@@ -115,16 +115,23 @@ public class UserInterface {
 		Date discontinued;
 		long idCompany;
 
-		System.out.println("Nom de l'ordinateur ?");
+		System.out.println("Nom de l'ordinateur ?\n");
 		name = Scanners.scanText();
 
-		introduced = Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)",REGEX_DATEFORMAT));
+		introduced = Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
 		
-		discontinued = Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)",REGEX_DATEFORMAT));
+		discontinued = Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
 
-		idCompany = Integer.parseInt(match("Id de l'entreprise ?",REGEX_ANYNUMBER));
+		idCompany = Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER));
 
-		Computer computerNew = new Computer.ComputerBuilder().setName(name).setIntroduced(introduced).setDiscontinued(discontinued).setCompany_id(idCompany).build();
+		Computer computerNew = new Computer.ComputerBuilder()
+										   .setName(name)
+										   .setIntroduced(introduced)
+										   .setDiscontinued(discontinued)
+										   .setCompany(new Company.CompanyBuilder()
+												   				  .setId(idCompany)
+												   				  .build())
+										   .build();
 
 		ServicesComputer.computerAdd(computerNew);
 	}
@@ -134,13 +141,14 @@ public class UserInterface {
 		boolean fini = false;
 		boolean execute = true;
 
-		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Integer.parseInt(match("Quel est l'id de l'ordinateur que vous voulez modifier ?",REGEX_ANYNUMBER)));
+		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Integer.parseInt(match("Quel est l'id de l'ordinateur que vous voulez modifier ?\n",REGEX_ANYNUMBER)));
 
 		do {
 			System.out.println("Ordinateur : " + computerUpdate.getName() 
 							 + " - " + computerUpdate.getIntroduced()
 							 + " - " + computerUpdate.getDiscontinued() 
-							 + " - " + computerUpdate.getCompany_id());
+							 + " - " + computerUpdate.getCompany().getId()
+							 + " - " + computerUpdate.getCompany().getName());
 
 			System.out.println("Que voulez vous modifier ?" 
 							 + "\n1 - Nom de l'ordinateur"
@@ -156,29 +164,31 @@ public class UserInterface {
 
 			switch (menuModifSwitch) {
 			case MODIF_NAME_ORDI: // 1
-				System.out.println("Nom de l'ordinateur ?");
+				System.out.println("Nom de l'ordinateur ?\n");
 				computerUpdate.setName(Scanners.scanText());
 				break;
 			case MODIF_INTRODUCED_ORDI: // 2
-				computerUpdate.setIntroduced(Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)",REGEX_DATEFORMAT)));
+				computerUpdate.setIntroduced(Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
 				break;
 			case MODIF_DISCONTINUED_ORDI: // 3
-				computerUpdate.setDiscontinued(Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)",REGEX_DATEFORMAT)));
+				computerUpdate.setDiscontinued(Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
 				break;
 			case MODIF_ID__ORDI_ENTREPRISE: // 4
-				computerUpdate.setCompany_id(Integer.parseInt(match("Id de l'entreprise ?",REGEX_ANYNUMBER)));
+				computerUpdate.setCompany(new Company.CompanyBuilder()
+		   				  							 .setId(Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER)))
+		   				  							 .build());
 				break;
 			case ENVOYER_MODIFICATION: // 5
-				System.out.println("Ajout des modification à la base");
+				System.out.println("Ajout des modification à la base\n");
 				fini = true;
 				break;
 			case QUITTER: // 6
-				System.out.println("Retour Menu Principale");
+				System.out.println("Retour Menu Principale\n");
 				execute = false;
 				fini = true;
 				break;
 			default:
-				System.out.println("Retour au menu");
+				System.out.println("Retour au menu\n");
 				break;
 			}
 		} while (!fini);
@@ -191,7 +201,7 @@ public class UserInterface {
 	public static void menuRemoveComputer() {
 
 		System.out.println("Id de l'ordinateur ?");
-		ServicesComputer.computerRemove(Integer.parseInt(match("Id de l'ordinateur ?",REGEX_ANYNUMBER)));
+		ServicesComputer.computerRemove(Integer.parseInt(match("Id de l'ordinateur ?\n",REGEX_ANYNUMBER)));
 	}
 	
 	public static String match(String message, String regex) {

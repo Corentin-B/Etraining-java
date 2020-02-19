@@ -3,7 +3,7 @@ package fr.excilys.dao;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.company.Company;
+import fr.excilys.model.Company;
 
 public interface CompanyDao {
 
