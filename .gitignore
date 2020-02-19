@@ -43,3 +43,5 @@ proguard/
 # Apple Files
 .DS_Store
 /.metadata/
+
+*.log
