@@ -70,7 +70,6 @@ public class UserInterface {
 	public static void displayCompanyList() {
 
 		List<Company> company = new ArrayList<>();
-
 		int range = 0;
 
 		do {
@@ -109,7 +108,7 @@ public class UserInterface {
 			}
 			range = range + 20;
 
-		} while (computer.size() == 20);
+		} while (computer.size() == 20);	
 	}
 
 	public static void menuCreationComputer() {

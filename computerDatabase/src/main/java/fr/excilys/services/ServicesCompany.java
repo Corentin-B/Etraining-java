@@ -3,13 +3,16 @@ package fr.excilys.services;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import fr.excilys.dao.CompanyDaoImpl;
 import fr.excilys.dao.DaoFactory;
-import fr.excilys.defaultLogger.Logger;
 import fr.excilys.model.Company;
 
 public class ServicesCompany {
 
+    static Logger logger = Logger.getLogger(ServicesCompany.class);
+	
 	public static List<Company>  companyList(int range) {
 
 		CompanyDaoImpl companyDao = new CompanyDaoImpl(getDaoFacotry());
@@ -21,7 +24,7 @@ public class ServicesCompany {
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", "can't get DAO Connection");
+	        logger.debug(e);
 		}
 		return dao;
 	}

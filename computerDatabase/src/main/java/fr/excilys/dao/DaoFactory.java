@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import fr.excilys.defaultLogger.Logger;
-
 public final class DaoFactory {
 	private String url;
 	private String username;
@@ -28,7 +26,7 @@ public final class DaoFactory {
 					try {
 						Class.forName("com.mysql.jdbc.Driver");
 					} catch (ClassNotFoundException e) {
-						Logger.writeLog("ERROR", "com.mysql.jdbc.Driver not found");
+						//Logger.writeLog("ERROR", "com.mysql.jdbc.Driver not found");
 					}
 
 					DaoFactory.instance = new DaoFactory(

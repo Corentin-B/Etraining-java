@@ -3,12 +3,15 @@ package fr.excilys.services;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import fr.excilys.model.Computer;
 import fr.excilys.dao.ComputerDaoImpl;
 import fr.excilys.dao.DaoFactory;
-import fr.excilys.defaultLogger.Logger;
 
 public class ServicesComputer {
+	
+    static Logger logger = Logger.getLogger(ServicesComputer.class);
 
 	public static List<Computer> computerList(int range) {
 
@@ -45,7 +48,7 @@ public class ServicesComputer {
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", "can't get DAO Connection");
+	        logger.debug(e);
 		}
 		return dao;
 	}

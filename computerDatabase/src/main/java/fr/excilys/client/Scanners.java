@@ -3,8 +3,14 @@ package fr.excilys.client;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import fr.excilys.dao.CompanyDaoImpl;
+
 class Scanners {
 
+    static Logger logger = Logger.getLogger(Scanners.class);
+	
 	protected static int scanNumbers(int min, int max) {
 
 		Scanner monScanner = new Scanner(System.in);
@@ -16,6 +22,7 @@ class Scanners {
 
 		} catch (NumberFormatException e) {
 			System.out.println("Entrez un nombre valide \n");
+	        logger.warn(e);
 			return 0;
 		}
 
@@ -38,6 +45,7 @@ class Scanners {
 			System.in.read();
 		} catch (IOException e) {
 			System.out.println("Impossible de lire l'entrée \n");
+	        logger.warn(e);
 		}
 	}
 }

@@ -4,19 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.defaultLogger.Logger;
+import org.apache.log4j.Logger;
+
 import fr.excilys.mapper.MapperComputer;
-import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
 
 	private DaoFactory daoFactory;
+	
+    static Logger logger = Logger.getLogger(ComputerDaoImpl.class);
 
 	private final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
 	private final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
@@ -45,7 +46,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", e.toString());
+	        logger.debug(e);
 		}
 	}
 
@@ -63,7 +64,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", e.toString());
+	        logger.debug(e);
 		}
 	}
 
@@ -85,7 +86,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", e.toString());
+	        logger.debug(e);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", e.toString());
+	        logger.debug(e);
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
@@ -138,7 +139,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLog("ERROR", e.toString());
+	        logger.debug(e);
 		}
 		return Optional.ofNullable(computer);
 	}
