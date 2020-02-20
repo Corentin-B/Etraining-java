@@ -3,10 +3,10 @@ package fr.excilys.services;
 import java.sql.SQLException;
 import java.util.List;
 
-import fr.excilys.DefaultLogger.Logger;
 import fr.excilys.model.Computer;
 import fr.excilys.dao.ComputerDaoImpl;
 import fr.excilys.dao.DaoFactory;
+import fr.excilys.defaultLogger.Logger;
 
 public class ServicesComputer {
 

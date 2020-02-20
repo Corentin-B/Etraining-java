@@ -3,9 +3,9 @@ package fr.excilys.services;
 import java.sql.SQLException;
 import java.util.List;
 
-import fr.excilys.DefaultLogger.Logger;
 import fr.excilys.dao.CompanyDaoImpl;
 import fr.excilys.dao.DaoFactory;
+import fr.excilys.defaultLogger.Logger;
 import fr.excilys.model.Company;
 
 public class ServicesCompany {

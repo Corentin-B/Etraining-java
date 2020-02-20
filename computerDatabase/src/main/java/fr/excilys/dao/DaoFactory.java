@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import fr.excilys.DefaultLogger.Logger;
+import fr.excilys.defaultLogger.Logger;
 
 public final class DaoFactory {
 	private String url;

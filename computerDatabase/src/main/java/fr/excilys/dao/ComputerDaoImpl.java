@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.DefaultLogger.Logger;
+import fr.excilys.defaultLogger.Logger;
+import fr.excilys.mapper.MapperComputer;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
@@ -44,7 +45,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 	}
 
@@ -62,7 +63,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 	}
 
@@ -84,7 +85,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 	}
 
@@ -103,29 +104,14 @@ public class ComputerDaoImpl implements ComputerDao {
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			if(resultat.first()) {
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-				Date introduced = (Date) resultat.getDate("introduced");
-				Date discontinued = (Date) resultat.getDate("discontinued");
-				long company_id = resultat.getLong("company_id");
-				String company_name = resultat.getString("company.name");
-				
-				selectedComputer = new Computer.ComputerBuilder()
-											   .setId(id)
-											   .setName(name)
-											   .setIntroduced(introduced)
-											   .setDiscontinued(discontinued)
-											   .setCompany(new Company.CompanyBuilder()
-														 			  .setId(company_id)
-														 			  .setName(company_name)
-														 			  .build())
-											   .build();
+
+				selectedComputer = MapperComputer.getInstance().getComputerFromResultSet(resultat);
 			}
 			
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
@@ -146,31 +132,13 @@ public class ComputerDaoImpl implements ComputerDao {
 
 			while (resultat.next()) {
 
-				long id = resultat.getLong("computer.id");
-				String name = resultat.getString("computer.name");
-				Date introduced = (Date) resultat.getDate("computer.introduced");
-				Date discontinued = (Date) resultat.getDate("computer.discontinued");
-				long company_id = resultat.getLong("computer.company_id");
-				String company_name = resultat.getString("company.name");
-
-				Computer newComputer = new Computer.ComputerBuilder()
-												   .setId(id)
-												   .setName(name)
-												   .setIntroduced(introduced)
-												   .setDiscontinued(discontinued)
-												   .setCompany(new Company.CompanyBuilder()
-															 			  .setId(company_id)
-															 			  .setName(company_name)
-															 			  .build())
-												   .build();
-				
-				computer.add(newComputer);
+				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
 			}
 
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 		return Optional.ofNullable(computer);
 	}

@@ -76,13 +76,15 @@ public class UserInterface {
 		do {
 			company.removeAll(company);
 			company = ServicesCompany.companyList(range);
+			
+			if(!company.isEmpty()) {
+				
+				company.stream().forEach(companyDetails -> System.out.println(companyDetails.getId() 
+														   + " " + companyDetails.getName()));
 
-			company.stream().forEach(
-					companyDetails -> System.out.println(companyDetails.getId() + " " + companyDetails.getName()));
-
-			System.out.println("Entrez une touche pour afficher la suite");
-			Scanners.scanAnyInput();
-
+				System.out.println("Entrez une touche pour afficher la suite");
+				Scanners.scanAnyInput();
+			}
 			range = range + 20;
 
 		} while (company.size() == 20);
@@ -96,13 +98,15 @@ public class UserInterface {
 		do {
 			computer.removeAll(computer);
 			computer = ServicesComputer.computerList(range);
-
-			computer.stream().forEach(
-					computerDetails -> System.out.println(computerDetails.getId() + " " + computerDetails.getName()));
-
-			System.out.println("Entrez une touche pour afficher la suite");
-			Scanners.scanAnyInput();
-
+			
+			if(!computer.isEmpty()) {
+				
+				computer.stream().forEach(computerDetails -> System.out.println(computerDetails.getId()
+															 + " " + computerDetails.getName()));
+				
+				System.out.println("Entrez une touche pour afficher la suite");
+				Scanners.scanAnyInput();
+			}
 			range = range + 20;
 
 		} while (computer.size() == 20);

@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.DefaultLogger.Logger;
+import fr.excilys.defaultLogger.Logger;
+import fr.excilys.mapper.MapperCompany;
 import fr.excilys.model.Company;
 
 public class CompanyDaoImpl implements CompanyDao {
@@ -34,20 +35,15 @@ public class CompanyDaoImpl implements CompanyDao {
 			preparedStatement.setInt(1, range);
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			while (resultat.next()) {
-
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-
-				Company newcompany = new Company.CompanyBuilder().setId(id).setName(name).build();
-				company.add(newcompany);
+			while (resultat.next()) {	
+				company.add(MapperCompany.getInstance().getCompanyFromResultSet(resultat));
 			}
 
 			preparedStatement.close();
 			connexion.close();
 
 		} catch (SQLException e) {
-			Logger.writeLogSQLException("ERROR", e);
+			Logger.writeLog("ERROR", e.toString());
 		}
 		return Optional.ofNullable(company);
 	}
