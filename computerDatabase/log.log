@@ -1,2 +1,0 @@
-[main] DEBUG fr.excilys.dao.CompanyDaoImpl  - Log4j appender configuration is successful !!
-[main] DEBUG fr.excilys.dao.CompanyDaoImpl  - java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELEzCT company.id, company.name FROM company LIMIT 0, 20' at line 1

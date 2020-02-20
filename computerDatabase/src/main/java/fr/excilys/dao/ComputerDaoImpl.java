@@ -16,14 +16,28 @@ import fr.excilys.model.Computer;
 public class ComputerDaoImpl implements ComputerDao {
 
 	private DaoFactory daoFactory;
-	
-    static Logger logger = Logger.getLogger(ComputerDaoImpl.class);
 
-	private final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
-	private final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
-	private final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
-	private final String SELECT_ONECOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id = ?;";
-	private final String SELECT_ALLCOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name FROM computer LEFT JOIN company ON company_id = company.id LIMIT ?, 20;";
+	private static Logger logger = Logger.getLogger(ComputerDaoImpl.class);
+
+	private final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) "
+											+ "VALUES (?, ?, ?, ?);";
+	
+	private final String DELETE_COMPUTER    = "DELETE FROM computer "
+										 	+ "WHERE id = ?;";
+	
+	private final String UPDATE_COMPUTER    = "UPDATE computer "
+										 	+ "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
+										 	+ "WHERE id = ?;";
+	
+	private final String SELECT_ONECOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+											+ "FROM computer "
+											+ "LEFT JOIN company ON computer.company_id = company.id "
+											+ "WHERE computer.id = ?;";
+	
+	private final String SELECT_ALLCOMPUTER = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+											+ "FROM computer "
+											+ "LEFT JOIN company ON company_id = company.id "
+											+ "LIMIT ?, 20;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -46,7 +60,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 	}
 
@@ -64,7 +78,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 	}
 
@@ -86,7 +100,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 	}
 
@@ -104,15 +118,15 @@ public class ComputerDaoImpl implements ComputerDao {
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			if(resultat.first()) {
+			if (resultat.first()) {
 
 				selectedComputer = MapperComputer.getInstance().getComputerFromResultSet(resultat);
 			}
-			
+
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
@@ -139,7 +153,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 		return Optional.ofNullable(computer);
 	}

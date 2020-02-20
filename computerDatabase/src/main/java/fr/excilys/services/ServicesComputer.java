@@ -11,7 +11,7 @@ import fr.excilys.dao.DaoFactory;
 
 public class ServicesComputer {
 	
-    static Logger logger = Logger.getLogger(ServicesComputer.class);
+    private static Logger logger = Logger.getLogger(ServicesComputer.class);
 
 	public static List<Computer> computerList(int range) {
 

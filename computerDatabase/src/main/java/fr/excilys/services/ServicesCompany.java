@@ -11,7 +11,7 @@ import fr.excilys.model.Company;
 
 public class ServicesCompany {
 
-    static Logger logger = Logger.getLogger(ServicesCompany.class);
+    private static Logger logger = Logger.getLogger(ServicesCompany.class);
 	
 	public static List<Company>  companyList(int range) {
 

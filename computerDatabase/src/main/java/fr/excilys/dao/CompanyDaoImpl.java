@@ -18,9 +18,11 @@ public class CompanyDaoImpl implements CompanyDao {
 
 	private DaoFactory daoFactory;
 
-    static Logger logger = Logger.getLogger(CompanyDaoImpl.class);
+	private static Logger logger = Logger.getLogger(CompanyDaoImpl.class);
 	
-	private final String SELECT_ALLCOMPANY="SELECT company.id, company.name FROM company LIMIT ?, 20;";
+	private final String SELECT_ALLCOMPANY="SELECT company.id, company.name "
+										 + "FROM company "
+										 + "LIMIT ?, 20;";
 
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
