@@ -33,14 +33,27 @@ public class Dashboard extends HttpServlet {
 			page = 1;
 		}
 
-		int sqlPage = --page * range;
-
 		int numberComputer = ServicesComputer.computerGetNumber();
+		int lastPage = numberComputer / range;
 
-		System.out.println(sqlPage + "   " + range + "   " + page);
+		System.out.println(page);
+		
+		int prevPage = page - 1;
+		if(prevPage < 1)
+			prevPage = 1;
+		int nextPage = page + 1;
+		if(nextPage > lastPage)
+			nextPage = lastPage - 1;
+		
+		int sqlPage = (page - 1) * range;
+		
+		System.out.println(page+" "+prevPage+" "+nextPage+" "+sqlPage);
 
+		
 		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
 
+		request.setAttribute("prevPage", prevPage);
+		request.setAttribute("nextPage", nextPage);
 		request.setAttribute("numberComputer", numberComputer);
 		request.setAttribute("computerList", computerList);
 		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
