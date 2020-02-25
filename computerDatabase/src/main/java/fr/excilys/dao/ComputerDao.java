@@ -15,5 +15,7 @@ public interface ComputerDao {
 	
 	Optional<Computer> selectionner(int idComputer);
 
-	Optional<List<Computer>> lister(int range);
+	Optional<List<Computer>> lister(int numberPage, int range);
+
+	int numberPage();
 }

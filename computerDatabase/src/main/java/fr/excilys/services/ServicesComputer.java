@@ -10,13 +10,13 @@ import fr.excilys.dao.ComputerDaoImpl;
 import fr.excilys.dao.DaoFactory;
 
 public class ServicesComputer {
-	
-    private static Logger logger = Logger.getLogger(ServicesComputer.class);
 
-	public static List<Computer> computerList(int range) {
+	private static Logger logger = Logger.getLogger(ServicesComputer.class);
+
+	public static List<Computer> computerList(int numberPage, int range) {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
-		return computerDao.lister(range).get();
+		return computerDao.lister(numberPage, range).get();
 	}
 
 	public static void computerAdd(Computer computerNew) {
@@ -43,12 +43,18 @@ public class ServicesComputer {
 		computerDao.supprimer(idComputer);
 	}
 
+	public static int computerGetNumber() {
+
+		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		return computerDao.numberPage();
+	}
+
 	private static DaoFactory getDaoFacotry() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();
 		} catch (SQLException e) {
-	        logger.debug(e);
+			logger.debug(e);
 		}
 		return dao;
 	}

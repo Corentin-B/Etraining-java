@@ -4,10 +4,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.excilys.model.Computer;
 import fr.excilys.enumerations.MenuModifSwitch;
 import fr.excilys.enumerations.MenuPrincipalSwitch;
 import fr.excilys.model.Company;
+import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
 
@@ -93,10 +93,11 @@ public class UserInterface {
 
 		List<Computer> computer = new ArrayList<>();
 		int range = 0;
+		int numberPage = 20;
 
 		do {
 			computer.removeAll(computer);
-			computer = ServicesComputer.computerList(range);
+			computer = ServicesComputer.computerList(numberPage, range);
 			
 			if(!computer.isEmpty()) {
 				
