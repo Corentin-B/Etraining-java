@@ -3,7 +3,7 @@ package fr.excilys.dao;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.computer.Computer;
+import fr.excilys.model.Computer;
 
 public interface ComputerDao {
 
@@ -15,5 +15,7 @@ public interface ComputerDao {
 	
 	Optional<Computer> selectionner(int idComputer);
 
-	Optional<List<Computer>> lister(int range);
+	List<Computer> lister(int numberPage, int range);
+
+	int numberPage();
 }

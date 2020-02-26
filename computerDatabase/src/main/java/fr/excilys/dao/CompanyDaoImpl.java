@@ -8,22 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.company.Company;
+import org.apache.log4j.Logger;
+
+import fr.excilys.mapper.MapperCompany;
+import fr.excilys.model.Company;
+
 
 public class CompanyDaoImpl implements CompanyDao {
 
 	private DaoFactory daoFactory;
 
-	final String SELECT_ALLCOMPANY = "SELECT id, name FROM company LIMIT ?, 20;";
+	private static Logger logger = Logger.getLogger(CompanyDaoImpl.class);
+	
+	private final String SELECT_ALLCOMPANY="SELECT company.id, company.name "
+										 + "FROM company "
+										 + "LIMIT ?, 20;";
 
 	public CompanyDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
 	@Override
-	public Optional<List<Company>> lister(int range) {
-	
-		List<Company>company = new ArrayList<>();
+	public List<Company> lister(int range) {
+
+		List<Company> company = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
@@ -33,22 +41,16 @@ public class CompanyDaoImpl implements CompanyDao {
 			preparedStatement.setInt(1, range);
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			while (resultat.next()) {
-
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-
-				Company newcompany = new Company(id, name);
-				company.add(newcompany);
+			while (resultat.next()) {	
+				company.add(MapperCompany.getInstance().getCompanyFromResultSet(resultat));
 			}
 
 			preparedStatement.close();
 			connexion.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//TODO Log & wrapper
+	        logger.debug(e);
 		}
-		return Optional.ofNullable(company);
+		return company;
 	}
 }

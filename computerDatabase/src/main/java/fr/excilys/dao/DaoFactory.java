@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 public final class DaoFactory {
 	private String url;
 	private String username;
 	private String password;
 	private static volatile DaoFactory instance = null;
+
+	private static Logger logger = Logger.getLogger(DaoFactory.class);
 
 	private DaoFactory(String url, String username, String password) {
 		this.url = url;
@@ -26,13 +30,13 @@ public final class DaoFactory {
 					try {
 						Class.forName("com.mysql.jdbc.Driver");
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+						logger.debug(e);
 					}
 
+					DatabaseAccess.getDatabaseInfo();
+					
 					DaoFactory.instance = new DaoFactory(
-							"jdbc:mysql://localhost:3306/computer-database-db?useSSL=false", 
-							"admincdb", 
-							"qwerty1234");
+							"jdbc:mysql://localhost:3306/computer-database-db?useSSL=false", "admincdb", "qwerty1234");
 				}
 			}
 		}

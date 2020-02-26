@@ -4,22 +4,43 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import fr.excilys.computer.Computer;
+import org.apache.log4j.Logger;
+
+import fr.excilys.mapper.MapperComputer;
+import fr.excilys.model.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
-	
+
 	private DaoFactory daoFactory;
 
-	final String INSERT_NEWCOMPUTER = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
-	final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?;";
-	final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?  WHERE id = ?;";
-	final String SELECT_ONECOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	final String SELECT_ALLCOMPUTER = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ?, 20;";
+	private static Logger logger = Logger.getLogger(ComputerDaoImpl.class);
+
+	private final String INSERT_NEWCOMPUTER    = "INSERT INTO computer(name, introduced, discontinued, company_id) "
+											   + "VALUES (?, ?, ?, ?);";
+	
+	private final String DELETE_COMPUTER       = "DELETE FROM computer "
+										 	   + "WHERE id = ?;";
+	
+	private final String UPDATE_COMPUTER       = "UPDATE computer "
+										 	   + "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
+										 	   + "WHERE id = ?;";
+	
+	private final String SELECT_ONECOMPUTER    = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+											   + "FROM computer "
+											   + "LEFT JOIN company ON computer.company_id = company.id "
+											   + "WHERE computer.id = ?;";
+	
+	private final String SELECT_NOMBERCOMPUTER = "SELECT COUNT(*) "
+											   + "FROM computer";
+	
+	private final String SELECT_ALLCOMPUTER    = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+											   + "FROM computer "
+											   + "LEFT JOIN company ON company_id = company.id "
+											   + "LIMIT ?, ?;";
 
 	public ComputerDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -37,12 +58,12 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
-			preparedStatement.setLong(4, computer.getCompany_id());
+			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec d'ajout");
+			logger.debug(e);
 		}
 	}
 
@@ -60,7 +81,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec de la supression");
+			logger.debug(e);
 		}
 	}
 
@@ -76,13 +97,13 @@ public class ComputerDaoImpl implements ComputerDao {
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setDate(2, computer.getIntroduced());
 			preparedStatement.setDate(3, computer.getDiscontinued());
-			preparedStatement.setLong(4, computer.getCompany_id());
+			preparedStatement.setLong(4, computer.getCompany().getId());
 			preparedStatement.setLong(5, computer.getId());
 
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Echec de la mise à jour");
+			logger.debug(e);
 		}
 	}
 
@@ -91,36 +112,55 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		Computer selectedComputer = new Computer(idComputer, null, null, null, 0);
+		Computer selectedComputer = new Computer.Builder().build();
 
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPUTER);
 			preparedStatement.setInt(1, idComputer);
-			
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			while (resultat.next()) {
+			if (resultat.first()) {
 
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-				Date introduced = (Date) resultat.getDate("introduced");
-				Date discontinued = (Date) resultat.getDate("discontinued");
-				long company_id = resultat.getLong("company_id");
-
-				selectedComputer = new Computer(id, name, introduced, discontinued, company_id);
+				selectedComputer = MapperComputer.getInstance().getComputerFromResultSet(resultat);
 			}
 
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			//TODO log & wrapper
+			logger.debug(e);
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
+	
+	@Override
+	public int numberPage() {
+
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		int pagesNumber = 0;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SELECT_NOMBERCOMPUTER);
+
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			if (resultat.first()) {
+				pagesNumber = resultat.getInt(1);
+			}
+
+			preparedStatement.close();
+			connexion.close();
+		} catch (SQLException e) {
+			logger.debug(e);
+		}
+		return pagesNumber;
+	}
 
 	@Override
-	public Optional<List<Computer>> lister(int range) {
+	public List<Computer> lister(int numberPage, int range) {
 
 		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
@@ -129,29 +169,21 @@ public class ComputerDaoImpl implements ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER);
-			preparedStatement.setInt(1, range);
-			
+			preparedStatement.setInt(1, numberPage);
+			preparedStatement.setInt(2, range);
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			while (resultat.next()) {
 
-				long id = resultat.getLong("id");
-				String name = resultat.getString("name");
-				Date introduced = (Date) resultat.getDate("introduced");
-				Date discontinued = (Date) resultat.getDate("discontinued");
-				long company_id = resultat.getLong("company_id");
-
-				Computer newComputer = new Computer(id, name, introduced, discontinued, company_id);
-				
-				computer.add(newComputer);
+				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
 			}
 
 			preparedStatement.close();
 			connexion.close();
 		} catch (SQLException e) {
-			//TODO log & wrapper
-			
+			logger.debug(e);
 		}
-		return Optional.ofNullable(computer);
+		return computer;
 	}
 }
