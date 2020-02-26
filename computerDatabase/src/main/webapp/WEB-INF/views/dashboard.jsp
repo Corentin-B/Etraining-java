@@ -95,24 +95,16 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
-				<li><a href="dashboard?page=${prevPage}" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
+				<li><a href="dashboard?page=${prevPage}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
 				</a></li>
-				<li><a href="#">1</a></li>
-				<!-- MODIFIER -->
-				<li><a href="#">2</a></li>
-				<!-- MODIFIER -->
-				<li><a href="#">3</a></li>
-				<!-- MODIFIER -->
-				<li><a href="#">4</a></li>
-				<!-- MODIFIER -->
-				<li><a href="#">5</a></li>
-				<!-- MODIFIER -->
+				<c:forEach var="i" begin="${incrementPage}" end="${incrementLastPage}" step="1">
+					<li><a href="dashboard?page=${i}">${i}</a></li>
+				</c:forEach>
 				<li><a href="dashboard?page=${nextPage}" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>
-
 			<div class="btn-group btn-group-sm pull-right" role="group">
 				<button type="button" class="btn btn-default">
 					<a href="dashboard?range=10">10</a>
@@ -124,6 +116,7 @@
 					<a href="dashboard?range=100">100</a>
 				</button>
 			</div>
+		</div>
 	</footer>
 	<script src="resources/js/jquery.min.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
