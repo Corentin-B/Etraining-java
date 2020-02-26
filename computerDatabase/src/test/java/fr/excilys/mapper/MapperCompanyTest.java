@@ -37,9 +37,13 @@ public class MapperCompanyTest {
 	@Test
 	public void testGetCompanyFromResultSet() {
 
-		Company companyRef = new Company.CompanyBuilder().setId(1l).setName("companyname").build();
+		Company companyRef = new Company.CompanyBuilder()
+										.setId(1l)
+										.setName("companyname")
+										.build();
 
-		Company companyTest = new Company.CompanyBuilder().build();
+		Company companyTest = new Company.CompanyBuilder()
+										 .build();
 
 		// Define the behavior of the mock for each getString method's call
 		try {
@@ -48,7 +52,7 @@ public class MapperCompanyTest {
 			fail("resultSet.getLong");
 		}
 		try {
-			Mockito.when(resultSet.getString("name")).thenReturn("name");
+			Mockito.when(resultSet.getString("name")).thenReturn("companyname");
 		} catch (SQLException e4) {
 			fail("resultSet.getString");
 		}
@@ -58,6 +62,7 @@ public class MapperCompanyTest {
 		} catch (SQLException e) {
 			fail("getComputerFromResultSet");
 		}
+
 		assertEquals(companyRef, companyTest);
 	}
 }
