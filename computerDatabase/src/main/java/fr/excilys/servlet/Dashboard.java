@@ -12,9 +12,9 @@ import fr.excilys.model.Computer;
 
 public class Dashboard extends HttpServlet {
 
-	int range = 10;
+	int range = 10;		
 
-	public static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
+	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

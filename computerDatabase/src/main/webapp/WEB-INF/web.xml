@@ -7,11 +7,25 @@
 
 	<servlet>
 		<servlet-name>Dashboard</servlet-name>
+		<display-name>Dashboard</display-name>
+		<description></description>
 		<servlet-class>fr.excilys.servlet.Dashboard</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>AddComputer</servlet-name>
+		<display-name>AddComputer</display-name>
+		<description></description>
+		<servlet-class>fr.excilys.servlet.AddComputer</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Dashboard</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AddComputer</servlet-name>
+		<url-pattern>/addcomputer</url-pattern>
 	</servlet-mapping>
 </web-app>
