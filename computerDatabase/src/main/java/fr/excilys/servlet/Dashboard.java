@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import fr.excilys.services.ServicesComputer;
+import fr.excilys.mapper.Pagination;
 import fr.excilys.model.Computer;
 
 public class Dashboard extends HttpServlet {
 
-	int range = 10;		
+	int range = 10;
 
 	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
 
@@ -28,38 +29,17 @@ public class Dashboard extends HttpServlet {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 
-		int numberComputer = ServicesComputer.computerGetNumber();
-		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
-
-		int prevPage = page - 1;
-		if (prevPage < 1)
-			prevPage = 1;
-
-		int nextPage = page + 1;
-		if (nextPage > lastPage)
-			nextPage = lastPage;
+		List<Integer> pagingValues = Pagination.pagingValues(page, range);
 
 		int sqlPage = (page - 1) * range;
-		int incrementPage = 1;
-		int incrementLastPage = 5;
-
-		if (page - 2 < 2)
-			incrementPage = 1;
-		else if (page + 2 > lastPage)
-			incrementPage = lastPage - 4;
-		else
-			incrementPage = page - 2;
-
-		incrementLastPage = incrementPage + 4;
-
 		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
 
 		request.setAttribute("page", page);
-		request.setAttribute("prevPage", prevPage);
-		request.setAttribute("nextPage", nextPage);
-		request.setAttribute("incrementPage", incrementPage);
-		request.setAttribute("incrementLastPage", incrementLastPage);
-		request.setAttribute("numberComputer", numberComputer);
+		request.setAttribute("prevPage", pagingValues.get(0));
+		request.setAttribute("nextPage", pagingValues.get(1));
+		request.setAttribute("incrementPage", pagingValues.get(2));
+		request.setAttribute("incrementLastPage", pagingValues.get(3));
+		request.setAttribute("numberComputer", pagingValues.get(4));
 		request.setAttribute("computerList", computerList);
 		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
 	}

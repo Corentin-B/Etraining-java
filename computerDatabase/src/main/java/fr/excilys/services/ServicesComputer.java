@@ -16,7 +16,7 @@ public class ServicesComputer {
 	public static List<Computer> computerList(int numberPage, int range) {
 
 		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
-		return computerDao.lister(numberPage, range).get();
+		return computerDao.lister(numberPage, range);
 	}
 
 	public static void computerAdd(Computer computerNew) {

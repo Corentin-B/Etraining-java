@@ -128,11 +128,11 @@ public class UserInterface {
 
 		idCompany = Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER));
 
-		Computer computerNew = new Computer.ComputerBuilder()
+		Computer computerNew = new Computer.Builder()
 										   .setName(name)
 										   .setIntroduced(introduced)
 										   .setDiscontinued(discontinued)
-										   .setCompany(new Company.CompanyBuilder()
+										   .setCompany(new Company.Builder()
 												   				  .setId(idCompany)
 												   				  .build())
 										   .build();
@@ -178,7 +178,7 @@ public class UserInterface {
 				computerUpdate.setDiscontinued(Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
 				break;
 			case MODIF_ID__ORDI_ENTREPRISE: // 4
-				computerUpdate.setCompany(new Company.CompanyBuilder()
+				computerUpdate.setCompany(new Company.Builder()
 		   				  							 .setId(Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER)))
 		   				  							 .build());
 				break;

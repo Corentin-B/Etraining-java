@@ -16,7 +16,7 @@ public class ServicesCompany {
 	public static List<Company>  companyList(int range) {
 
 		CompanyDaoImpl companyDao = new CompanyDaoImpl(getDaoFacotry());
-		return companyDao.lister(range).get();
+		return companyDao.lister(range);
 	}
 	
 	private static DaoFactory getDaoFacotry() {

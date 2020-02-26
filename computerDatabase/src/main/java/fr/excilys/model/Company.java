@@ -5,18 +5,18 @@ public class Company {
 	private long id;
 	private String name;
 
-	public static class CompanyBuilder {
+	public static class Builder {
 
 		private long idBuilder;
 		private String nameBuilder;
 
-		public CompanyBuilder setId(long id) {
+		public Builder setId(long id) {
 			this.idBuilder = id;
 
 			return this;
 		}
 
-		public CompanyBuilder setName(String name) {
+		public Builder setName(String name) {
 			this.nameBuilder = name;
 
 			return this;
@@ -27,7 +27,7 @@ public class Company {
 		}
 	}
 
-	private Company(CompanyBuilder builder) {
+	private Company(Builder builder) {
 		this.id = builder.idBuilder;
 		this.name = builder.nameBuilder;
 	}

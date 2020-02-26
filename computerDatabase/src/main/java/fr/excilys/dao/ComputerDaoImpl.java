@@ -112,7 +112,7 @@ public class ComputerDaoImpl implements ComputerDao {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		Computer selectedComputer = new Computer.ComputerBuilder().build();
+		Computer selectedComputer = new Computer.Builder().build();
 
 		try {
 			connexion = daoFactory.getConnection();
@@ -160,7 +160,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public Optional<List<Computer>> lister(int numberPage, int range) {
+	public List<Computer> lister(int numberPage, int range) {
 
 		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
@@ -184,6 +184,6 @@ public class ComputerDaoImpl implements ComputerDao {
 		} catch (SQLException e) {
 			logger.debug(e);
 		}
-		return Optional.ofNullable(computer);
+		return computer;
 	}
 }

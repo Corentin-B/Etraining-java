@@ -38,12 +38,12 @@ public class MapperComputerTest {
 	@Test
 	public void testGetComputerFromResultSet() {
 
-		Company companyRef = new Company.CompanyBuilder()
+		Company companyRef = new Company.Builder()
 										.setId(1l)
 										.setName("companyname")
 										.build();
 		
-        Computer computerRef = new Computer.ComputerBuilder()
+        Computer computerRef = new Computer.Builder()
 								   	       .setId(1l)
 								   	       .setName("computername")
 								   	       .setIntroduced(Date.valueOf("2002-02-02"))
@@ -51,7 +51,7 @@ public class MapperComputerTest {
 				//				   	       .setCompany(companyRef)
 								   	       .build();
 		
-        Computer computerTest = new Computer.ComputerBuilder()
+        Computer computerTest = new Computer.Builder()
         									.build();
 				
         // Define the behavior of the mock for each getString method's call

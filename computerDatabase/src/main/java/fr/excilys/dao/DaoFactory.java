@@ -33,6 +33,8 @@ public final class DaoFactory {
 						logger.debug(e);
 					}
 
+					DatabaseAccess.getDatabaseInfo();
+					
 					DaoFactory.instance = new DaoFactory(
 							"jdbc:mysql://localhost:3306/computer-database-db?useSSL=false", "admincdb", "qwerty1234");
 				}

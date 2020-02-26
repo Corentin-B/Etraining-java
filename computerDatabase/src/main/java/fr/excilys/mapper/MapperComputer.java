@@ -30,12 +30,12 @@ public class MapperComputer {
 	
 	public Computer getComputerFromResultSet(ResultSet resultComputer) throws SQLException {
 		
-		Computer computer = new Computer.ComputerBuilder()
+		Computer computer = new Computer.Builder()
 									   	.setId(resultComputer.getLong("id"))
 									   	.setName(resultComputer.getString("name"))
 									   	.setIntroduced(resultComputer.getDate("introduced"))
 									   	.setDiscontinued(resultComputer.getDate("discontinued"))
-									   	.setCompany(new Company.CompanyBuilder()
+									   	.setCompany(new Company.Builder()
 									   						   .setId(resultComputer.getLong("id"))
 									 			 			   .setName(resultComputer.getString("name"))
 									 	 		 			   .build())

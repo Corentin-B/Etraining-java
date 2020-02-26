@@ -11,39 +11,39 @@ public class Computer {
 	// private long company_id;
 	private Company company;
 
-	public static class ComputerBuilder {
-
+	public static class Builder {
+		
 		private long idBuilder;
 		private String nameBuilder;
 		private Date introducedBuilder;
 		private Date discontinuedBuilder;
 		private Company companyBuilder;
 
-		public ComputerBuilder setId(long id) {
+		public Builder setId(long id) {
 			this.idBuilder = id;
 
 			return this;
 		}
 
-		public ComputerBuilder setName(String name) {
+		public Builder setName(String name) {
 			this.nameBuilder = name;
 
 			return this;
 		}
 
-		public ComputerBuilder setIntroduced(Date introduced) {
+		public Builder setIntroduced(Date introduced) {
 			this.introducedBuilder = introduced;
 
 			return this;
 		}
 
-		public ComputerBuilder setDiscontinued(Date discontinued) {
+		public Builder setDiscontinued(Date discontinued) {
 			this.discontinuedBuilder = discontinued;
 
 			return this;
 		}
 
-		public ComputerBuilder setCompany(Company company) {
+		public Builder setCompany(Company company) {
 			this.companyBuilder = company;
 
 			return this;
@@ -54,7 +54,7 @@ public class Computer {
 		}
 	}
 
-	public Computer(ComputerBuilder builder) {
+	public Computer(Builder builder) {
 		this.id = builder.idBuilder;
 		this.name = builder.nameBuilder;
 		this.introduced = builder.introducedBuilder;

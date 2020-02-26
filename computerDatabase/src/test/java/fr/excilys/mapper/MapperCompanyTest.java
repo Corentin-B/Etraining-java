@@ -37,12 +37,12 @@ public class MapperCompanyTest {
 	@Test
 	public void testGetCompanyFromResultSet() {
 
-		Company companyRef = new Company.CompanyBuilder()
+		Company companyRef = new Company.Builder()
 										.setId(1l)
 										.setName("companyname")
 										.build();
 
-		Company companyTest = new Company.CompanyBuilder()
+		Company companyTest = new Company.Builder()
 										 .build();
 
 		// Define the behavior of the mock for each getString method's call

@@ -7,5 +7,5 @@ import fr.excilys.model.Company;
 
 public interface CompanyDao {
 
-	Optional<List<Company>> lister(int range);
+	List<Company> lister(int range);
 }

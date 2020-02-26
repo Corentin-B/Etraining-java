@@ -29,7 +29,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	}
 
 	@Override
-	public Optional<List<Company>> lister(int range) {
+	public List<Company> lister(int range) {
 
 		List<Company> company = new ArrayList<>();
 		Connection connexion = null;
@@ -51,6 +51,6 @@ public class CompanyDaoImpl implements CompanyDao {
 		} catch (SQLException e) {
 	        logger.debug(e);
 		}
-		return Optional.ofNullable(company);
+		return company;
 	}
 }
