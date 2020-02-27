@@ -5,14 +5,13 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import fr.excilys.dao.CompanyDaoImpl;
-
 class Scanners {
 
     static Logger logger = Logger.getLogger(Scanners.class);
 	
 	protected static int scanNumbers(int min, int max) {
 
+		@SuppressWarnings("resource")
 		Scanner monScanner = new Scanner(System.in);
 		int choix = 0;
 
@@ -35,6 +34,7 @@ class Scanners {
 
 	protected static String scanText() {
 
+		@SuppressWarnings("resource")
 		Scanner monScanner = new Scanner(System.in);
 		return monScanner.nextLine().toString();
 	}

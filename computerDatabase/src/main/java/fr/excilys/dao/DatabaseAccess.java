@@ -13,13 +13,10 @@ class DatabaseAccess {
 		InputStream inputStream = null;
 
 		try {
+			inputStream = new FileInputStream("config.properties");
 
-			inputStream = new FileInputStream("../resources/config.properties");
-
-			// load a properties file
 			properties.load(inputStream);
 
-			// get the property value and print it out
 			System.out.println(properties.getProperty("db.url"));
 			System.out.println(properties.getProperty("db.username "));
 			System.out.println(properties.getProperty("db.password "));

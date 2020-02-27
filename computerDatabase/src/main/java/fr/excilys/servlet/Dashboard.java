@@ -13,6 +13,8 @@ import fr.excilys.model.Computer;
 
 public class Dashboard extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
+
 	int range = 10;
 
 	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
