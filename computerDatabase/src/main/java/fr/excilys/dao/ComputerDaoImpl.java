@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 
 import fr.excilys.mapper.MapperComputer;
+import fr.excilys.mapper.MapperDateTime;
 import fr.excilys.model.Computer;
 
 public class ComputerDaoImpl implements ComputerDao {
@@ -56,8 +57,8 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(INSERT_NEWCOMPUTER);
 			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setDate(2, computer.getIntroduced());
-			preparedStatement.setDate(3, computer.getDiscontinued());
+			preparedStatement.setTimestamp(2, MapperDateTime.getDatetimeToTimestamp(computer.getIntroduced()));
+			preparedStatement.setTimestamp(3, MapperDateTime.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
@@ -95,8 +96,8 @@ public class ComputerDaoImpl implements ComputerDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(UPDATE_COMPUTER);
 			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setDate(2, computer.getIntroduced());
-			preparedStatement.setDate(3, computer.getDiscontinued());
+			preparedStatement.setTimestamp(2, MapperDateTime.getDatetimeToTimestamp(computer.getIntroduced()));
+			preparedStatement.setTimestamp(3, MapperDateTime.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 			preparedStatement.setLong(5, computer.getId());
 

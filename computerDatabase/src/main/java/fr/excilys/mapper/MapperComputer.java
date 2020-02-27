@@ -1,7 +1,9 @@
 package fr.excilys.mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
@@ -33,13 +35,24 @@ public class MapperComputer {
 		Computer computer = new Computer.Builder()
 									   	.setId(resultComputer.getLong("id"))
 									   	.setName(resultComputer.getString("name"))
-									   	.setIntroduced(resultComputer.getDate("introduced"))
-									   	.setDiscontinued(resultComputer.getDate("discontinued"))
+									   	.setIntroduced(getTimestampToLocalDate(resultComputer.getDate("introduced")))
+									   	.setDiscontinued(getTimestampToLocalDate(resultComputer.getDate("discontinued")))
 									   	.setCompany(new Company.Builder()
 									   						   .setId(resultComputer.getLong("id"))
 									 			 			   .setName(resultComputer.getString("name"))
 									 	 		 			   .build())
 									    .build();
 		return computer;
+	}
+	
+	private LocalDate getTimestampToLocalDate(Date dateComputer) {
+		
+		if (dateComputer != null)
+		{
+			return dateComputer.toLocalDate();
+		}
+		else {
+			return null;
+		}
 	}
 }
