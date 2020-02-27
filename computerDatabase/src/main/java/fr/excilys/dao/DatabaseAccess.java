@@ -8,18 +8,15 @@ import java.util.Properties;
 class DatabaseAccess {
 
 	protected static void getDatabaseInfo() {
-/*
+
 		final Properties properties = new Properties();
 		InputStream inputStream = null;
 
 		try {
-
 			inputStream = new FileInputStream("config.properties");
 
-			// load a properties file
 			properties.load(inputStream);
 
-			// get the property value and print it out
 			System.out.println(properties.getProperty("db.url"));
 			System.out.println(properties.getProperty("db.username "));
 			System.out.println(properties.getProperty("db.password "));
@@ -34,6 +31,6 @@ class DatabaseAccess {
 					e.printStackTrace();
 				}
 			}
-		}*/
+		}
 	}
 }

@@ -11,7 +11,7 @@ public class Computer {
 	private Company company;
 
 	public static class Builder {
-		
+
 		private long idBuilder;
 		private String nameBuilder;
 		private LocalDate introducedBuilder;

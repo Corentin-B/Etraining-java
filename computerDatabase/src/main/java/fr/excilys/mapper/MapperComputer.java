@@ -3,7 +3,6 @@ package fr.excilys.mapper;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import fr.excilys.model.Company;

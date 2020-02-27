@@ -48,7 +48,7 @@ public class MapperComputerTest {
 								   	       .setName("computername")
 								   	       .setIntroduced(LocalDate.parse("2002-02-02"))
 								   	       .setDiscontinued(LocalDate.parse("2020-02-02"))
-				//				   	       .setCompany(companyRef)
+								   	       .setCompany(companyRef)
 								   	       .build();
 		
         Computer computerTest = new Computer.Builder()
