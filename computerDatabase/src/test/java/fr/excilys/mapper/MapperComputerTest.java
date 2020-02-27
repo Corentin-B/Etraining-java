@@ -2,9 +2,9 @@ package fr.excilys.mapper;
 
 import static org.junit.Assert.*;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,8 +46,8 @@ public class MapperComputerTest {
         Computer computerRef = new Computer.Builder()
 								   	       .setId(1l)
 								   	       .setName("computername")
-								   	       .setIntroduced(Date.valueOf("2002-02-02"))
-								   	       .setDiscontinued(Date.valueOf("2020-02-02"))
+								   	       .setIntroduced(LocalDate.parse("2002-02-02"))
+								   	       .setDiscontinued(LocalDate.parse("2020-02-02"))
 				//				   	       .setCompany(companyRef)
 								   	       .build();
 		
@@ -65,16 +65,16 @@ public class MapperComputerTest {
 		} catch (SQLException e2) {
 			fail("resultSet.getString");
 		}
-        try {
-			Mockito.when(resultSet.getDate("introduced")).thenReturn(Date.valueOf("2002-02-02"));
+        /*try {
+			Mockito.when(resultSet.getTimestamp("introduced")).thenReturn(LocalDate.parse("2002-02-02"));
 		} catch (SQLException e3) {
 			fail("resultSet.getDateIntroduced");
 		}
         try {
-			Mockito.when(resultSet.getDate("discontinued")).thenReturn(Date.valueOf("2020-02-02"));
+			Mockito.when(resultSet.getTimestamp("discontinued")).thenReturn(LocalDate.parse("2020-02-02"));
 		} catch (SQLException e4) {
 			fail("resultSet.getDateDiscontinued");
-		}
+		}*/
         try {
 			Mockito.when(resultSet.getObject("company")).thenReturn(null);
 		} catch (SQLException e5) {

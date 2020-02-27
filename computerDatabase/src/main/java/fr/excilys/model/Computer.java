@@ -1,22 +1,21 @@
 package fr.excilys.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Computer {
 
 	private long id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
-	// private long company_id;
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private Company company;
 
 	public static class Builder {
 		
 		private long idBuilder;
 		private String nameBuilder;
-		private Date introducedBuilder;
-		private Date discontinuedBuilder;
+		private LocalDate introducedBuilder;
+		private LocalDate discontinuedBuilder;
 		private Company companyBuilder;
 
 		public Builder setId(long id) {
@@ -31,13 +30,13 @@ public class Computer {
 			return this;
 		}
 
-		public Builder setIntroduced(Date introduced) {
+		public Builder setIntroduced(LocalDate introduced) {
 			this.introducedBuilder = introduced;
 
 			return this;
 		}
 
-		public Builder setDiscontinued(Date discontinued) {
+		public Builder setDiscontinued(LocalDate discontinued) {
 			this.discontinuedBuilder = discontinued;
 
 			return this;
@@ -78,19 +77,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 

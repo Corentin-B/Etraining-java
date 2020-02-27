@@ -1,6 +1,6 @@
 package fr.excilys.client;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +97,7 @@ public class UserInterface {
 
 		do {
 			computer.removeAll(computer);
-			computer = ServicesComputer.computerList(numberPage, range);
+			computer = ServicesComputer.computerList(range,numberPage);
 			
 			if(!computer.isEmpty()) {
 				
@@ -115,18 +115,18 @@ public class UserInterface {
 	public static void menuCreationComputer() {
 
 		String name;
-		Date introduced;
-		Date discontinued;
+		LocalDate introduced;
+		LocalDate discontinued;
 		long idCompany;
 
 		System.out.println("Nom de l'ordinateur ?\n");
 		name = Scanners.scanText();
 
-		introduced = Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
+		introduced = LocalDate.parse(getInputWithTest("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
 		
-		discontinued = Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
+		discontinued = LocalDate.parse(getInputWithTest("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
 
-		idCompany = Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER));
+		idCompany = Integer.parseInt(getInputWithTest("Id de l'entreprise ?\n",REGEX_ANYNUMBER));
 
 		Computer computerNew = new Computer.Builder()
 										   .setName(name)
@@ -145,7 +145,7 @@ public class UserInterface {
 		boolean fini = false;
 		boolean execute = true;
 
-		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Integer.parseInt(match("Quel est l'id de l'ordinateur que vous voulez modifier ?\n",REGEX_ANYNUMBER)));
+		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Integer.parseInt(getInputWithTest("Quel est l'id de l'ordinateur que vous voulez modifier ?\n",REGEX_ANYNUMBER)));
 
 		do {
 			System.out.println("Ordinateur : " + computerUpdate.getName() 
@@ -172,14 +172,14 @@ public class UserInterface {
 				computerUpdate.setName(Scanners.scanText());
 				break;
 			case MODIF_INTRODUCED_ORDI: // 2
-				computerUpdate.setIntroduced(Date.valueOf(match("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
+				computerUpdate.setIntroduced(LocalDate.parse(getInputWithTest("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
 				break;
 			case MODIF_DISCONTINUED_ORDI: // 3
-				computerUpdate.setDiscontinued(Date.valueOf(match("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
+				computerUpdate.setDiscontinued(LocalDate.parse(getInputWithTest("Date de fin de servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
 				break;
 			case MODIF_ID__ORDI_ENTREPRISE: // 4
 				computerUpdate.setCompany(new Company.Builder()
-		   				  							 .setId(Integer.parseInt(match("Id de l'entreprise ?\n",REGEX_ANYNUMBER)))
+		   				  							 .setId(Integer.parseInt(getInputWithTest("Id de l'entreprise ?\n",REGEX_ANYNUMBER)))
 		   				  							 .build());
 				break;
 			case ENVOYER_MODIFICATION: // 5
@@ -205,10 +205,10 @@ public class UserInterface {
 	public static void menuRemoveComputer() {
 
 		System.out.println("Id de l'ordinateur ?");
-		ServicesComputer.computerRemove(Integer.parseInt(match("Id de l'ordinateur ?\n",REGEX_ANYNUMBER)));
+		ServicesComputer.computerRemove(Integer.parseInt(getInputWithTest("Id de l'ordinateur ?\n",REGEX_ANYNUMBER)));
 	}
 	
-	public static String match(String message, String regex) {
+	public static String getInputWithTest(String message, String regex) {
 		
 		String rawValue;
 		boolean ismatch = false;

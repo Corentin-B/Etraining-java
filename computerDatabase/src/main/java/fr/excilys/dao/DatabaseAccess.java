@@ -8,13 +8,13 @@ import java.util.Properties;
 class DatabaseAccess {
 
 	protected static void getDatabaseInfo() {
-
+/*
 		final Properties properties = new Properties();
 		InputStream inputStream = null;
 
 		try {
 
-			inputStream = new FileInputStream("../resources/config.properties");
+			inputStream = new FileInputStream("config.properties");
 
 			// load a properties file
 			properties.load(inputStream);
@@ -34,6 +34,6 @@ class DatabaseAccess {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 }
