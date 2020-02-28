@@ -15,7 +15,7 @@ public class Dashboard extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	int range = 10;
+	private int range = 10;
 
 	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
 
@@ -26,7 +26,7 @@ public class Dashboard extends HttpServlet {
 		if (request.getParameter("range") != null) {
 			range = Integer.parseInt(request.getParameter("range"));
 		}
-
+		
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}

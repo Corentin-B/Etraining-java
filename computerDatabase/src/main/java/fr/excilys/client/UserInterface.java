@@ -74,7 +74,7 @@ public class UserInterface {
 
 		do {
 			company.removeAll(company);
-			company = ServicesCompany.companyList(range);
+			company = ServicesCompany.companyList();
 			
 			if(!company.isEmpty()) {
 				
@@ -102,7 +102,7 @@ public class UserInterface {
 			if(!computer.isEmpty()) {
 				
 				computer.stream().forEach(computerDetails -> System.out.println(computerDetails.getId()
-															 + " " + computerDetails.getName()));
+															 + " " + computerDetails.getName() + " - " + computerDetails.getCompany().getName()));
 				
 				System.out.println("Entrez une touche pour afficher la suite");
 				Scanners.scanAnyInput();

@@ -45,3 +45,4 @@ proguard/
 /.metadata/
 
 *.log
+*.properties

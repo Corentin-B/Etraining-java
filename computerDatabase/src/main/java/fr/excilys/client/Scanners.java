@@ -31,7 +31,7 @@ class Scanners {
 			return 0;
 		}
 	}
-
+	
 	protected static String scanText() {
 
 		@SuppressWarnings("resource")

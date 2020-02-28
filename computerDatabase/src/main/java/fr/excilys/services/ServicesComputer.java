@@ -6,7 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.excilys.model.Computer;
-import fr.excilys.dao.ComputerDaoImpl;
+import fr.excilys.dao.ComputerDao;
+import fr.excilys.dao.ComputerDao;
 import fr.excilys.dao.DaoFactory;
 
 public class ServicesComputer {
@@ -15,41 +16,41 @@ public class ServicesComputer {
 
 	public static List<Computer> computerList(int numberPage, int range) {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		return computerDao.lister(numberPage, range);
 	}
 
 	public static void computerAdd(Computer computerNew) {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		computerDao.ajouter(computerNew);
 	}
 
 	public static Computer computerSelectForUpdate(int idComputer) {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		return computerDao.selectionner(idComputer).get();
 	}
 
 	public static void computerUpdate(Computer modifiedComputer) {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		computerDao.modifier(modifiedComputer);
 	}
 
 	public static void computerRemove(int idComputer) {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		computerDao.supprimer(idComputer);
 	}
 
 	public static int computerGetNumber() {
 
-		ComputerDaoImpl computerDao = new ComputerDaoImpl(getDaoFacotry());
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
 		return computerDao.numberPage();
 	}
 
-	private static DaoFactory getDaoFacotry() {
+	private static DaoFactory getDaoFactory() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();

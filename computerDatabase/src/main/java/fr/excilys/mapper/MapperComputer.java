@@ -33,13 +33,13 @@ public class MapperComputer {
 	public Computer getComputerFromResultSet(ResultSet resultComputer) throws SQLException {
 		
 		Computer computer = new Computer.Builder()
-									   	.setId(resultComputer.getLong("id"))
-									   	.setName(resultComputer.getString("name"))
-									   	.setIntroduced(getTimestampToLocalDate(resultComputer.getDate("introduced")))
-									   	.setDiscontinued(getTimestampToLocalDate(resultComputer.getDate("discontinued")))
+									   	.setId(resultComputer.getLong("computer.id"))
+									   	.setName(resultComputer.getString("computer.name"))
+									   	.setIntroduced(getTimestampToLocalDate(resultComputer.getDate("computer.introduced")))
+									   	.setDiscontinued(getTimestampToLocalDate(resultComputer.getDate("computer.discontinued")))
 									   	.setCompany(new Company.Builder()
-									   						   .setId(resultComputer.getLong("id"))
-									 			 			   .setName(resultComputer.getString("name"))
+									   						   .setId(resultComputer.getLong("company_id"))
+									 			 			   .setName(resultComputer.getString("company.name"))
 									 	 		 			   .build())
 									    .build();
 		return computer;
@@ -54,5 +54,18 @@ public class MapperComputer {
 		else {
 			return null;
 		}
+	}
+	
+	public Computer getComputerFromPost(String computerName, String computerIntroduced, String computerDiscontinued, String companyId) {
+		
+		Computer computer = new Computer.Builder()
+									   	.setName(computerName)
+									   	.setIntroduced(LocalDate.parse(computerIntroduced))
+									   	.setDiscontinued(LocalDate.parse(computerDiscontinued))
+									   	.setCompany(new Company.Builder()
+									   						   .setId(Integer.parseInt(companyId))
+									 	 		 			   .build())
+									    .build();
+		return computer;
 	}
 }

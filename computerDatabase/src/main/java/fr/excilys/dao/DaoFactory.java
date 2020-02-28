@@ -64,7 +64,6 @@ public final class DaoFactory {
 			conProperties.add(connectionProperties.getProperty("username"));
 			conProperties.add(connectionProperties.getProperty("password"));
 
-			System.out.println(conProperties);
 		} catch (IOException e) {
 			logger.debug(e);
 		} catch (NullPointerException e) {
@@ -79,10 +78,10 @@ public final class DaoFactory {
 	}
 
 	public CompanyDao getCompanyDao() {
-		return new CompanyDaoImpl(this);
+		return new CompanyDao(this);
 	}
 
 	public ComputerDao getComputerDao() {
-		return new ComputerDaoImpl(this);
+		return new ComputerDao(this);
 	}
 }
