@@ -11,6 +11,7 @@
 		<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="resources/css/font-awesome.css" rel="stylesheet" media="screen">
 		<link href="resources/css/main.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" />
 	</head>
 	<body>
 	    <header class="navbar navbar-inverse navbar-fixed-top">
@@ -24,6 +25,13 @@
 	            <div class="row">
 	                <div class="col-xs-8 col-xs-offset-2 box">
 	                    <h1>Add Computer</h1>
+                    	<c:choose>
+						    <c:when test="${newComputerName != null}">
+		                  		<div class="alert alert-success">
+								  <strong>Success!</strong> <c:out value="${newComputerName}"></c:out> added to database
+								</div>    
+							</c:when>
+						</c:choose>
 	                    <form action="addcomputer" method="POST">
 	                        <fieldset>
 	                            <div class="form-group">

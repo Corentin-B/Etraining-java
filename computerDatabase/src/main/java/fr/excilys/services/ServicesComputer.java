@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import fr.excilys.model.Computer;
 import fr.excilys.dao.ComputerDao;
-import fr.excilys.dao.ComputerDao;
 import fr.excilys.dao.DaoFactory;
 
 public class ServicesComputer {
