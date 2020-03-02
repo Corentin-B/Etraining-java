@@ -45,6 +45,30 @@ public class MapperComputer {
 		return computer;
 	}
 	
+	public Computer getComputerFromPost(String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
+		
+		return getComputerFromString(0, computerName, computerIntroduced, computerDiscontinued, companyId);
+	}
+	
+	public Computer getComputerFromPost(int computerId,String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
+		
+		return getComputerFromString(computerId, computerName, computerIntroduced, computerDiscontinued, companyId);
+	}
+	
+	public Computer getComputerFromString(int computerId,String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
+		
+		Computer computer = new Computer.Builder()
+										.setId(computerId)
+									   	.setName(computerName)
+									   	.setIntroduced(computerIntroduced)
+									   	.setDiscontinued(computerDiscontinued)
+									   	.setCompany(new Company.Builder()
+									   						   .setId(companyId)
+									 	 		 			   .build())
+									    .build();
+		return computer;
+	}
+	
 	private LocalDate getTimestampToLocalDate(Date dateComputer) {
 		
 		if (dateComputer != null)
@@ -54,32 +78,5 @@ public class MapperComputer {
 		else {
 			return null;
 		}
-	}
-	
-	public Computer getComputerFromPost(String computerName, String computerIntroduced, String computerDiscontinued, String companyId) {
-		
-		Computer computer = new Computer.Builder()
-									   	.setName(computerName)
-									   	.setIntroduced(LocalDate.parse(computerIntroduced))
-									   	.setDiscontinued(LocalDate.parse(computerDiscontinued))
-									   	.setCompany(new Company.Builder()
-									   						   .setId(Integer.parseInt(companyId))
-									 	 		 			   .build())
-									    .build();
-		return computer;
-	}
-	
-	public Computer getComputerFromPost(int computerId,String computerName, String computerIntroduced, String computerDiscontinued, String companyId) {
-		
-		Computer computer = new Computer.Builder()
-										.setId(computerId)
-									   	.setName(computerName)
-									   	.setIntroduced(LocalDate.parse(computerIntroduced))
-									   	.setDiscontinued(LocalDate.parse(computerDiscontinued))
-									   	.setCompany(new Company.Builder()
-									   						   .setId(Integer.parseInt(companyId))
-									 	 		 			   .build())
-									    .build();
-		return computer;
 	}
 }
