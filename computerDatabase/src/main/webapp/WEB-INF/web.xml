@@ -36,6 +36,6 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>EditComputer</servlet-name>
-		<url-pattern>/EditComputer</url-pattern>
+		<url-pattern>/editComputer</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -68,4 +68,18 @@ public class MapperComputer {
 									    .build();
 		return computer;
 	}
+	
+	public Computer getComputerFromPost(int computerId,String computerName, String computerIntroduced, String computerDiscontinued, String companyId) {
+		
+		Computer computer = new Computer.Builder()
+										.setId(computerId)
+									   	.setName(computerName)
+									   	.setIntroduced(LocalDate.parse(computerIntroduced))
+									   	.setDiscontinued(LocalDate.parse(computerDiscontinued))
+									   	.setCompany(new Company.Builder()
+									   						   .setId(Integer.parseInt(companyId))
+									 	 		 			   .build())
+									    .build();
+		return computer;
+	}
 }
