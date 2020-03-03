@@ -24,6 +24,8 @@
 		<mysql-connector-version>8.0.19</mysql-connector-version>
 		<log4j-version>1.2.17</log4j-version>
 		<taglibs-standard-version>1.2.5</taglibs-standard-version>
+		<HikariCP-version>3.4.2</HikariCP-version>
+		
 	</properties>
 
 	<dependencies>
@@ -70,6 +72,12 @@
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>${taglibs-standard-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${HikariCP-version}</version>
 		</dependency>
 	</dependencies>
 

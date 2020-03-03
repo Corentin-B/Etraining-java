@@ -1,7 +1,6 @@
 package fr.excilys.servlet;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -32,15 +31,17 @@ public class AddComputer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String computerName = request.getParameter("computerName");
-		LocalDate introduced = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("introduced"));
-		LocalDate discontinued = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("discontinued"));
-		int companyId = CheckFormat.checkIntFormatAndConvert(request.getParameter("companyId"));
-		introduced = CheckFormat.checkIntroducedDiscontinued(introduced, discontinued);
-
-		Computer newcomputer = MapperComputer.getInstance().getComputerFromPost(computerName, introduced, discontinued, companyId);
+		Boolean Success = false;
 		
-		Boolean Success = ServicesComputer.computerAdd(newcomputer);
+		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
+		
+		if(CheckFormat.checkString(newcomputer.getName())) {
+
+			Success = ServicesComputer.computerAdd(newcomputer);
+		
+		} else {
+			newcomputer.setName("No Name");
+		}
 		
 		request.setAttribute("newComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);

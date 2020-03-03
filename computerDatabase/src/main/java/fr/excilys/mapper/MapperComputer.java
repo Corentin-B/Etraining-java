@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
@@ -31,7 +33,6 @@ public class MapperComputer {
 	}
 	
 	public Computer getComputerFromResultSet(ResultSet resultComputer) throws SQLException {
-		
 		Computer computer = new Computer.Builder()
 									   	.setId(resultComputer.getLong("computer.id"))
 									   	.setName(resultComputer.getString("computer.name"))
@@ -45,14 +46,22 @@ public class MapperComputer {
 		return computer;
 	}
 	
-	public Computer getComputerFromPost(String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
+	public Computer getComputerFromResponse(HttpServletRequest request) {
 		
-		return getComputerFromString(0, computerName, computerIntroduced, computerDiscontinued, companyId);
-	}
-	
-	public Computer getComputerFromPost(int computerId,String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
+		System.out.println(request.getParameter("introduced"));
+		Computer computer = new Computer.Builder()
+										.setId(CheckFormat.checkIntFormatAndConvert(request.getParameter("computerId")))
+									   	.setName(request.getParameter("computerName"))
+									   	.setIntroduced(CheckFormat.checkDateFormatValueAndConvert(request.getParameter("introduced")))
+									   	.setDiscontinued(CheckFormat.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
+									   	.setCompany(new Company.Builder()
+									   						   .setId(CheckFormat.checkIntFormatAndConvert(request.getParameter("companyId")))
+									 	 		 			   .build())
+									    .build();
 		
-		return getComputerFromString(computerId, computerName, computerIntroduced, computerDiscontinued, companyId);
+		computer.setIntroduced(CheckFormat.checkIntroducedDiscontinued(computer.getIntroduced(), computer.getDiscontinued()));
+		
+		return computer;
 	}
 	
 	public Computer getComputerFromString(int computerId,String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {

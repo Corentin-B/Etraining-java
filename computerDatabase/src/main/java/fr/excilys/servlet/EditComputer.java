@@ -1,7 +1,6 @@
 package fr.excilys.servlet;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -41,26 +40,26 @@ public class EditComputer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 
-		int computerId = CheckFormat.checkIntFormatAndConvert(request.getParameter("computerId"));
-		String computerName = request.getParameter("computerName");
-		LocalDate introduced = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("introduced"));
-		LocalDate discontinued = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("discontinued"));
-		int companyId = CheckFormat.checkIntFormatAndConvert(request.getParameter("companyId"));
-		introduced = CheckFormat.checkIntroducedDiscontinued(introduced, discontinued);
+		Computer computer = new Computer.Builder().build();
+		Boolean Success = false;
 		
-		Computer newcomputer = MapperComputer.getInstance().getComputerFromPost(computerId, computerName, introduced, discontinued, companyId);
+		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
 		
-		Computer computer = requestToComputer(newcomputer);
+		if(CheckFormat.checkCompany(newcomputer.getCompany().getId()) && CheckFormat.checkString(newcomputer.getName())) {
+		
+			computer = requestToComputer(newcomputer);
 
-		Boolean Success = ServicesComputer.computerUpdate(computer);
-
+			Success = ServicesComputer.computerUpdate(computer);
+		} else {
+			computer.setName("No Name");
+		}
+		
 		request.setAttribute("UpdateComputerName", computer.getName());
 		request.setAttribute("Success", Success);
 		this.getServletContext().getRequestDispatcher(EDITCOMPUTER).forward(request, response);
 	}
 
 	private static Computer requestToComputer(Computer newcomputer) {
-
 
 		Computer computer = ServicesComputer.computerSelectForUpdate((int) newcomputer.getId());
 

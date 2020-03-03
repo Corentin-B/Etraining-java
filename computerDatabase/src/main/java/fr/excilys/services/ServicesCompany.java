@@ -19,6 +19,12 @@ public class ServicesCompany {
 		return companyDao.lister();
 	}
 	
+	public static Company computerSelectForCheck(int idCompany) {
+
+		CompanyDao companyDao = new CompanyDao(getDaoFactory());
+		return companyDao.selectionner(idCompany).get();
+	}
+	
 	private static DaoFactory getDaoFactory() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {

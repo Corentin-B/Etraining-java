@@ -35,7 +35,7 @@
 						</c:choose>
 						<c:choose>
 						    <c:when test="${Success == false}">
-						    	<div class="alert alest-danger">
+						    	<div class="alert alert-danger">
 								  <strong>Failure !</strong> <c:out value="${UpdateComputerName}"></c:out> can't be updated to database
 								</div>    
 							</c:when>

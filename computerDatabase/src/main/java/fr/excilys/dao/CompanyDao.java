@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 
@@ -21,6 +22,9 @@ public class CompanyDao {
 	
 	private final String SELECT_ALLCOMPANY="SELECT company.id, company.name "
 										 + "FROM company;";
+	
+	private final String SELECT_ONECOMPANY="SELECT company.id, company.name "
+			 							 + "FROM company WHERE company.id = ?;";
 
 	public CompanyDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -49,5 +53,31 @@ public class CompanyDao {
 	        logger.debug(e);
 		}
 		return company;
+	}
+	
+	public Optional<Company> selectionner(int idComputer) {
+
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		Company selectedCompany = new Company.Builder().build();
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPANY);
+			preparedStatement.setInt(1, idComputer);
+
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			if (resultat.first()) {
+
+				selectedCompany = MapperCompany.getInstance().getCompanyFromResultSet(resultat);
+			}
+
+			preparedStatement.close();
+			connexion.close();
+		} catch (SQLException e) {
+			logger.debug(e);
+		}
+		return Optional.ofNullable(selectedCompany);
 	}
 }
