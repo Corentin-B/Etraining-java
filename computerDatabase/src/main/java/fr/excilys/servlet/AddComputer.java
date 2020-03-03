@@ -36,12 +36,14 @@ public class AddComputer extends HttpServlet {
 		LocalDate introduced = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("introduced"));
 		LocalDate discontinued = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("discontinued"));
 		int companyId = CheckFormat.checkIntFormatAndConvert(request.getParameter("companyId"));
+		introduced = CheckFormat.checkIntroducedDiscontinued(introduced, discontinued);
 
-		Computer computer = MapperComputer.getInstance().getComputerFromPost(computerName, introduced, discontinued, companyId);
+		Computer newcomputer = MapperComputer.getInstance().getComputerFromPost(computerName, introduced, discontinued, companyId);
 		
-		ServicesComputer.computerAdd(computer);
+		Boolean Success = ServicesComputer.computerAdd(newcomputer);
 		
-		request.setAttribute("newComputerName", computer.getName());
+		request.setAttribute("newComputerName", newcomputer.getName());
+		request.setAttribute("Success", Success);
 		this.getServletContext().getRequestDispatcher(ADDCOMPUTER).forward(request, response);
 	}
 }

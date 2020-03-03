@@ -23,11 +23,7 @@ public class CheckFormat {
 	
 	public static boolean checkStringFormat(String value) {
 
-		if (value != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return !value.isBlank();
 	}
 
 	public static LocalDate checkDateFormatValueAndConvert(String value) {
@@ -42,6 +38,15 @@ public class CheckFormat {
 			} else {
 				return valueDate;
 			}
+		} else {
+			return null;
+		}
+	}
+	
+	public static LocalDate checkIntroducedDiscontinued(LocalDate introduced, LocalDate discontinued) {
+		
+		if (introduced.isBefore(discontinued)) {
+			return introduced;
 		} else {
 			return null;
 		}

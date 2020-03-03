@@ -26,9 +26,16 @@
 	                <div class="col-xs-8 col-xs-offset-2 box">
 	                    <h1>Add Computer</h1>
                     	<c:choose>
-						    <c:when test="${newComputerName != null}">
-		                  		<div class="alert alert-success">
+						    <c:when test="${Success == true}">
+						    	<div class="alert alert-success">
 								  <strong>Success!</strong> <c:out value="${newComputerName}"></c:out> added to database
+								</div>    
+							</c:when>
+						</c:choose>
+						<c:choose>
+						    <c:when test="${Success == false}">
+						    	<div class="alert alest-danger">
+								  <strong>Failure !</strong> <c:out value="${newComputerName}"></c:out> can't be added to database
 								</div>    
 							</c:when>
 						</c:choose>
@@ -36,15 +43,18 @@
 	                        <fieldset>
 	                            <div class="form-group">
 	                                <label for="computerName">Computer name</label>
-	                                <input type="text" class="form-control" name="computerName" id="computerName" placeholder="mycomputer">
+	                                <input type="text" class="form-control" name="computerName" id="computerName"
+	                                placeholder="mycomputer" required maxlength="255">
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="introduced">Introduced date</label>
-	                                <input type="date" class="form-control" name="introduced" id="introduced" placeholder="1970-01-01" min="1970-01-01" max="2030-01-01">
+	                                <input type="date" class="form-control" name="introduced" id="introduced"
+	                                placeholder="1970-01-01" min="1970-01-01" max="2030-01-01">
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="discontinued">Discontinued date</label>
-	                                <input type="date" class="form-control" name="discontinued" id="discontinued" placeholder="1970-01-01" min="1970-01-01" max="2030-01-01">
+	                                <input type="date" class="form-control" name="discontinued" id="discontinued"
+	                                placeholder="1970-01-01" min="1970-01-01" max="2030-01-01">
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="companyId">Company</label>

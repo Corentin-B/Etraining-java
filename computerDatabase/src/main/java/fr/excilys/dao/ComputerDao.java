@@ -47,7 +47,7 @@ public class ComputerDao {
 		this.daoFactory = daoFactory;
 	}
 
-	public void ajouter(Computer computer) {
+	public boolean ajouter(Computer computer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -61,13 +61,18 @@ public class ComputerDao {
 			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
-
+			preparedStatement.close();
+			connexion.close();
+			
+			return true;
+			
 		} catch (SQLException e) {
 			logger.debug(e);
+			return false;
 		}
 	}
 
-	public void supprimer(int id) {
+	public boolean supprimer(int id) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -78,13 +83,18 @@ public class ComputerDao {
 			preparedStatement.setLong(1, id);
 
 			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			connexion.close();
+			
+			return true;
 
 		} catch (SQLException e) {
 			logger.debug(e);
+			return false;
 		}
 	}
 
-	public void modifier(Computer computer) {
+	public boolean modifier(Computer computer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -99,9 +109,14 @@ public class ComputerDao {
 			preparedStatement.setLong(5, computer.getId());
 
 			preparedStatement.executeUpdate();
+			preparedStatement.close();
+			connexion.close();
 
+			return true;
+			
 		} catch (SQLException e) {
 			logger.debug(e);
+			return false;
 		}
 	}
 

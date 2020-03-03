@@ -19,10 +19,10 @@ public class ServicesComputer {
 		return computerDao.lister(numberPage, range);
 	}
 
-	public static void computerAdd(Computer computerNew) {
+	public static boolean computerAdd(Computer computerNew) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		computerDao.ajouter(computerNew);
+		return computerDao.ajouter(computerNew);
 	}
 
 	public static Computer computerSelectForUpdate(int idComputer) {
@@ -31,16 +31,16 @@ public class ServicesComputer {
 		return computerDao.selectionner(idComputer).get();
 	}
 
-	public static void computerUpdate(Computer modifiedComputer) {
+	public static boolean computerUpdate(Computer modifiedComputer) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		computerDao.modifier(modifiedComputer);
+		return computerDao.modifier(modifiedComputer);
 	}
 
-	public static void computerRemove(int idComputer) {
+	public static boolean computerRemove(int idComputer) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		computerDao.supprimer(idComputer);
+		return computerDao.supprimer(idComputer);
 	}
 
 	public static int computerGetNumber() {

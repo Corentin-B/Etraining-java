@@ -27,9 +27,16 @@
 	                    </div>
 	                    <h1>Edit Computer</h1>
 	                      <c:choose>
-						    <c:when test="${UpdateComputerName != null}">
+						    <c:when test="${Success == true}">
 		                  		<div class="alert alert-success">
 								  <strong>Success!</strong> <c:out value="${UpdateComputerName}"></c:out> updated to database
+								</div>    
+							</c:when>
+						</c:choose>
+						<c:choose>
+						    <c:when test="${Success == false}">
+						    	<div class="alert alest-danger">
+								  <strong>Failure !</strong> <c:out value="${UpdateComputerName}"></c:out> can't be updated to database
 								</div>    
 							</c:when>
 						</c:choose>

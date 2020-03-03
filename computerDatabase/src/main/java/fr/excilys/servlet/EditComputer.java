@@ -46,22 +46,23 @@ public class EditComputer extends HttpServlet {
 		LocalDate introduced = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("introduced"));
 		LocalDate discontinued = CheckFormat.checkDateFormatValueAndConvert(request.getParameter("discontinued"));
 		int companyId = CheckFormat.checkIntFormatAndConvert(request.getParameter("companyId"));
+		introduced = CheckFormat.checkIntroducedDiscontinued(introduced, discontinued);
 		
-		Computer computer = requestToComputer(computerId, computerName, introduced, discontinued, companyId);
+		Computer newcomputer = MapperComputer.getInstance().getComputerFromPost(computerId, computerName, introduced, discontinued, companyId);
+		
+		Computer computer = requestToComputer(newcomputer);
 
-		ServicesComputer.computerUpdate(computer);
+		Boolean Success = ServicesComputer.computerUpdate(computer);
 
 		request.setAttribute("UpdateComputerName", computer.getName());
+		request.setAttribute("Success", Success);
 		this.getServletContext().getRequestDispatcher(EDITCOMPUTER).forward(request, response);
-
-		// response.sendRedirect(request.getContextPath()+"/dashboard");
 	}
 
-	private static Computer requestToComputer(int computerId, String computerName, LocalDate introduced, LocalDate discontinued, int companyId) {
+	private static Computer requestToComputer(Computer newcomputer) {
 
-		Computer newcomputer = MapperComputer.getInstance().getComputerFromPost(computerId, computerName, introduced, discontinued, companyId);
 
-		Computer computer = ServicesComputer.computerSelectForUpdate(computerId);
+		Computer computer = ServicesComputer.computerSelectForUpdate((int) newcomputer.getId());
 
 		if (newcomputer.getName() != null && newcomputer.getName() != computer.getName()) {
 			computer.setName(newcomputer.getName());
