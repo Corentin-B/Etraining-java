@@ -15,13 +15,12 @@ public class Dashboard extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private int range = 10;
-
 	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int page = 1;
+		int range = 10;
 
 		if (request.getParameter("range") != null) {
 			range = Integer.parseInt(request.getParameter("range"));
@@ -37,6 +36,7 @@ public class Dashboard extends HttpServlet {
 		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
 
 		request.setAttribute("page", page);
+		request.setAttribute("range", range);
 		request.setAttribute("prevPage", pagingValues.get(0));
 		request.setAttribute("nextPage", pagingValues.get(1));
 		request.setAttribute("incrementPage", pagingValues.get(2));

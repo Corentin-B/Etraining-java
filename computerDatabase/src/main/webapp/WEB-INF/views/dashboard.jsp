@@ -82,17 +82,17 @@
 			<div class="container text-center">
 				<ul class="pagination">
 					<li>
-						<a href="dashboard?page=${prevPage}" aria-label="Previous">
+						<a href="dashboard?page=${prevPage}&range=${range}" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 					<c:forEach var="i" begin="${incrementPage}" end="${incrementLastPage}" step="1">
 						<li>
-							<a href="dashboard?page=${i}">${i}</a>
+							<a href="dashboard?page=${i}&range=${range}">${i}</a>
 						</li>
 					</c:forEach>
 					<li>
-						<a href="dashboard?page=${nextPage}" aria-label="Next">
+						<a href="dashboard?page=${nextPage}&range=${range}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
