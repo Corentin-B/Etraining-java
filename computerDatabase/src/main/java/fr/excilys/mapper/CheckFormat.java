@@ -28,8 +28,6 @@ public class CheckFormat {
 
 	public static LocalDate checkDateFormatValueAndConvert(String value) {
 
-		System.out.println(value);
-
 		if (!value.isBlank()) {
 			LocalDate valueDate = LocalDate.parse(value);
 
@@ -47,9 +45,6 @@ public class CheckFormat {
 
 	public static LocalDate checkIntroducedDiscontinued(LocalDate introduced, LocalDate discontinued) {
 
-		System.out.println(introduced);
-		System.out.println(discontinued);
-		
 		if (discontinued != null) {
 			if (introduced.isBefore(discontinued)) {
 				return introduced;

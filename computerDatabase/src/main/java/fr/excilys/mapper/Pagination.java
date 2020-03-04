@@ -12,6 +12,8 @@ public class Pagination {
 		int numberComputer = ServicesComputer.computerGetNumber();
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
 		int prevPage;
+		int incrementPage = 1;
+		int incrementLastPage = 5;
 		
 		if (page - 1 < 1) {
 			prevPage = 1;
@@ -25,9 +27,6 @@ public class Pagination {
 		} else {
 			nextPage = page + 1;
 		}
-
-		int incrementPage = 1;
-		int incrementLastPage = 5;
 
 		if (page - 2 < 2) {
 			incrementPage = 1;

@@ -35,13 +35,10 @@ public class AddComputer extends HttpServlet {
 		
 		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
 		
-		if(CheckFormat.checkString(newcomputer.getName())) {
-
+		if(CheckFormat.checkString(newcomputer.getName()))
 			Success = ServicesComputer.computerAdd(newcomputer);
-		
-		} else {
+		else
 			newcomputer.setName("No Name");
-		}
 		
 		request.setAttribute("newComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);
