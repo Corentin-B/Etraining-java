@@ -58,7 +58,7 @@ public class CheckFormat {
 
 	public static boolean checkCompany(long companyId) {
 
-		Company company = ServicesCompany.computerSelectForCheck((int) companyId);
+		Company company = ServicesCompany.companySelectForCheck(companyId);
 
 		return company.getId() == companyId;
 	}

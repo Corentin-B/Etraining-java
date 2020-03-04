@@ -30,13 +30,18 @@ public class ComputerDao {
 										 		+ "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
 										 		+ "WHERE id = ?;";
 
+	private final String SELECT_NOMBERCOMPUTER 	= "SELECT COUNT(*) "
+		   										+ "FROM computer";
+	
 	private final String SELECT_ONECOMPUTER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
 												+ "FROM computer " 
 												+ "LEFT JOIN company ON computer.company_id = company.id " 
 												+ "WHERE computer.id = ?;";
-
-	private final String SELECT_NOMBERCOMPUTER 	= "SELECT COUNT(*) "
-											   	+ "FROM computer";
+	
+	private final String SELECT_SEARCHCOMPUTER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+												+ "FROM computer " 
+												+ "LEFT JOIN company ON computer.company_id = company.id " 
+												+ "WHERE computer.name LIKE ?;";
 
 	private final String SELECT_ALLCOMPUTER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
 												+ "FROM computer " 
@@ -47,7 +52,7 @@ public class ComputerDao {
 		this.daoFactory = daoFactory;
 	}
 
-	public boolean ajouter(Computer computer) {
+	public boolean add(Computer computer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -72,7 +77,7 @@ public class ComputerDao {
 		}
 	}
 
-	public boolean supprimer(int id) {
+	public boolean remove(int id) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -94,7 +99,7 @@ public class ComputerDao {
 		}
 	}
 
-	public boolean modifier(Computer computer) {
+	public boolean update(Computer computer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -120,7 +125,31 @@ public class ComputerDao {
 		}
 	}
 
-	public Optional<Computer> selectionner(int idComputer) {
+	public int numberPage() {
+
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		int pagesNumber = 0;
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(SELECT_NOMBERCOMPUTER);
+
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			if (resultat.first()) {
+				pagesNumber = resultat.getInt(1);
+			}
+
+			preparedStatement.close();
+			connexion.close();
+		} catch (SQLException e) {
+			logger.debug(e);
+		}
+		return pagesNumber;
+	}
+	
+	public Optional<Computer> selectComputerById(int idComputer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -145,21 +174,23 @@ public class ComputerDao {
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
+	
+	public List<Computer> searchComputerByName(String nameComputer) {
 
-	public int numberPage() {
-
+		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		int pagesNumber = 0;
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_NOMBERCOMPUTER);
+			preparedStatement = connexion.prepareStatement(SELECT_SEARCHCOMPUTER);
+			preparedStatement.setString(1, "%"+nameComputer+"%");
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
-			if (resultat.first()) {
-				pagesNumber = resultat.getInt(1);
+			while (resultat.next()) {
+
+				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
 			}
 
 			preparedStatement.close();
@@ -167,10 +198,10 @@ public class ComputerDao {
 		} catch (SQLException e) {
 			logger.debug(e);
 		}
-		return pagesNumber;
+		return computer;
 	}
 
-	public List<Computer> lister(int numberPage, int range) {
+	public List<Computer> list(int numberPage, int range) {
 
 		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;

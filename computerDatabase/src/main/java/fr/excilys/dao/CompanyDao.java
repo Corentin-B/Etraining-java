@@ -55,7 +55,7 @@ public class CompanyDao {
 		return company;
 	}
 	
-	public Optional<Company> selectionner(int idComputer) {
+	public Optional<Company> selectionner(long idComputer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -64,7 +64,7 @@ public class CompanyDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPANY);
-			preparedStatement.setInt(1, idComputer);
+			preparedStatement.setLong(1, idComputer);
 
 			ResultSet resultat = preparedStatement.executeQuery();
 

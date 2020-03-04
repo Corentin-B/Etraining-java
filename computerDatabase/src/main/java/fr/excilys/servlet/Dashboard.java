@@ -19,6 +19,27 @@ public class Dashboard extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		if (request.getParameter("search") != null) {
+			getSearchRequest(request, response);
+
+		} else {
+			getListRequest(request, response);
+		}
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		if (request.getParameter("selection") != null) {
+			String[] computerDelete = request.getParameter("selection").split(",");
+
+			for (String selectComputer : computerDelete) {
+				ServicesComputer.computerRemove(Integer.parseInt(selectComputer));
+			}
+			this.doGet(request, response);
+		}
+	}
+
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response) {
 		int page = 1;
 		int range = 10;
 
@@ -43,16 +64,26 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("incrementLastPage", pagingValues.get(3));
 		request.setAttribute("numberComputer", pagingValues.get(4));
 		request.setAttribute("computerList", computerList);
-		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+		try {
+			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+		} catch (ServletException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String[] computerDelete = request.getParameter("selection").split(",");
-
-		for (String selectComputer : computerDelete) {
-			ServicesComputer.computerRemove(Integer.parseInt(selectComputer));
+	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response) {
+	
+		String searchComputer = request.getParameter("search");
+		
+		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer);
+		
+		request.setAttribute("computerList", computerList);
+		try {
+			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+		} catch (ServletException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		this.doGet(request, response);
 	}
 }
