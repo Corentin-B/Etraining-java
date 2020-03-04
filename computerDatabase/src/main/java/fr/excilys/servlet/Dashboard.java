@@ -25,7 +25,7 @@ public class Dashboard extends HttpServlet {
 		if (request.getParameter("range") != null) {
 			range = Integer.parseInt(request.getParameter("range"));
 		}
-		
+
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
@@ -44,5 +44,15 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("numberComputer", pagingValues.get(4));
 		request.setAttribute("computerList", computerList);
 		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String[] computerDelete = request.getParameter("selection").split(",");
+
+		for (String selectComputer : computerDelete) {
+			ServicesComputer.computerRemove(Integer.parseInt(selectComputer));
+		}
+		this.doGet(request, response);
 	}
 }

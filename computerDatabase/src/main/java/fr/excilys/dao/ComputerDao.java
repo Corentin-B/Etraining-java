@@ -20,28 +20,28 @@ public class ComputerDao {
 
 	private static Logger logger = Logger.getLogger(ComputerDao.class);
 
-	private final String INSERT_NEWCOMPUTER    = "INSERT INTO computer(name, introduced, discontinued, company_id) "
-											   + "VALUES (?, ?, ?, ?);";
-	
-	private final String DELETE_COMPUTER       = "DELETE FROM computer "
-										 	   + "WHERE id = ?;";
-	
-	private final String UPDATE_COMPUTER       = "UPDATE computer "
-										 	   + "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
-										 	   + "WHERE id = ?;";
-	
-	private final String SELECT_ONECOMPUTER    = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-											   + "FROM computer "
-											   + "LEFT JOIN company ON computer.company_id = company.id "
-											   + "WHERE computer.id = ?;";
-	
-	private final String SELECT_NOMBERCOMPUTER = "SELECT COUNT(*) "
-											   + "FROM computer";
-	
-	private final String SELECT_ALLCOMPUTER    = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-											   + "FROM computer "
-											   + "LEFT JOIN company ON company_id = company.id "
-											   + "LIMIT ?, ?;";
+	private final String INSERT_NEWCOMPUTER		= "INSERT INTO computer(name, introduced, discontinued, company_id) "
+												+ "VALUES (?, ?, ?, ?);";
+
+	private final String DELETE_COMPUTER 		= "DELETE FROM computer " 
+										 		+ "WHERE id = ?;";
+
+	private final String UPDATE_COMPUTER 		= "UPDATE computer "
+										 		+ "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
+										 		+ "WHERE id = ?;";
+
+	private final String SELECT_ONECOMPUTER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+												+ "FROM computer " 
+												+ "LEFT JOIN company ON computer.company_id = company.id " 
+												+ "WHERE computer.id = ?;";
+
+	private final String SELECT_NOMBERCOMPUTER 	= "SELECT COUNT(*) "
+											   	+ "FROM computer";
+
+	private final String SELECT_ALLCOMPUTER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
+												+ "FROM computer " 
+												+ "LEFT JOIN company ON company_id = company.id " 
+												+ "LIMIT ?, ?;";
 
 	public ComputerDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
@@ -63,9 +63,9 @@ public class ComputerDao {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connexion.close();
-			
+
 			return true;
-			
+
 		} catch (SQLException e) {
 			logger.debug(e);
 			return false;
@@ -85,7 +85,7 @@ public class ComputerDao {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connexion.close();
-			
+
 			return true;
 
 		} catch (SQLException e) {
@@ -113,7 +113,7 @@ public class ComputerDao {
 			connexion.close();
 
 			return true;
-			
+
 		} catch (SQLException e) {
 			logger.debug(e);
 			return false;
@@ -145,13 +145,13 @@ public class ComputerDao {
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
-	
+
 	public int numberPage() {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		int pagesNumber = 0;
-		
+
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_NOMBERCOMPUTER);
