@@ -13,6 +13,12 @@ public class ServicesCompany {
 
     private static Logger logger = Logger.getLogger(ServicesCompany.class);
 	
+	public static boolean companyRemove(int idComputer) {
+
+		CompanyDao companyDao = new CompanyDao(getDaoFactory());
+		return companyDao.remove(idComputer);
+	}
+    
 	public static List<Company>  companyList() {
 
 		CompanyDao companyDao = new CompanyDao(getDaoFactory());
