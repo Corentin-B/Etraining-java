@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import fr.excilys.model.Company;
 import fr.excilys.services.ServicesCompany;
 
-public class CheckFormat {
+public class CheckFormatServletRequest {
 
 	public static int checkIntFormatAndConvert(String value) {
 

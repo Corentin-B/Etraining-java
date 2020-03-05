@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.excilys.mapper.MapperComputer;
-import fr.excilys.mapper.CheckFormat;
+import fr.excilys.mapper.CheckFormatServletRequest;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
@@ -45,7 +45,7 @@ public class EditComputer extends HttpServlet {
 		
 		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
 		
-		if(CheckFormat.checkCompany(newcomputer.getCompany().getId()) && CheckFormat.checkString(newcomputer.getName())) {
+		if(CheckFormatServletRequest.checkCompany(newcomputer.getCompany().getId()) && CheckFormatServletRequest.checkString(newcomputer.getName())) {
 		
 			computer = requestToComputer(newcomputer);
 

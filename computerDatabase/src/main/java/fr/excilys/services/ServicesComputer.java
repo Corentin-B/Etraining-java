@@ -43,10 +43,10 @@ public class ServicesComputer {
 		return computerDao.selectComputerById(idComputer).get();
 	}
 	
-	public static List<Computer> computerSearchList(String nameComputer) {
+	public static List<Computer> computerSearchList(String nameComputer, int numberPage, int range) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		return computerDao.searchComputerByName(nameComputer);
+		return computerDao.searchComputerByName(nameComputer, numberPage, range);
 	}
 	
 	public static List<Computer> computerList(int numberPage, int range) {

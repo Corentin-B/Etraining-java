@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class MapperDateTime {
+public class MapperDateTimeMidNight {
 
 	public static Timestamp getDatetimeToTimestamp(LocalDate computerDate) {
 

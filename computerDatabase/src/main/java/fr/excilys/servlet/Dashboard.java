@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import fr.excilys.services.ServicesComputer;
-import fr.excilys.mapper.Pagination;
+import fr.excilys.mapper.PaginationDashboard;
 import fr.excilys.model.Computer;
 
 public class Dashboard extends HttpServlet {
@@ -19,11 +19,38 @@ public class Dashboard extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		int page = 1;
+		int range = 10;
+		String search = null;
+
+		System.out.println("range = " + request.getParameter("range"));
+		
+		if (request.getParameter("range") != null && !request.getParameter("range").isBlank()) {
+			range = Integer.parseInt(request.getParameter("range"));
+			request.setAttribute("range", range);
+		} else {
+			request.setAttribute("range", range);
+		}
+
+		if (request.getParameter("page") != null && !request.getParameter("page").isBlank()) {
+			page = Integer.parseInt(request.getParameter("page"));
+			request.setAttribute("page", page);
+		} else {
+			request.setAttribute("page", page);
+		}
+		
+		if (request.getParameter("search") != null && !request.getParameter("search").isBlank()) {
+			search = request.getParameter("search");
+			request.setAttribute("search", search);
+		} else {
+			request.setAttribute("search", search);
+		}
+		
 		if (request.getParameter("search") != null) {
-			getSearchRequest(request, response);
+			getSearchRequest(request, response, page, range);
 
 		} else {
-			getListRequest(request, response);
+			getListRequest(request, response, page, range);
 		}
 	}
 
@@ -39,25 +66,13 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response) {
-		int page = 1;
-		int range = 10;
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
 
-		if (request.getParameter("range") != null) {
-			range = Integer.parseInt(request.getParameter("range"));
-		}
-
-		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-		}
-
-		List<Integer> pagingValues = Pagination.pagingValues(page, range);
+		List<Integer> pagingValues = PaginationDashboard.pagingValues(page, range);
 
 		int sqlPage = (page - 1) * range;
 		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
 
-		request.setAttribute("page", page);
-		request.setAttribute("range", range);
 		request.setAttribute("prevPage", pagingValues.get(0));
 		request.setAttribute("nextPage", pagingValues.get(1));
 		request.setAttribute("incrementPage", pagingValues.get(2));
@@ -72,11 +87,12 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response) {
+	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
 	
 		String searchComputer = request.getParameter("search");
 		
-		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer);
+		
+		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer, page, range);
 		
 		request.setAttribute("computerList", computerList);
 		try {
