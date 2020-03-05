@@ -5,9 +5,15 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD:computerDatabase/src/main/java/fr/excilys/client/Scanners.java
 class Scanners {
 
     static Logger logger = Logger.getLogger(Scanners.class);
+=======
+class ScannersUi {
+
+    static Logger logger = Logger.getLogger(ScannersUi.class);
+>>>>>>> dev:computerDatabase/src/main/java/fr/excilys/client/ScannersUi.java
 	
 	protected static int scanNumbers(int min, int max) {
 
@@ -31,7 +37,7 @@ class Scanners {
 			return 0;
 		}
 	}
-
+	
 	protected static String scanText() {
 
 		@SuppressWarnings("resource")

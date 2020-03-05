@@ -1,10 +1,14 @@
-import fr.excilys.client.UserInterface;
+import fr.excilys.client.UserInterfaceCLI;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		
 		UserInterface.menuPrincipal();
+=======
+		UserInterfaceCLI.menuPrincipal();
+>>>>>>> dev
 	}
 }

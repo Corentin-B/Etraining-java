@@ -18,6 +18,18 @@
 		<description></description>
 		<servlet-class>fr.excilys.servlet.AddComputer</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>EditComputer</servlet-name>
+		<display-name>EditComputer</display-name>
+		<description></description>
+		<servlet-class>fr.excilys.servlet.EditComputer</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ListCompany</servlet-name>
+		<display-name>ListCompany</display-name>
+		<description></description>
+		<servlet-class>fr.excilys.servlet.ListCompany</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Dashboard</servlet-name>
@@ -27,5 +39,13 @@
 	<servlet-mapping>
 		<servlet-name>AddComputer</servlet-name>
 		<url-pattern>/addcomputer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EditComputer</servlet-name>
+		<url-pattern>/editComputer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ListCompany</servlet-name>
+		<url-pattern>/ListCompany</url-pattern>
 	</servlet-mapping>
 </web-app>

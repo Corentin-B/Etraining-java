@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import fr.excilys.dao.CompanyDaoImpl;
+import fr.excilys.dao.CompanyDao;
 import fr.excilys.dao.DaoFactory;
 import fr.excilys.model.Company;
 
@@ -13,13 +13,25 @@ public class ServicesCompany {
 
     private static Logger logger = Logger.getLogger(ServicesCompany.class);
 	
-	public static List<Company>  companyList(int range) {
+	public static boolean companyRemove(int idComputer) {
 
-		CompanyDaoImpl companyDao = new CompanyDaoImpl(getDaoFacotry());
-		return companyDao.lister(range);
+		CompanyDao companyDao = new CompanyDao(getDaoFactory());
+		return companyDao.remove(idComputer);
+	}
+    
+	public static List<Company>  companyList() {
+
+		CompanyDao companyDao = new CompanyDao(getDaoFactory());
+		return companyDao.lister();
 	}
 	
-	private static DaoFactory getDaoFacotry() {
+	public static Company companySelectForCheck(long idCompany) {
+
+		CompanyDao companyDao = new CompanyDao(getDaoFactory());
+		return companyDao.selectionner(idCompany).get();
+	}
+	
+	private static DaoFactory getDaoFactory() {
 		DaoFactory dao = DaoFactory.getInstance();
 		try {
 			dao.getConnection();

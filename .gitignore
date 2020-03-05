@@ -44,4 +44,8 @@ proguard/
 .DS_Store
 /.metadata/
 
+#This project
 *.log
+
+databaseconfig.properties
+db.properties

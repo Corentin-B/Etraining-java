@@ -82,30 +82,30 @@
 			<div class="container text-center">
 				<ul class="pagination">
 					<li>
-						<a href="dashboard?page=${prevPage}&range=${range}&search=${search}" aria-label="Previous">
+						<a href="dashboard?page=${prevPage}&range=${range}" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 					<c:forEach var="i" begin="${incrementPage}" end="${incrementLastPage}" step="1">
 						<li>
-							<a href="dashboard?page=${i}&range=${range}&search=${search}">${i}</a>
+							<a href="dashboard?page=${i}&range=${range}">${i}</a>
 						</li>
 					</c:forEach>
 					<li>
-						<a href="dashboard?page=${nextPage}&range=${range}&search=${search}" aria-label="Next">
+						<a href="dashboard?page=${nextPage}&range=${range}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 				</ul>
 				<div class="btn-group btn-group-sm pull-right" role="group">
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=10&page=${i}&search=${search}">10</a>
+						<a href="dashboard?range=10">10</a>
 					</button>
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=50&page=${i}&search=${search}">50</a>
+						<a href="dashboard?range=50">50</a>
 					</button>
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=100&page=${i}&search=${search}">100</a>
+						<a href="dashboard?range=100">100</a>
 					</button>
 				</div>
 			</div>
