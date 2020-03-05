@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.excilys.services.ServicesComputer;
 import fr.excilys.mapper.PaginationDashboard;
 import fr.excilys.model.Computer;
+import fr.excilys.model.Pagination;
 
 public class Dashboard extends HttpServlet {
 
@@ -68,16 +69,16 @@ public class Dashboard extends HttpServlet {
 
 	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
 
-		List<Integer> pagingValues = PaginationDashboard.pagingValues(page, range);
+		Pagination pagination = PaginationDashboard.pagingValues(page, range);
 
 		int sqlPage = (page - 1) * range;
 		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
 
-		request.setAttribute("prevPage", pagingValues.get(0));
-		request.setAttribute("nextPage", pagingValues.get(1));
-		request.setAttribute("incrementPage", pagingValues.get(2));
-		request.setAttribute("incrementLastPage", pagingValues.get(3));
-		request.setAttribute("numberComputer", pagingValues.get(4));
+		request.setAttribute("prevPage", pagination.getPrevPage());
+		request.setAttribute("nextPage", pagination.getNextPage());
+		request.setAttribute("incrementPage", pagination.getIncrementPage());
+		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
+		request.setAttribute("numberComputer", pagination.getNumberComputer());
 		request.setAttribute("computerList", computerList);
 		try {
 			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);

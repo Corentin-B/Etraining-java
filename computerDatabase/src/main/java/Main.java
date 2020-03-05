@@ -1,9 +1,9 @@
-import fr.excilys.client.UserInterfaceCLI;
+import fr.excilys.client.CommandLineUI;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		UserInterfaceCLI.menuPrincipal();
+		CommandLineUI.menuPrincipal();
 	}
 }

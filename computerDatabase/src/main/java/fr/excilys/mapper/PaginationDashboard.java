@@ -1,42 +1,38 @@
 package fr.excilys.mapper;
 
-import java.util.Arrays;
-import java.util.List;
-
+import fr.excilys.model.Pagination;
 import fr.excilys.services.ServicesComputer;
 
 public class PaginationDashboard {
 
-	public static List<Integer> pagingValues(int page, int range) {
+	public static Pagination pagingValues(int page, int range) {
 
 		int numberComputer = ServicesComputer.computerGetNumber();
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
-		int prevPage;
-		int nextPage;
-		int incrementPage = 1;
-		int incrementLastPage = 5;
+		
+		Pagination pagination = new Pagination(numberComputer, 0, 0, 1, 5);
 		
 		if (page - 1 < 1) {
-			prevPage = 1;
+			pagination.setPrevPage(1);
 		} else {
-			prevPage = page - 1;
+			pagination.setPrevPage(page - 1);
 		}
 		
 		if (page + 1 > lastPage) {
-			nextPage = lastPage;
+			pagination.setNextPage(lastPage);
 		} else {
-			nextPage = page + 1;
+			pagination.setNextPage(page + 1);
 		}
 
 		if (page - 2 < 2) {
-			incrementPage = 1;
+			pagination.setIncrementPage(1);
 		} else if (page + 2 > lastPage) {
-			incrementPage = lastPage - 4;
+			pagination.setIncrementPage(lastPage - 4);
 		} else {
-			incrementPage = page - 2;
+			pagination.setIncrementPage(page - 2);
 		}
 		
-		incrementLastPage = incrementPage + 4;
-		return Arrays.asList(prevPage, nextPage, incrementPage, incrementLastPage, numberComputer);
+		pagination.setIncrementLastPage(pagination.getIncrementPage() + 4);
+		return pagination;
 	}
 }

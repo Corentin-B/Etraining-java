@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.mapper.MapperDateTimeMidNight;
-import fr.excilys.mapper.QuerryFormat;
+import fr.excilys.mapper.FromatPrepareQuerry;
 import fr.excilys.model.Computer;
 
 public class ComputerDao {
@@ -42,7 +42,7 @@ public class ComputerDao {
 	private final String SELECT_SEARCHCOMPUTER 		= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
 													+ "FROM computer " 
 													+ "LEFT JOIN company ON computer.company_id = company.id " 
-													+ "WHERE computer.name LIKE ?"
+													+ "WHERE UPPER(computer.name) LIKE ?"
 													+ "LIMIT ?, ?;";
 
 	private final String SELECT_ALLCOMPUTER		 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
@@ -99,7 +99,7 @@ public class ComputerDao {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connexion.close();
-
+				
 			return true;
 
 		} catch (SQLException e) {
@@ -193,7 +193,7 @@ public class ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(SELECT_SEARCHCOMPUTER);
-			preparedStatement.setString(1, "%"+nameComputer+"%");
+			preparedStatement.setString(1, "%"+nameComputer.toUpperCase()+"%");
 			preparedStatement.setInt(2, numberPage);
 			preparedStatement.setInt(3, range);
 
@@ -250,8 +250,8 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER_ORDER);
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
-			preparedStatement.setString(3, QuerryFormat.checkOrderByValue(order));
-			preparedStatement.setString(4, QuerryFormat.checkOrderSuffix(mode));
+			preparedStatement.setString(3, FromatPrepareQuerry.checkOrderByValue(order));
+			preparedStatement.setString(4, FromatPrepareQuerry.checkOrderSuffix(mode));
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
