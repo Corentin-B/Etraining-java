@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.mapper.MapperDateTimeMidNight;
-import fr.excilys.mapper.FromatPrepareQuerry;
+import fr.excilys.mapper.PrepareQuerry;
 import fr.excilys.model.Computer;
 
 public class ComputerDao {
@@ -239,8 +239,8 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage());
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
-			preparedStatement.setString(3, FromatPrepareQuerry.checkOrderByValue(order));
-			preparedStatement.setString(4, FromatPrepareQuerry.checkOrderSuffix(mode));
+			preparedStatement.setString(3, PrepareQuerry.checkOrderByValue(order));
+			preparedStatement.setString(4, PrepareQuerry.checkOrderSuffix(mode));
 
 			ResultSet resultat = preparedStatement.executeQuery();
 

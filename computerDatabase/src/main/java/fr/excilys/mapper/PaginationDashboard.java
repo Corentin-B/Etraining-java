@@ -34,15 +34,6 @@ public class PaginationDashboard {
 			pagination.setIncrementPage(1);
 			pagination.setIncrementLastPage(lastPage);
 		}
-		
-		System.out.println("pagination");
-		System.out.println(pagination.getIncrementLastPage());
-		System.out.println(pagination.getIncrementPage());
-		System.out.println(pagination.getNextPage());
-		System.out.println(pagination.getPrevPage());
-		System.out.println(pagination.getSqlPage());
-
-		
 		return pagination;
 	}
 }

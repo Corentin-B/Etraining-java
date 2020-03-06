@@ -12,7 +12,7 @@ import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
-import fr.excilys.mapper.CheckFormatServletRequest;
+import fr.excilys.mapper.FormatServletRequest;
 import fr.excilys.mapper.MapperComputer;
 
 public class AddComputer extends HttpServlet {
@@ -35,7 +35,7 @@ public class AddComputer extends HttpServlet {
 		
 		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
 		
-		if(CheckFormatServletRequest.checkString(newcomputer.getName()))
+		if(FormatServletRequest.checkString(newcomputer.getName()))
 			Success = ServicesComputer.computerAdd(newcomputer);
 		else
 			newcomputer.setName("Unknown");

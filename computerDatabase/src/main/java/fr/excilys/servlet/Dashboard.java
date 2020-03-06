@@ -21,9 +21,9 @@ public class Dashboard extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int page = requestParameter(request, response, "page", 1);
-		int range = requestParameter(request, response, "range", 10);
-		String search = requestParameter(request, response, "search", null);
+		int page = requestParameter(request, "page", 1);
+		int range = requestParameter(request, "range", 10);
+		String search = requestParameter(request, "search", null);
 				
 		getListRequest(request, response, page, range, search);
 	}
@@ -64,7 +64,7 @@ public class Dashboard extends HttpServlet {
 		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
 	}
 
-	private String requestParameter(HttpServletRequest request, HttpServletResponse response, String parameter, String defaultvalue) {
+	private String requestParameter(HttpServletRequest request, String parameter, String defaultvalue) {
 
 		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
 			String value = request.getParameter(parameter);
@@ -76,7 +76,7 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private int requestParameter(HttpServletRequest request, HttpServletResponse response, String parameter, int defaultvalue) {
+	private int requestParameter(HttpServletRequest request, String parameter, int defaultvalue) {
 
 		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
 			int value = Integer.parseInt(request.getParameter(parameter));

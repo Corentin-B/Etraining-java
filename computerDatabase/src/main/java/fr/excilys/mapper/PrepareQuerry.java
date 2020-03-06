@@ -1,6 +1,6 @@
 package fr.excilys.mapper;
 
-public class FromatPrepareQuerry {
+public class PrepareQuerry {
 
 	private final static String SQL_COMPUTER_NAME = "computer.name";
 	private final static String SQL_COMPUTER_INTRODUCED = "computer.introduced";
@@ -12,13 +12,13 @@ public class FromatPrepareQuerry {
 
 	public static String checkOrderByValue(String value) {
 
-		if (value.equals("name"))
+		if ("name".equals(value))
 			return SQL_COMPUTER_NAME;
-		else if (value.equals("introduced"))
+		else if ("introduced".equals(value))
 			return SQL_COMPUTER_INTRODUCED;
-		else if (value.equals("discontinued"))
+		else if ("discontinued".equals(value))
 			return SQL_COMPUTER_DISCONTINUED;
-		else if (value.equals("company_id"))
+		else if ("company_id".equals(value))
 			return SQL_COMPUTER_COMPANYID;
 		else
 			return null;
@@ -26,9 +26,9 @@ public class FromatPrepareQuerry {
 
 	public static String checkOrderSuffix(String value) {
 
-		if (value.equals("asc"))
+		if ("asc".equals(value))
 			return SQL_ASC;
-		else if (value.equals("desc")) {
+		else if ("desc".equals(value)) {
 			return SQL_DESC;
 		} else
 			return null;

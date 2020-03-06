@@ -50,16 +50,16 @@ public class MapperComputer {
 		
 		System.out.println(request.getParameter("introduced"));
 		Computer computer = new Computer.Builder()
-										.setId(CheckFormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
+										.setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
 									   	.setName(request.getParameter("computerName"))
-									   	.setIntroduced(CheckFormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("introduced")))
-									   	.setDiscontinued(CheckFormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
+									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("introduced")))
+									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
 									   	.setCompany(new Company.Builder()
-									   						   .setId(CheckFormatServletRequest.checkIntFormatAndConvert(request.getParameter("companyId")))
+									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("companyId")))
 									 	 		 			   .build())
 									    .build();
 		
-		computer.setIntroduced(CheckFormatServletRequest.checkIntroducedDiscontinued(computer.getIntroduced(), computer.getDiscontinued()));
+		computer.setIntroduced(FormatServletRequest.checkIntroducedDiscontinued(computer.getIntroduced(), computer.getDiscontinued()));
 		
 		return computer;
 	}

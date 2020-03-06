@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-class VerrificationUI {
+class VerrificationUi {
 
-    private static Logger logger = Logger.getLogger(VerrificationUI.class);
+    private static Logger logger = Logger.getLogger(VerrificationUi.class);
 	
 	protected static int scanNumbers(int min, int max) {
 

@@ -1,4 +1,4 @@
-package fr.excilys.enumerations;
+package fr.excilys.client;
 
 public enum MenuPrincipalSwitch {
 	

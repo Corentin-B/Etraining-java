@@ -2,12 +2,12 @@ package fr.excilys.model;
 
 public class Pagination {
 
-	int numberComputer;
-	int prevPage;
-	int nextPage;
-	int incrementPage;
-	int incrementLastPage;
-	int sqlPage;
+	private int numberComputer;
+	private int prevPage;
+	private int nextPage;
+	private int incrementPage;
+	private int incrementLastPage;
+	private int sqlPage;
 	
 	public Pagination(int numberComputer, int prevPage, int nextPage, int incrementPage, int incrementLastPage, int sqlPage) {
 		super();
