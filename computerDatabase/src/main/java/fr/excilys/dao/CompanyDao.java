@@ -19,15 +19,6 @@ public class CompanyDao {
 
 	private static Logger logger = Logger.getLogger(CompanyDao.class);
 
-	private final String DELETE_COMPANY   = "DELETE FROM company "
-										   + "WHERE company.id = ?;";
-
-	private final String SELECT_ALLCOMPANY = "SELECT company.id, company.name "
-										   + "FROM company;";
-
-	private final String SELECT_ONECOMPANY = "SELECT company.id, company.name "
-										   + "FROM company WHERE company.id = ?;";
-
 	public CompanyDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -39,7 +30,7 @@ public class CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(DELETE_COMPANY);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANY.getMessage());
 			preparedStatement.setLong(1, id);
 
 			preparedStatement.executeUpdate();
@@ -62,7 +53,7 @@ public class CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage());
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
@@ -79,7 +70,7 @@ public class CompanyDao {
 		return company;
 	}
 
-	public Optional<Company> selectionner(long idComputer) {
+	public Optional<Company> selecOneCompany(long idComputer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -87,7 +78,7 @@ public class CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPANY);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage());
 			preparedStatement.setLong(1, idComputer);
 
 			ResultSet resultat = preparedStatement.executeQuery();

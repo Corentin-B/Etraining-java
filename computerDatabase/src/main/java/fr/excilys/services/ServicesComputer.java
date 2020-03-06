@@ -37,6 +37,12 @@ public class ServicesComputer {
 		return computerDao.numberPage();
 	}
 	
+	public static int computerGetNumberSearch() {
+
+		ComputerDao computerDao = new ComputerDao(getDaoFactory());
+		return computerDao.numberSearch();
+	}
+	
 	public static Computer computerSelectForUpdate(int idComputer) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());

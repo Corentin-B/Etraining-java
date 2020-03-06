@@ -21,42 +21,6 @@ public class ComputerDao {
 
 	private static Logger logger = Logger.getLogger(ComputerDao.class);
 
-	private final String INSERT_NEWCOMPUTER			= "INSERT INTO computer(name, introduced, discontinued, company_id) "
-													+ "VALUES (?, ?, ?, ?);";
-
-	private final String DELETE_COMPUTER 			= "DELETE FROM computer " 
-										 			+ "WHERE id = ?;";
-
-	private final String UPDATE_COMPUTER 			= "UPDATE computer "
-										 			+ "SET name = ?, introduced = ?, discontinued = ?, company_id = ? "
-										 			+ "WHERE id = ?;";
-
-	private final String SELECT_NOMBERCOMPUTER 		= "SELECT COUNT(*) "
-		   											+ "FROM computer";
-	
-	private final String SELECT_ONECOMPUTER 		= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-													+ "FROM computer " 
-													+ "LEFT JOIN company ON computer.company_id = company.id " 
-													+ "WHERE computer.id = ?;";
-	
-	private final String SELECT_SEARCHCOMPUTER 		= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-													+ "FROM computer " 
-													+ "LEFT JOIN company ON computer.company_id = company.id " 
-													+ "WHERE UPPER(computer.name) LIKE ?"
-													+ "LIMIT ?, ?;";
-
-	private final String SELECT_ALLCOMPUTER		 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-													+ "FROM computer " 
-													+ "LEFT JOIN company ON company_id = company.id " 
-													+ "LIMIT ?, ?;";
-		
-	private final String SELECT_ALLCOMPUTER_ORDER 	= "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-													+ "FROM computer " 
-													+ "LEFT JOIN company ON company_id = company.id " 
-													+ "LIMIT ?, ?"
-													+ "ORDER BY ? ?;";
-
-
 	public ComputerDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -68,7 +32,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(INSERT_NEWCOMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
 			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
@@ -93,7 +57,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(DELETE_COMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.DELETE_COMPUTER.getMessage());
 			preparedStatement.setLong(1, id);
 
 			preparedStatement.executeUpdate();
@@ -115,7 +79,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(UPDATE_COMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.UPDATE_COMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
 			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
@@ -142,7 +106,31 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_NOMBERCOMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERCOMPUTER.getMessage());
+
+			ResultSet resultat = preparedStatement.executeQuery();
+
+			if (resultat.first()) {
+				pagesNumber = resultat.getInt(1);
+			}
+
+			preparedStatement.close();
+			connexion.close();
+		} catch (SQLException e) {
+			logger.debug(e);
+		}
+		return pagesNumber;
+	}
+	
+	public int numberSearch() {
+
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		int pagesNumber = 0;
+
+		try {
+			connexion = daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERSEARCH.getMessage());
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
@@ -166,7 +154,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ONECOMPUTER.getMessage());
 			preparedStatement.setInt(1, idComputer);
 
 			ResultSet resultat = preparedStatement.executeQuery();
@@ -192,7 +180,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_SEARCHCOMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage());
 			preparedStatement.setString(1, "%"+nameComputer.toUpperCase()+"%");
 			preparedStatement.setInt(2, numberPage);
 			preparedStatement.setInt(3, range);
@@ -220,7 +208,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ALLCOMPUTER.getMessage());
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
 
@@ -247,7 +235,7 @@ public class ComputerDao {
 		
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPUTER_ORDER);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage());
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
 			preparedStatement.setString(3, FromatPrepareQuerry.checkOrderByValue(order));

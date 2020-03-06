@@ -1,13 +1,11 @@
 package fr.excilys.mapper;
 
 import fr.excilys.model.Pagination;
-import fr.excilys.services.ServicesComputer;
 
 public class PaginationDashboard {
 
-	public static Pagination pagingValues(int page, int range) {
+	public static Pagination pagingValues(int page, int range, int numberComputer) {
 
-		int numberComputer = ServicesComputer.computerGetNumber();
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
 		
 		Pagination pagination = new Pagination(numberComputer, 0, 0, 1, 5);

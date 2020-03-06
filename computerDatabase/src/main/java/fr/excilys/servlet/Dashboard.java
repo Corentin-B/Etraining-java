@@ -1,6 +1,7 @@
 package fr.excilys.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -24,10 +25,7 @@ public class Dashboard extends HttpServlet {
 		int range = requestParameter(request, response, "range", 10);
 		String search = requestParameter(request, response, "search", null);
 				
-		if (search != null)
-			getSearchRequest(request, response, page, range);
-		else
-			getListRequest(request, response, page, range);
+		getListRequest(request, response, page, range, search);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,28 +40,27 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) throws ServletException, IOException {
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range, String search) throws ServletException, IOException {
 
-		Pagination pagination = PaginationDashboard.pagingValues(page, range);
-
-		int sqlPage = (page - 1) * range;
-		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
-
+		int numberComputer;
+		List<Computer> computerList = new ArrayList<>();
+		
+		if (search != null && !search.isEmpty()) {
+			computerList = ServicesComputer.computerSearchList(search, page, range);
+			numberComputer = ServicesComputer.computerGetNumberSearch();
+		} else {
+			int setSqlPage = (page - 1) * range;
+			computerList = ServicesComputer.computerList(setSqlPage, range);
+			numberComputer = ServicesComputer.computerGetNumber();
+		}
+		
+		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
+		
 		request.setAttribute("prevPage", pagination.getPrevPage());
 		request.setAttribute("nextPage", pagination.getNextPage());
 		request.setAttribute("incrementPage", pagination.getIncrementPage());
 		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
 		request.setAttribute("numberComputer", pagination.getNumberComputer());
-		request.setAttribute("computerList", computerList);
-		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-	}
-
-	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) throws ServletException, IOException {
-
-		String searchComputer = request.getParameter("search");
-
-		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer, page, range);
-
 		request.setAttribute("computerList", computerList);
 		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
 	}
