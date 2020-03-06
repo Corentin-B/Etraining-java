@@ -37,10 +37,10 @@ public class ServicesComputer {
 		return computerDao.numberPage();
 	}
 	
-	public static int computerGetNumberSearch() {
+	public static int computerGetNumberSearch(String name) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		return computerDao.numberSearch();
+		return computerDao.numberSearch(name);
 	}
 	
 	public static Computer computerSelectForUpdate(int idComputer) {

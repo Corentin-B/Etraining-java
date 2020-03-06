@@ -122,7 +122,7 @@ public class ComputerDao {
 		return pagesNumber;
 	}
 	
-	public int numberSearch() {
+	public int numberSearch(String name) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -131,7 +131,8 @@ public class ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERSEARCH.getMessage());
-
+			preparedStatement.setString(1, "%"+name.toUpperCase()+"%");
+			
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			if (resultat.first()) {

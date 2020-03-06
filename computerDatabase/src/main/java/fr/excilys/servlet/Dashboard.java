@@ -47,13 +47,12 @@ public class Dashboard extends HttpServlet {
 		
 		if (search != null && !search.isEmpty()) {
 			computerList = ServicesComputer.computerSearchList(search, page, range);
-			numberComputer = ServicesComputer.computerGetNumberSearch();
+			numberComputer = ServicesComputer.computerGetNumberSearch(search);
 		} else {
 			int setSqlPage = (page - 1) * range;
 			computerList = ServicesComputer.computerList(setSqlPage, range);
 			numberComputer = ServicesComputer.computerGetNumber();
 		}
-		
 		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
 		
 		request.setAttribute("prevPage", pagination.getPrevPage());

@@ -7,31 +7,42 @@ public class PaginationDashboard {
 	public static Pagination pagingValues(int page, int range, int numberComputer) {
 
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
+		int setSqlPage = (page - 1) * range;
 		
-		Pagination pagination = new Pagination(numberComputer, 0, 0, 1, 5);
+		Pagination pagination = new Pagination(numberComputer, 0, 0, 1, 5, setSqlPage);
 		
-		if (page - 1 < 1) {
+		if (page - 1 < 1)
 			pagination.setPrevPage(1);
-		} else {
+		else
 			pagination.setPrevPage(page - 1);
-		}
 		
-		if (page + 1 > lastPage) {
+		if (page + 1 > lastPage)
 			pagination.setNextPage(lastPage);
-		} else {
+		else
 			pagination.setNextPage(page + 1);
-		}
 
-		if (page - 2 < 2) {
+		if (page - 2 < 2)
 			pagination.setIncrementPage(1);
-		} else if (page + 2 > lastPage) {
+		else if (page + 2 > lastPage)
 			pagination.setIncrementPage(lastPage - 4);
-		} else {
+		else
 			pagination.setIncrementPage(page - 2);
-		}
 		
 		pagination.setIncrementLastPage(pagination.getIncrementPage() + 4);
+		
+		if(lastPage < 5) {
+			pagination.setIncrementPage(1);
+			pagination.setIncrementLastPage(lastPage);
+		}
+		
+		System.out.println("pagination");
+		System.out.println(pagination.getIncrementLastPage());
+		System.out.println(pagination.getIncrementPage());
+		System.out.println(pagination.getNextPage());
+		System.out.println(pagination.getPrevPage());
+		System.out.println(pagination.getSqlPage());
 
+		
 		return pagination;
 	}
 }

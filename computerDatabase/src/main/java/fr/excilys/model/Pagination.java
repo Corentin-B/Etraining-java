@@ -7,14 +7,16 @@ public class Pagination {
 	int nextPage;
 	int incrementPage;
 	int incrementLastPage;
+	int sqlPage;
 	
-	public Pagination(int numberComputer, int prevPage, int nextPage, int incrementPage, int incrementLastPage) {
+	public Pagination(int numberComputer, int prevPage, int nextPage, int incrementPage, int incrementLastPage, int sqlPage) {
 		super();
 		this.numberComputer = numberComputer;
 		this.prevPage = prevPage;
 		this.nextPage = nextPage;
 		this.incrementPage = incrementPage;
 		this.incrementLastPage = incrementLastPage;
+		this.sqlPage = sqlPage;
 	}
 	
 	public int getNumberComputer() {
@@ -46,5 +48,11 @@ public class Pagination {
 	}
 	public void setIncrementLastPage(int incrementLastPage) {
 		this.incrementLastPage = incrementLastPage;
+	}
+	public int getSqlPage() {
+		return sqlPage;
+	}
+	public void setSqlPage(int sqlPage) {
+		this.sqlPage = sqlPage;
 	}
 }
