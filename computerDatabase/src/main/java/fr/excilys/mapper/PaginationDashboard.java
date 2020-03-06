@@ -33,6 +33,7 @@ public class PaginationDashboard {
 		}
 		
 		pagination.setIncrementLastPage(pagination.getIncrementPage() + 4);
+
 		return pagination;
 	}
 }

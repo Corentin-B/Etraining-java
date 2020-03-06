@@ -38,7 +38,7 @@ public class AddComputer extends HttpServlet {
 		if(CheckFormatServletRequest.checkString(newcomputer.getName()))
 			Success = ServicesComputer.computerAdd(newcomputer);
 		else
-			newcomputer.setName("No Name");
+			newcomputer.setName("Unknown");
 		
 		request.setAttribute("newComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);

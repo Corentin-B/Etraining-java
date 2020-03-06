@@ -20,39 +20,14 @@ public class Dashboard extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int page = 1;
-		int range = 10;
-		String search = null;
-
-		System.out.println("range = " + request.getParameter("range"));
-		
-		if (request.getParameter("range") != null && !request.getParameter("range").isBlank()) {
-			range = Integer.parseInt(request.getParameter("range"));
-			request.setAttribute("range", range);
-		} else {
-			request.setAttribute("range", range);
-		}
-
-		if (request.getParameter("page") != null && !request.getParameter("page").isBlank()) {
-			page = Integer.parseInt(request.getParameter("page"));
-			request.setAttribute("page", page);
-		} else {
-			request.setAttribute("page", page);
-		}
-		
-		if (request.getParameter("search") != null && !request.getParameter("search").isBlank()) {
-			search = request.getParameter("search");
-			request.setAttribute("search", search);
-		} else {
-			request.setAttribute("search", search);
-		}
-		
-		if (request.getParameter("search") != null) {
+		int page = requestParameter(request, response, "page", 1);
+		int range = requestParameter(request, response, "range", 10);
+		String search = requestParameter(request, response, "search", null);
+				
+		if (search != null)
 			getSearchRequest(request, response, page, range);
-
-		} else {
+		else
 			getListRequest(request, response, page, range);
-		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +42,7 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) throws ServletException, IOException {
 
 		Pagination pagination = PaginationDashboard.pagingValues(page, range);
 
@@ -80,27 +55,40 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
 		request.setAttribute("numberComputer", pagination.getNumberComputer());
 		request.setAttribute("computerList", computerList);
-		try {
-			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+	}
+
+	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) throws ServletException, IOException {
+
+		String searchComputer = request.getParameter("search");
+
+		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer, page, range);
+
+		request.setAttribute("computerList", computerList);
+		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+	}
+
+	private String requestParameter(HttpServletRequest request, HttpServletResponse response, String parameter, String defaultvalue) {
+
+		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
+			String value = request.getParameter(parameter);
+			request.setAttribute(parameter, value);
+			return value;
+		} else {
+			request.setAttribute(parameter, defaultvalue);
+			return defaultvalue;
 		}
 	}
 
-	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
-	
-		String searchComputer = request.getParameter("search");
-		
-		
-		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer, page, range);
-		
-		request.setAttribute("computerList", computerList);
-		try {
-			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private int requestParameter(HttpServletRequest request, HttpServletResponse response, String parameter, int defaultvalue) {
+
+		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
+			int value = Integer.parseInt(request.getParameter(parameter));
+			request.setAttribute(parameter, value);
+			return value;
+		} else {
+			request.setAttribute(parameter, defaultvalue);
+			return defaultvalue;
 		}
 	}
 }
