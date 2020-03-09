@@ -24,8 +24,15 @@ public class Dashboard extends HttpServlet {
 		int page = requestParameter(request, "page", 1);
 		int range = requestParameter(request, "range", 10);
 		String search = requestParameter(request, "search", null);
-				
-		getListRequest(request, response, page, range, search);
+		String order = requestParameter(request, "order", null);
+		String sort = requestParameter(request, "sort", null);
+
+		if ("asc".equals(sort))
+			sort = "desc";
+		else
+			sort = "asc";
+
+		getListRequest(request, response, page, range, search, order, sort);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,16 +47,16 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range, String search) throws ServletException, IOException {
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range, String search, String order, String sort) throws ServletException, IOException {
 
 		int numberComputer;
 		List<Computer> computerList = new ArrayList<>();
-		
+		int setSqlPage = (page - 1) * range;
+
 		if (search != null && !search.isEmpty()) {
-			computerList = ServicesComputer.computerSearchList(search, page, range);
+			computerList = ServicesComputer.computerSearchList(search, setSqlPage, range, order, sort);
 			numberComputer = ServicesComputer.computerGetNumberSearch(search);
 		} else {
-			int setSqlPage = (page - 1) * range;
 			computerList = ServicesComputer.computerList(setSqlPage, range);
 			numberComputer = ServicesComputer.computerGetNumber();
 		}
@@ -60,8 +67,10 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("incrementPage", pagination.getIncrementPage());
 		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
 		request.setAttribute("numberComputer", pagination.getNumberComputer());
+		request.setAttribute("order", order);
+		request.setAttribute("sort", sort);
 		request.setAttribute("computerList", computerList);
-		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+				this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
 	}
 
 	private String requestParameter(HttpServletRequest request, String parameter, String defaultvalue) {

@@ -9,14 +9,16 @@ public class PaginationDashboard {
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
 		int setSqlPage = (page - 1) * range;
 		
-		Pagination pagination = new Pagination(numberComputer, 0, 0, 1, 5, setSqlPage);
+		Pagination pagination = new Pagination();
+		pagination.setSqlPage(setSqlPage);
+		pagination.setNumberComputer(numberComputer);
 		
-		if (page - 1 < 1)
+		if (page <= 1)
 			pagination.setPrevPage(1);
 		else
 			pagination.setPrevPage(page - 1);
 		
-		if (page + 1 > lastPage)
+		if (page >= lastPage)
 			pagination.setNextPage(lastPage);
 		else
 			pagination.setNextPage(page + 1);

@@ -35,7 +35,8 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(3,
+					MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
@@ -63,7 +64,7 @@ public class ComputerDao {
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			connexion.close();
-				
+
 			return true;
 
 		} catch (SQLException e) {
@@ -82,7 +83,8 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.UPDATE_COMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(3,
+					MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 			preparedStatement.setLong(5, computer.getId());
 
@@ -121,7 +123,7 @@ public class ComputerDao {
 		}
 		return pagesNumber;
 	}
-	
+
 	public int numberSearch(String name) {
 
 		Connection connexion = null;
@@ -131,8 +133,8 @@ public class ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERSEARCH.getMessage());
-			preparedStatement.setString(1, "%"+name.toUpperCase()+"%");
-			
+			preparedStatement.setString(1, "%" + name.toUpperCase() + "%");
+
 			ResultSet resultat = preparedStatement.executeQuery();
 
 			if (resultat.first()) {
@@ -146,7 +148,7 @@ public class ComputerDao {
 		}
 		return pagesNumber;
 	}
-	
+
 	public Optional<Computer> selectComputerById(int idComputer) {
 
 		Connection connexion = null;
@@ -172,8 +174,9 @@ public class ComputerDao {
 		}
 		return Optional.ofNullable(selectedComputer);
 	}
-	
-	public List<Computer> searchComputerByName(String nameComputer, int numberPage, int range) {
+
+	public List<Computer> searchComputerByName(String nameComputer, int numberPage, int range, String order,
+			String sort) {
 
 		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
@@ -181,8 +184,9 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage());
-			preparedStatement.setString(1, "%"+nameComputer.toUpperCase()+"%");
+			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort,
+					EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
+			preparedStatement.setString(1, "%" + nameComputer.toUpperCase() + "%");
 			preparedStatement.setInt(2, numberPage);
 			preparedStatement.setInt(3, range);
 
@@ -227,20 +231,19 @@ public class ComputerDao {
 		}
 		return computer;
 	}
-	
-	public List<Computer> listOrder(int numberPage, int range, String order, String mode) {
+
+	public List<Computer> listOrder(int numberPage, int range, String order, String sort) {
 
 		List<Computer> computer = new ArrayList<>();
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage());
+			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort,
+					EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
-			preparedStatement.setString(3, PrepareQuerry.checkOrderByValue(order));
-			preparedStatement.setString(4, PrepareQuerry.checkOrderSuffix(mode));
 
 			ResultSet resultat = preparedStatement.executeQuery();
 

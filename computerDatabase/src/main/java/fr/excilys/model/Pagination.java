@@ -9,14 +9,9 @@ public class Pagination {
 	private int incrementLastPage;
 	private int sqlPage;
 	
-	public Pagination(int numberComputer, int prevPage, int nextPage, int incrementPage, int incrementLastPage, int sqlPage) {
-		super();
-		this.numberComputer = numberComputer;
-		this.prevPage = prevPage;
-		this.nextPage = nextPage;
-		this.incrementPage = incrementPage;
-		this.incrementLastPage = incrementLastPage;
-		this.sqlPage = sqlPage;
+	public Pagination() {
+		this.incrementPage = 1;
+		this.incrementLastPage = 5;
 	}
 	
 	public int getNumberComputer() {

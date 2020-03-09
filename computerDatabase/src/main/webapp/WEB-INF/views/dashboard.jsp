@@ -55,10 +55,10 @@
 									</a>
 								</span>
 							</th>
-							<th>Computer name</th>
-							<th>Introduced date</th>
-							<th>Discontinued date</th>
-							<th>Company</th>
+							<th><a href="dashboard?order=name&sort=${sort}&range=${range}&search=${search}"  class="btn btn-light">Computer name</a></th>
+							<th><a href="dashboard?order=introduced&sort=${sort}&range=${range}&search=${search}"  class="btn btn-light">Introduced date</a></th>
+							<th><a href="dashboard?order=discontinued&sort=${sort}&range=${range}&search=${search}"  class="btn btn-light">Discontinued date</a></th>
+							<th><a href="dashboard?order=company_id&sort=${sort}&range=${range}&search=${search}"  class="btn btn-light">Company</a></th>
 						</tr>
 					</thead>
 					<tbody id="results">
@@ -82,30 +82,30 @@
 			<div class="container text-center">
 				<ul class="pagination">
 					<li>
-						<a href="dashboard?page=${prevPage}&range=${range}&search=${search}" aria-label="Previous">
+						<a href="dashboard?page=${prevPage}&range=${range}&search=${search}&order=${$order}&sort=${sort}" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 					<c:forEach var="i" begin="${incrementPage}" end="${incrementLastPage}" step="1">
 						<li>
-							<a href="dashboard?page=${i}&range=${range}&search=${search}">${i}</a>
+							<a href="dashboard?page=${i}&range=${range}&search=${search}&order=${$order}&sort=${sort}">${i}</a>
 						</li>
 					</c:forEach>
 					<li>
-						<a href="dashboard?page=${nextPage}&range=${range}&search=${search}" aria-label="Next">
+						<a href="dashboard?page=${nextPage}&range=${range}&search=${search}&order=${$order}&sort=${sort}" aria-label="Next">
 							<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 				</ul>
 				<div class="btn-group btn-group-sm pull-right" role="group">
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=10&page=${i}&search=${search}">10</a>
+						<a href="dashboard?range=10&page=${i}&search=${search}&order=${$order}&sort=${sort}">10</a>
 					</button>
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=50&page=${i}&search=${search}">50</a>
+						<a href="dashboard?range=50&page=${i}&search=${search}&order=${$order}&sort=${sort}">50</a>
 					</button>
 					<button type="button" class="btn btn-default">
-						<a href="dashboard?range=100&page=${i}&search=${search}">100</a>
+						<a href="dashboard?range=100&page=${i}&search=${search}&order=${$order}&sort=${sort}">100</a>
 					</button>
 				</div>
 			</div>
