@@ -8,7 +8,7 @@ public enum EnumSQLRequestCompany {
 
 	DELETE_COMPANYCOMPUTER 	  ("DELETE "
 					  		  +"FROM computer "
-					  		  +"WHERE computer.computer.company_id = ?;"),
+					  		  +"WHERE computer.company_id = ?;"),
 
 	
 	SELECT_ALLCOMPANY 		  ("SELECT company.id, company.name "

@@ -29,7 +29,7 @@ public class CommandLineUi {
 
 		int choixMenuPrincipal = VerrificationUi.scanNumbers(1, 6);
 
-		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choixMenuPrincipal];
+		EnumMenuPrincipalSwitch menuPrincipalSwitch = EnumMenuPrincipalSwitch.values()[choixMenuPrincipal];
 
 		switch (menuPrincipalSwitch) {
 		case LIST_ENTREPRISE:// 1
@@ -162,7 +162,7 @@ public class CommandLineUi {
 
 			int choixMenuModification = VerrificationUi.scanNumbers(1, 6);
 
-			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choixMenuModification];
+			EnumMenuModifSwitch menuModifSwitch = EnumMenuModifSwitch.values()[choixMenuModification];
 
 			switch (menuModifSwitch) {
 			case MODIF_NAME_ORDI: // 1

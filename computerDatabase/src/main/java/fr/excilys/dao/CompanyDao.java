@@ -23,26 +23,45 @@ public class CompanyDao {
 		this.daoFactory = daoFactory;
 	}
 
-	public boolean remove(int id) {
+	public boolean remove(int id) throws SQLException {
 
 		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatementDeleteCompany = null;
+		PreparedStatement preparedStatementDeleteComputer = null;
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANY.getMessage());
-			preparedStatement.setLong(1, id);
+			connexion.setAutoCommit(false);
 
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connexion.close();
+			preparedStatementDeleteComputer = connexion
+					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage());
+			preparedStatementDeleteComputer.setLong(1, id);
+			preparedStatementDeleteComputer.executeUpdate();
+
+			preparedStatementDeleteCompany = connexion
+					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANY.getMessage());
+			preparedStatementDeleteCompany.setLong(1, id);
+			preparedStatementDeleteCompany.executeUpdate();
+			connexion.commit();
 
 			return true;
 
 		} catch (SQLException e) {
+			connexion.rollback();
 			logger.debug(e);
 			return false;
+
+		} finally {
+			if (preparedStatementDeleteCompany != null)
+				preparedStatementDeleteCompany.close();
+
+			if (preparedStatementDeleteComputer != null)
+				preparedStatementDeleteComputer.close();
+
+			if (connexion != null)
+				connexion.setAutoCommit(true);
 		}
+
 	}
 
 	public List<Company> lister() {
