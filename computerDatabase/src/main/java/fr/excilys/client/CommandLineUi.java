@@ -95,7 +95,7 @@ public class CommandLineUi {
 
 		do {
 			computer.removeAll(computer);
-			computer = ServicesComputer.computerList(range,numberPage);
+			computer = ServicesComputer.computerList(range,numberPage, null ,null);
 			
 			if(!computer.isEmpty()) {
 				

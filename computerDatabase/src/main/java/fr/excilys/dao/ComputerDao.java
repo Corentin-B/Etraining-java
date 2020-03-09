@@ -241,7 +241,7 @@ public class ComputerDao {
 		try {
 			connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort,
-					EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
+					EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage()));
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
 

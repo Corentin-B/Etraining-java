@@ -55,10 +55,14 @@ public class ServicesComputer {
 		return computerDao.searchComputerByName(nameComputer, numberPage, range, order, sort);
 	}
 	
-	public static List<Computer> computerList(int numberPage, int range) {
+	public static List<Computer> computerList(int numberPage, int range, String order, String sort) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		return computerDao.list(numberPage, range);
+		System.out.println("order " + order);
+		if(order != null)			
+			return computerDao.listOrder(numberPage, range, order, sort);
+		else
+			return computerDao.list(numberPage, range);
 	}
 
 	private static DaoFactory getDaoFactory() {

@@ -57,7 +57,7 @@ public class Dashboard extends HttpServlet {
 			computerList = ServicesComputer.computerSearchList(search, setSqlPage, range, order, sort);
 			numberComputer = ServicesComputer.computerGetNumberSearch(search);
 		} else {
-			computerList = ServicesComputer.computerList(setSqlPage, range);
+			computerList = ServicesComputer.computerList(setSqlPage, range, order, sort);
 			numberComputer = ServicesComputer.computerGetNumber();
 		}
 		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
