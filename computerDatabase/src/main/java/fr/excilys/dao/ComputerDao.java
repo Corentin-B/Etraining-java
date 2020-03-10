@@ -35,8 +35,7 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3,
-					MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 
 			preparedStatement.executeUpdate();
@@ -83,8 +82,7 @@ public class ComputerDao {
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.UPDATE_COMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3,
-					MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
+			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
 			preparedStatement.setLong(4, computer.getCompany().getId());
 			preparedStatement.setLong(5, computer.getId());
 

@@ -17,14 +17,11 @@ public class PrepareQuerry {
 		prepredQuerry = querryOrderBy(order, prepredQuerry);
 		prepredQuerry = querrySort(sort, prepredQuerry);
 		
-		System.out.println(prepredQuerry);
 		return prepredQuerry.toString();
 	}
 	
 	private static StringBuilder querryOrderBy(String order, StringBuilder querry) {
-		
-		System.out.println(order);
-		
+				
 		if ("introduced".equals(order))
 			querry.insert(querry.length() - 11, SQL_COMPUTER_INTRODUCED);
 		else if ("discontinued".equals(order))

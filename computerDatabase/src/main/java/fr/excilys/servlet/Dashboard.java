@@ -27,9 +27,11 @@ public class Dashboard extends HttpServlet {
 		String order = requestParameter(request, "order", null);
 		String sort = requestParameter(request, "sort", null);
 
-		if ("asc".equals(sort))
+		if ("ascchange".equals(sort))
 			sort = "desc";
-		else
+		else if ("descchange".equals(sort))
+			sort = "asc";
+		else if ("change".equals(sort))
 			sort = "asc";
 
 		getListRequest(request, response, page, range, search, order, sort);
@@ -70,11 +72,11 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("order", order);
 		request.setAttribute("sort", sort);
 		request.setAttribute("computerList", computerList);
-				this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
 	}
 
 	private String requestParameter(HttpServletRequest request, String parameter, String defaultvalue) {
-
+		
 		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
 			String value = request.getParameter(parameter);
 			request.setAttribute(parameter, value);

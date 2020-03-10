@@ -58,7 +58,6 @@ public class ServicesComputer {
 	public static List<Computer> computerList(int numberPage, int range, String order, String sort) {
 
 		ComputerDao computerDao = new ComputerDao(getDaoFactory());
-		System.out.println("order " + order);
 		if(order != null)			
 			return computerDao.listOrder(numberPage, range, order, sort);
 		else
