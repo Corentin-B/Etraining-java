@@ -4,14 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.excilys.enumerations.MenuModifSwitch;
-import fr.excilys.enumerations.MenuPrincipalSwitch;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
 
-public class UserInterfaceCLI {
+public class CommandLineUi {
 
 	private final static String REGEX_DATEFORMAT = "([0-9]{4}-[0-9]{2}-[0-9]{2})";
 	private final static String REGEX_ANYNUMBER = "([0-9]{1,})";
@@ -29,9 +27,9 @@ public class UserInterfaceCLI {
 						 + "\n5 - Supprimer un ordinateur"
 						 + "\n6 - Quitter\n");
 
-		int choixMenuPrincipal = ScannersUi.scanNumbers(1, 6);
+		int choixMenuPrincipal = VerrificationUi.scanNumbers(1, 6);
 
-		MenuPrincipalSwitch menuPrincipalSwitch = MenuPrincipalSwitch.values()[choixMenuPrincipal];
+		EnumMenuPrincipalSwitch menuPrincipalSwitch = EnumMenuPrincipalSwitch.values()[choixMenuPrincipal];
 
 		switch (menuPrincipalSwitch) {
 		case LIST_ENTREPRISE:// 1
@@ -82,7 +80,7 @@ public class UserInterfaceCLI {
 														   + " " + companyDetails.getName()));
 
 				System.out.println("Entrez une touche pour afficher la suite");
-				ScannersUi.scanAnyInput();
+				VerrificationUi.scanAnyInput();
 			}
 			range = range + 20;
 
@@ -97,7 +95,7 @@ public class UserInterfaceCLI {
 
 		do {
 			computer.removeAll(computer);
-			computer = ServicesComputer.computerList(range,numberPage);
+			computer = ServicesComputer.computerList(range,numberPage, null ,null);
 			
 			if(!computer.isEmpty()) {
 				
@@ -105,7 +103,7 @@ public class UserInterfaceCLI {
 															 + " " + computerDetails.getName() + " - " + computerDetails.getCompany().getName()));
 				
 				System.out.println("Entrez une touche pour afficher la suite");
-				ScannersUi.scanAnyInput();
+				VerrificationUi.scanAnyInput();
 			}
 			range = range + 20;
 
@@ -120,7 +118,7 @@ public class UserInterfaceCLI {
 		long idCompany;
 
 		System.out.println("Nom de l'ordinateur ?\n");
-		name = ScannersUi.scanText();
+		name = VerrificationUi.scanText();
 
 		introduced = LocalDate.parse(getInputWithTest("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT));
 		
@@ -162,14 +160,14 @@ public class UserInterfaceCLI {
 							 + "\n5 - Ajout des modification à la base" 
 							 + "\n6 - Retour Menu Principale");
 
-			int choixMenuModification = ScannersUi.scanNumbers(1, 6);
+			int choixMenuModification = VerrificationUi.scanNumbers(1, 6);
 
-			MenuModifSwitch menuModifSwitch = MenuModifSwitch.values()[choixMenuModification];
+			EnumMenuModifSwitch menuModifSwitch = EnumMenuModifSwitch.values()[choixMenuModification];
 
 			switch (menuModifSwitch) {
 			case MODIF_NAME_ORDI: // 1
 				System.out.println("Nom de l'ordinateur ?\n");
-				computerUpdate.setName(ScannersUi.scanText());
+				computerUpdate.setName(VerrificationUi.scanText());
 				break;
 			case MODIF_INTRODUCED_ORDI: // 2
 				computerUpdate.setIntroduced(LocalDate.parse(getInputWithTest("Date de mise en servie ? (AAAA-MM-JJ)\n",REGEX_DATEFORMAT)));
@@ -215,7 +213,7 @@ public class UserInterfaceCLI {
 		
 		do {		
 			System.out.println(message);	
-			rawValue = ScannersUi.scanText();
+			rawValue = VerrificationUi.scanText();
 			ismatch = rawValue.matches(regex);
 		} while (!ismatch);
 		

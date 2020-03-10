@@ -7,17 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-<<<<<<< HEAD
-=======
+import fr.excilys.mapper.FormatServletRequest;
+import fr.excilys.mapper.MapperComputer;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
-import fr.excilys.mapper.CheckFormatServletRequest;
-import fr.excilys.mapper.MapperComputer;
 
->>>>>>> dev
 public class AddComputer extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -38,10 +34,10 @@ public class AddComputer extends HttpServlet {
 		
 		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
 		
-		if(CheckFormatServletRequest.checkString(newcomputer.getName()))
+		if(FormatServletRequest.checkString(newcomputer.getName()))
 			Success = ServicesComputer.computerAdd(newcomputer);
 		else
-			newcomputer.setName("No Name");
+			newcomputer.setName("Unknown");
 		
 		request.setAttribute("newComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);

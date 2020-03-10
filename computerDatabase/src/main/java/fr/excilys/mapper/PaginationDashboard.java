@@ -1,42 +1,41 @@
 package fr.excilys.mapper;
 
-import java.util.Arrays;
-import java.util.List;
-
-import fr.excilys.services.ServicesComputer;
+import fr.excilys.model.Pagination;
 
 public class PaginationDashboard {
 
-	public static List<Integer> pagingValues(int page, int range) {
+	public static Pagination pagingValues(int page, int range, int numberComputer) {
 
-		int numberComputer = ServicesComputer.computerGetNumber();
 		int lastPage = (int) Math.ceil(numberComputer * 1.0 / range);
-		int prevPage;
-		int nextPage;
-		int incrementPage = 1;
-		int incrementLastPage = 5;
+		int setSqlPage = (page - 1) * range;
 		
-		if (page - 1 < 1) {
-			prevPage = 1;
-		} else {
-			prevPage = page - 1;
-		}
+		Pagination pagination = new Pagination();
+		pagination.setSqlPage(setSqlPage);
+		pagination.setNumberComputer(numberComputer);
 		
-		if (page + 1 > lastPage) {
-			nextPage = lastPage;
-		} else {
-			nextPage = page + 1;
-		}
+		if (page <= 1)
+			pagination.setPrevPage(1);
+		else
+			pagination.setPrevPage(page - 1);
+		
+		if (page >= lastPage)
+			pagination.setNextPage(lastPage);
+		else
+			pagination.setNextPage(page + 1);
 
-		if (page - 2 < 2) {
-			incrementPage = 1;
-		} else if (page + 2 > lastPage) {
-			incrementPage = lastPage - 4;
-		} else {
-			incrementPage = page - 2;
-		}
+		if (page - 2 < 2)
+			pagination.setIncrementPage(1);
+		else if (page + 2 > lastPage)
+			pagination.setIncrementPage(lastPage - 4);
+		else
+			pagination.setIncrementPage(page - 2);
 		
-		incrementLastPage = incrementPage + 4;
-		return Arrays.asList(prevPage, nextPage, incrementPage, incrementLastPage, numberComputer);
+		pagination.setIncrementLastPage(pagination.getIncrementPage() + 4);
+		
+		if(lastPage < 5) {
+			pagination.setIncrementPage(1);
+			pagination.setIncrementLastPage(lastPage);
+		}
+		return pagination;
 	}
 }

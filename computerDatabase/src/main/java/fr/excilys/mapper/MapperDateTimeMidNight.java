@@ -8,11 +8,9 @@ public class MapperDateTimeMidNight {
 
 	public static Timestamp getDatetimeToTimestamp(LocalDate computerDate) {
 
-		if (computerDate != null) {
+		if (computerDate != null)
 			return Timestamp.valueOf(computerDate.atTime(LocalTime.MIDNIGHT));
-			
-		} else {
+		else
 			return null;
-		}
 	}
 }

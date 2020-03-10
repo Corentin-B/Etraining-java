@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 
@@ -18,39 +19,49 @@ public class CompanyDao {
 
 	private static Logger logger = Logger.getLogger(CompanyDao.class);
 
-	private final String DELETE_COMPANY   = "DELETE FROM company "
-										   + "WHERE company.id = ?;";
-
-	private final String SELECT_ALLCOMPANY = "SELECT company.id, company.name "
-										   + "FROM company;";
-
-	private final String SELECT_ONECOMPANY = "SELECT company.id, company.name "
-										   + "FROM company WHERE company.id = ?;";
-
 	public CompanyDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
-	public boolean remove(int id) {
+	public boolean remove(int id) throws SQLException {
 
 		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatementDeleteCompany = null;
+		PreparedStatement preparedStatementDeleteComputer = null;
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(DELETE_COMPANY);
-			preparedStatement.setLong(1, id);
+			connexion.setAutoCommit(false);
 
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connexion.close();
+			preparedStatementDeleteComputer = connexion
+					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage());
+			preparedStatementDeleteComputer.setLong(1, id);
+			preparedStatementDeleteComputer.executeUpdate();
+
+			preparedStatementDeleteCompany = connexion
+					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANY.getMessage());
+			preparedStatementDeleteCompany.setLong(1, id);
+			preparedStatementDeleteCompany.executeUpdate();
+			connexion.commit();
 
 			return true;
 
 		} catch (SQLException e) {
+			connexion.rollback();
 			logger.debug(e);
 			return false;
+
+		} finally {
+			if (preparedStatementDeleteCompany != null)
+				preparedStatementDeleteCompany.close();
+
+			if (preparedStatementDeleteComputer != null)
+				preparedStatementDeleteComputer.close();
+
+			if (connexion != null)
+				connexion.setAutoCommit(true);
 		}
+
 	}
 
 	public List<Company> lister() {
@@ -61,7 +72,7 @@ public class CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ALLCOMPANY);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage());
 
 			ResultSet resultat = preparedStatement.executeQuery();
 
@@ -78,7 +89,7 @@ public class CompanyDao {
 		return company;
 	}
 
-	public Optional<Company> selectionner(long idComputer) {
+	public Optional<Company> selecOneCompany(long idComputer) {
 
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -86,7 +97,7 @@ public class CompanyDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(SELECT_ONECOMPANY);
+			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage());
 			preparedStatement.setLong(1, idComputer);
 
 			ResultSet resultat = preparedStatement.executeQuery();

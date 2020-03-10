@@ -1,6 +1,7 @@
 package fr.excilys.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,53 +11,28 @@ import javax.servlet.http.HttpServletResponse;
 import fr.excilys.services.ServicesComputer;
 import fr.excilys.mapper.PaginationDashboard;
 import fr.excilys.model.Computer;
+import fr.excilys.model.Pagination;
 
 public class Dashboard extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
-
-	int range = 10;
-=======
->>>>>>> dev
 
 	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int page = 1;
-		int range = 10;
-		String search = null;
+		int page = requestParameter(request, "page", 1);
+		int range = requestParameter(request, "range", 10);
+		String search = requestParameter(request, "search", null);
+		String order = requestParameter(request, "order", null);
+		String sort = requestParameter(request, "sort", null);
 
-		System.out.println("range = " + request.getParameter("range"));
-		
-		if (request.getParameter("range") != null && !request.getParameter("range").isBlank()) {
-			range = Integer.parseInt(request.getParameter("range"));
-			request.setAttribute("range", range);
-		} else {
-			request.setAttribute("range", range);
-		}
+		if ("asc".equals(sort))
+			sort = "desc";
+		else
+			sort = "asc";
 
-		if (request.getParameter("page") != null && !request.getParameter("page").isBlank()) {
-			page = Integer.parseInt(request.getParameter("page"));
-			request.setAttribute("page", page);
-		} else {
-			request.setAttribute("page", page);
-		}
-		
-		if (request.getParameter("search") != null && !request.getParameter("search").isBlank()) {
-			search = request.getParameter("search");
-			request.setAttribute("search", search);
-		} else {
-			request.setAttribute("search", search);
-		}
-		
-		if (request.getParameter("search") != null) {
-			getSearchRequest(request, response, page, range);
-
-		} else {
-			getListRequest(request, response, page, range);
-		}
+		getListRequest(request, response, page, range, search, order, sort);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,40 +47,53 @@ public class Dashboard extends HttpServlet {
 		}
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
+	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range, String search, String order, String sort) throws ServletException, IOException {
 
-		List<Integer> pagingValues = PaginationDashboard.pagingValues(page, range);
+		int numberComputer;
+		List<Computer> computerList = new ArrayList<>();
+		int setSqlPage = (page - 1) * range;
 
-		int sqlPage = (page - 1) * range;
-		List<Computer> computerList = ServicesComputer.computerList(sqlPage, range);
-
-		request.setAttribute("prevPage", pagingValues.get(0));
-		request.setAttribute("nextPage", pagingValues.get(1));
-		request.setAttribute("incrementPage", pagingValues.get(2));
-		request.setAttribute("incrementLastPage", pagingValues.get(3));
-		request.setAttribute("numberComputer", pagingValues.get(4));
+		if (search != null && !search.isEmpty()) {
+			computerList = ServicesComputer.computerSearchList(search, setSqlPage, range, order, sort);
+			numberComputer = ServicesComputer.computerGetNumberSearch(search);
+		} else {
+			computerList = ServicesComputer.computerList(setSqlPage, range, order, sort);
+			numberComputer = ServicesComputer.computerGetNumber();
+		}
+		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
+		
+		request.setAttribute("prevPage", pagination.getPrevPage());
+		request.setAttribute("nextPage", pagination.getNextPage());
+		request.setAttribute("incrementPage", pagination.getIncrementPage());
+		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
+		request.setAttribute("numberComputer", pagination.getNumberComputer());
+		request.setAttribute("order", order);
+		request.setAttribute("sort", sort);
 		request.setAttribute("computerList", computerList);
-		try {
-			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
+	}
+
+	private String requestParameter(HttpServletRequest request, String parameter, String defaultvalue) {
+
+		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
+			String value = request.getParameter(parameter);
+			request.setAttribute(parameter, value);
+			return value;
+		} else {
+			request.setAttribute(parameter, defaultvalue);
+			return defaultvalue;
 		}
 	}
 
-	private void getSearchRequest(HttpServletRequest request, HttpServletResponse response, int page, int range) {
-	
-		String searchComputer = request.getParameter("search");
-		
-		
-		List<Computer> computerList = ServicesComputer.computerSearchList(searchComputer, page, range);
-		
-		request.setAttribute("computerList", computerList);
-		try {
-			this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private int requestParameter(HttpServletRequest request, String parameter, int defaultvalue) {
+
+		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
+			int value = Integer.parseInt(request.getParameter(parameter));
+			request.setAttribute(parameter, value);
+			return value;
+		} else {
+			request.setAttribute(parameter, defaultvalue);
+			return defaultvalue;
 		}
 	}
 }

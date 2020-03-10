@@ -4,11 +4,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-<<<<<<< HEAD
-=======
 
 import javax.servlet.http.HttpServletRequest;
->>>>>>> dev
 
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
@@ -53,29 +50,20 @@ public class MapperComputer {
 		
 		System.out.println(request.getParameter("introduced"));
 		Computer computer = new Computer.Builder()
-<<<<<<< HEAD
-									   	.setId(resultComputer.getLong("id"))
-									   	.setName(resultComputer.getString("name"))
-									   	.setIntroduced(getTimestampToLocalDate(resultComputer.getDate("introduced")))
-									   	.setDiscontinued(getTimestampToLocalDate(resultComputer.getDate("discontinued")))
-=======
-										.setId(CheckFormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
+										.setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
 									   	.setName(request.getParameter("computerName"))
-									   	.setIntroduced(CheckFormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("introduced")))
-									   	.setDiscontinued(CheckFormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
->>>>>>> dev
+									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("introduced")))
+									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
 									   	.setCompany(new Company.Builder()
-									   						   .setId(CheckFormatServletRequest.checkIntFormatAndConvert(request.getParameter("companyId")))
+									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("companyId")))
 									 	 		 			   .build())
 									    .build();
 		
-		computer.setIntroduced(CheckFormatServletRequest.checkIntroducedDiscontinued(computer.getIntroduced(), computer.getDiscontinued()));
+		computer.setIntroduced(FormatServletRequest.checkIntroducedDiscontinued(computer.getIntroduced(), computer.getDiscontinued()));
 		
 		return computer;
 	}
 	
-<<<<<<< HEAD
-=======
 	public Computer getComputerFromString(int computerId,String computerName, LocalDate computerIntroduced, LocalDate computerDiscontinued, int companyId) {
 		
 		Computer computer = new Computer.Builder()
@@ -90,7 +78,6 @@ public class MapperComputer {
 		return computer;
 	}
 	
->>>>>>> dev
 	private LocalDate getTimestampToLocalDate(Date dateComputer) {
 		
 		if (dateComputer != null)

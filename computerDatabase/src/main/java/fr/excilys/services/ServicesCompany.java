@@ -13,7 +13,7 @@ public class ServicesCompany {
 
     private static Logger logger = Logger.getLogger(ServicesCompany.class);
 	
-	public static boolean companyRemove(int idComputer) {
+	public static boolean companyRemove(int idComputer) throws SQLException {
 
 		CompanyDao companyDao = new CompanyDao(getDaoFactory());
 		return companyDao.remove(idComputer);
@@ -28,7 +28,7 @@ public class ServicesCompany {
 	public static Company companySelectForCheck(long idCompany) {
 
 		CompanyDao companyDao = new CompanyDao(getDaoFactory());
-		return companyDao.selectionner(idCompany).get();
+		return companyDao.selecOneCompany(idCompany).get();
 	}
 	
 	private static DaoFactory getDaoFactory() {

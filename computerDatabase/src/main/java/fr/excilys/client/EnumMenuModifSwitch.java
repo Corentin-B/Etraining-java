@@ -1,6 +1,6 @@
-package fr.excilys.enumerations;
+package fr.excilys.client;
 
-public enum MenuModifSwitch {
+public enum EnumMenuModifSwitch {
 
 	DEFAULT, MODIF_NAME_ORDI, MODIF_INTRODUCED_ORDI, MODIF_DISCONTINUED_ORDI, MODIF_ID__ORDI_ENTREPRISE, ENVOYER_MODIFICATION, QUITTER;
 }
