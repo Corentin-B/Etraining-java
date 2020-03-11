@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.mapper.MapperDateTimeMidNight;
 import fr.excilys.mapper.PrepareQuerry;
 import fr.excilys.model.Computer;
 
+@Repository
 public class ComputerDao {
 
 	private DaoFactory daoFactory;
@@ -26,12 +28,10 @@ public class ComputerDao {
 	}
 
 	public boolean add(Computer computer) {
-
-		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connexion = daoFactory.getConnection();
+			Connection connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage());
 			preparedStatement.setString(1, computer.getName());
 			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
@@ -182,8 +182,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort,
-					EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
+			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
 			preparedStatement.setString(1, "%" + nameComputer.toUpperCase() + "%");
 			preparedStatement.setInt(2, numberPage);
 			preparedStatement.setInt(3, range);
@@ -238,8 +237,7 @@ public class ComputerDao {
 
 		try {
 			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort,
-					EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage()));
+			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage()));
 			preparedStatement.setInt(1, numberPage);
 			preparedStatement.setInt(2, range);
 

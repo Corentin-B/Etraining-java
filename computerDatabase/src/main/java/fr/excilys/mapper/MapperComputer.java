@@ -7,6 +7,8 @@ import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
@@ -14,6 +16,7 @@ public class MapperComputer {
 	
 	private static volatile MapperComputer instance = null;
 	
+	@Autowired
 	private MapperComputer() {
 		super();
 	}

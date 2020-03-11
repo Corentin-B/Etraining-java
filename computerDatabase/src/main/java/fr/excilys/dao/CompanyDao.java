@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import fr.excilys.mapper.MapperCompany;
 import fr.excilys.model.Company;
 
+@Repository
 public class CompanyDao {
 
 	private DaoFactory daoFactory;
@@ -67,11 +69,10 @@ public class CompanyDao {
 	public List<Company> lister() {
 
 		List<Company> company = new ArrayList<>();
-		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connexion = daoFactory.getConnection();
+			Connection connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage());
 
 			ResultSet resultat = preparedStatement.executeQuery();
@@ -91,12 +92,11 @@ public class CompanyDao {
 
 	public Optional<Company> selecOneCompany(long idComputer) {
 
-		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		Company selectedCompany = new Company.Builder().build();
 
 		try {
-			connexion = daoFactory.getConnection();
+			Connection connexion = daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage());
 			preparedStatement.setLong(1, idComputer);
 

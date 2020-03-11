@@ -3,12 +3,15 @@ package fr.excilys.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.excilys.model.Company;
 
 public class MapperCompany {
 
 	private static volatile MapperCompany instance = null;
 	
+	@Autowired
 	private MapperCompany() {
 		super();
 	}
