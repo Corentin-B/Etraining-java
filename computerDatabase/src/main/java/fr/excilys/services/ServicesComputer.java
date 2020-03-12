@@ -10,11 +10,11 @@ import fr.excilys.model.Computer;
 @Service
 public class ServicesComputer {
 
+	private static ComputerDao computerDao;
+	
 	public ServicesComputer(ComputerDao computerDao) {
 		ServicesComputer.computerDao = computerDao;
 	}
-
-	private static ComputerDao computerDao;
 
 	public static boolean computerAdd(Computer computerNew) {
 

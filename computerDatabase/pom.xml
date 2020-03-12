@@ -22,7 +22,8 @@
 		<log4j-version>1.2.17</log4j-version>
 		<log4j-slf4j-impl-version>2.13.1</log4j-slf4j-impl-version>
 		<taglibs-standard-version>1.2.5</taglibs-standard-version>
-		<HikariCP-version>3.4.2</HikariCP-version>
+		<hikariCP-version>3.4.2</hikariCP-version>
+		<spring-version>5.2.4.RELEASE</spring-version>
 
 	</properties>
 
@@ -81,18 +82,24 @@
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>${HikariCP-version}</version>
+			<version>${hikariCP-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>5.2.4.RELEASE</version>
+			<version>${spring-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<version>5.2.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>5.2.4.RELEASE</version>
 		</dependency>
 	</dependencies>

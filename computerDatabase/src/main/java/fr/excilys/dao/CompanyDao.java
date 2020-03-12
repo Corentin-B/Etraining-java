@@ -20,7 +20,7 @@ public class CompanyDao {
 	private DaoFactory daoFactory;
 
 	private static Logger logger = Logger.getLogger(CompanyDao.class);
-
+	
 	public CompanyDao(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -83,7 +83,7 @@ public class CompanyDao {
 
 			preparedStatement.close();
 			connexion.close();
-
+			
 		} catch (SQLException e) {
 			logger.debug(e);
 		}
