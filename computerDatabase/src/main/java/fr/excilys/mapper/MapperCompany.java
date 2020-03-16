@@ -3,39 +3,27 @@ package fr.excilys.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 
 import fr.excilys.model.Company;
 
-public class MapperCompany {
+public class MapperCompany implements RowMapper<Company> {
 
-	private static volatile MapperCompany instance = null;
-	
-	@Autowired
-	private MapperCompany() {
-		super();
-	}
-	
-	public static MapperCompany getInstance() {
-
-		if (MapperCompany.instance == null) {
-
-			synchronized (MapperCompany.class) {
-				if (MapperCompany.instance == null) {
-
-					MapperCompany.instance = new MapperCompany();
-				}
-			}
-		}
-		return MapperCompany.instance;
-	}
-	
 	public Company getCompanyFromResultSet(ResultSet resultCompany) throws SQLException {
 		
 		Company company = new Company.Builder()
 									 .setId(resultCompany.getLong("id"))
 									 .setName(resultCompany.getString("name"))
 									 .build();
+		return company;
+	}
+
+	@Override
+	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+		Company company = new Company.Builder()
+				 .setId(resultSet.getLong("id"))
+				 .setName(resultSet.getString("name"))
+				 .build();
 		return company;
 	}
 }

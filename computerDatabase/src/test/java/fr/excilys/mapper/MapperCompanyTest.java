@@ -57,11 +57,11 @@ public class MapperCompanyTest {
 			fail("resultSet.getString");
 		}
 
-		try {
-			companyTest = MapperCompany.getInstance().getCompanyFromResultSet(resultSet);
+		/*try {
+			companyTest = MapperCompany.getCompanyFromResultSet(resultSet);
 		} catch (SQLException e) {
 			fail("getComputerFromResultSet");
-		}
+		}*/
 
 		assertEquals(companyRef, companyTest);
 	}

@@ -44,7 +44,7 @@ enum EnumSQLRequestComputer {
 	
 	private String message;
 	
-	public String getMessage() {
+	protected String getMessage() {
 		return message;
 	}
 

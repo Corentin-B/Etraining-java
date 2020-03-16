@@ -1,117 +1,46 @@
 package fr.excilys.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.excilys.mapper.MapperCompany;
 import fr.excilys.model.Company;
 
 @Repository
 public class CompanyDao {
-
-	private DaoFactory daoFactory;
-
-	private static Logger logger = Logger.getLogger(CompanyDao.class);
 	
-	public CompanyDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
+	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	public CompanyDao(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
+	
+	@Transactional
+	public void remove(int id) throws SQLException {
+		
+		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("companyId", id);
 
-	public boolean remove(int id) throws SQLException {
-
-		Connection connexion = null;
-		PreparedStatement preparedStatementDeleteCompany = null;
-		PreparedStatement preparedStatementDeleteComputer = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			connexion.setAutoCommit(false);
-
-			preparedStatementDeleteComputer = connexion
-					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage());
-			preparedStatementDeleteComputer.setLong(1, id);
-			preparedStatementDeleteComputer.executeUpdate();
-
-			preparedStatementDeleteCompany = connexion
-					.prepareStatement(EnumSQLRequestCompany.DELETE_COMPANY.getMessage());
-			preparedStatementDeleteCompany.setLong(1, id);
-			preparedStatementDeleteCompany.executeUpdate();
-			connexion.commit();
-
-			return true;
-
-		} catch (SQLException e) {
-			connexion.rollback();
-			logger.debug(e);
-			return false;
-
-		} finally {
-			if (preparedStatementDeleteCompany != null)
-				preparedStatementDeleteCompany.close();
-
-			if (preparedStatementDeleteComputer != null)
-				preparedStatementDeleteComputer.close();
-
-			if (connexion != null)
-				connexion.setAutoCommit(true);
-		}
-
+		jdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage(), mapParam);
+		jdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANY.getMessage(), mapParam);
 	}
 
 	public List<Company> lister() {
 
-		List<Company> company = new ArrayList<>();
-		PreparedStatement preparedStatement = null;
-
-		try {
-			Connection connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage());
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			while (resultat.next()) {
-				company.add(MapperCompany.getInstance().getCompanyFromResultSet(resultat));
-			}
-
-			preparedStatement.close();
-			connexion.close();
-			
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return company;
+		return jdbcTemplate.query(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage(), new MapperCompany());
 	}
 
 	public Optional<Company> selecOneCompany(long idComputer) {
 
-		PreparedStatement preparedStatement = null;
-		Company selectedCompany = new Company.Builder().build();
-
-		try {
-			Connection connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage());
-			preparedStatement.setLong(1, idComputer);
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			if (resultat.first()) {
-
-				selectedCompany = MapperCompany.getInstance().getCompanyFromResultSet(resultat);
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return Optional.ofNullable(selectedCompany);
+		return Optional.ofNullable(jdbcTemplate.queryForObject(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage(), new MapperCompany()));
 	}
 }

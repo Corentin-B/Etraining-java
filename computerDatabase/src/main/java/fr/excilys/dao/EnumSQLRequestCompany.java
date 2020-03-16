@@ -1,14 +1,14 @@
 package fr.excilys.dao;
 
-public enum EnumSQLRequestCompany {
+enum EnumSQLRequestCompany {
 
 	DELETE_COMPANY 	  		  ("DELETE "
 							  +"FROM company "
-							  +"WHERE company.id = ?;"),
+							  +"WHERE company.id = :companyId;"),
 
 	DELETE_COMPANYCOMPUTER 	  ("DELETE "
 					  		  +"FROM computer "
-					  		  +"WHERE computer.company_id = ?;"),
+					  		  +"WHERE computer.company_id = :companyId;"),
 
 	
 	SELECT_ALLCOMPANY 		  ("SELECT company.id, company.name "
@@ -20,7 +20,7 @@ public enum EnumSQLRequestCompany {
 	
 	private String message;
 	
-	public String getMessage() {
+	protected String getMessage() {
 		return message;
 	}
 

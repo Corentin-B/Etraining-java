@@ -1,6 +1,6 @@
 package fr.excilys.dao;
 
-import java	.sql.Connection;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -37,10 +37,6 @@ public final class DaoFactory {
 
 	public Connection getConnection() {
 		return getConn();
-	}
-
-	public CompanyDao getCompanyDao() {
-		return new CompanyDao(this);
 	}
 
 	public ComputerDao getComputerDao() {
