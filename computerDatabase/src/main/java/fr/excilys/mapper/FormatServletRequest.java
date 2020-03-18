@@ -21,11 +21,6 @@ public class FormatServletRequest {
 		}
 	}
 
-	public static boolean checkString(String value) {
-
-		return !value.isBlank();
-	}
-
 	public static LocalDate checkDateFormatValueAndConvert(String value) {
 
 		if (!value.isBlank()) {

@@ -14,7 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 @Configuration
-@ComponentScan(basePackages = "fr.excilys.dao, fe.excilys.services")
+@ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper")
 @PropertySource("classpath:database.properties")
 
 public class AppConfig extends AbstractContextLoaderInitializer{
@@ -28,10 +28,10 @@ public class AppConfig extends AbstractContextLoaderInitializer{
 	@Autowired
 	Environment environment;
 
-	private final String URL = "url";
-	private final String USER = "dbuser";
-	private final String DRIVER = "driver";
-	private final String PASSWORD = "dbpassword";
+	private final String URL = "database.url";
+	private final String USER = "database.dbuser";
+	private final String DRIVER = "database.driver";
+	private final String PASSWORD = "database.dbpassword";
 
 	@Bean
 	DataSource dataSource() {

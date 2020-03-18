@@ -7,35 +7,15 @@ import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 
-public class MapperComputer {
+public class MapperComputer implements RowMapper<Computer> {
 	
-	private static volatile MapperComputer instance = null;
-	
-	@Autowired
-	private MapperComputer() {
-		super();
-	}
-	
-	public static MapperComputer getInstance() {
-
-		if (MapperComputer.instance == null) {
-
-			synchronized (MapperComputer.class) {
-				if (MapperComputer.instance == null) {
-
-					MapperComputer.instance = new MapperComputer();
-				}
-			}
-		}
-		return MapperComputer.instance;
-	}
-	
-	public Computer getComputerFromResultSet(ResultSet resultComputer) throws SQLException {
+	public Computer getComputerFromResultSet (ResultSet resultComputer) throws SQLException {
+		
 		Computer computer = new Computer.Builder()
 									   	.setId(resultComputer.getLong("computer.id"))
 									   	.setName(resultComputer.getString("computer.name"))
@@ -49,9 +29,8 @@ public class MapperComputer {
 		return computer;
 	}
 	
-	public Computer getComputerFromResponse(HttpServletRequest request) {
+	public static Computer getComputerFromResponse(HttpServletRequest request) {
 		
-		System.out.println(request.getParameter("introduced"));
 		Computer computer = new Computer.Builder()
 										.setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
 									   	.setName(request.getParameter("computerName"))
@@ -90,5 +69,21 @@ public class MapperComputer {
 		else {
 			return null;
 		}
+	}
+
+	@Override
+	public Computer mapRow(ResultSet resultComputer, int rowNum) throws SQLException {
+		
+		Computer computer = new Computer.Builder()
+			   	.setId(resultComputer.getLong("computer.id"))
+			   	.setName(resultComputer.getString("computer.name"))
+			   	.setIntroduced(getTimestampToLocalDate(resultComputer.getDate("computer.introduced")))
+			   	.setDiscontinued(getTimestampToLocalDate(resultComputer.getDate("computer.discontinued")))
+			   	.setCompany(new Company.Builder()
+			   						   .setId(resultComputer.getLong("computer.company_id"))
+			 			 			   .setName(resultComputer.getString("company.name"))
+			 	 		 			   .build())
+			    .build();
+		return computer;
 	}
 }

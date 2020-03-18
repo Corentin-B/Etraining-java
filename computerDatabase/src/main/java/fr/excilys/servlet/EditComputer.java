@@ -41,12 +41,14 @@ public class EditComputer extends HttpServlet {
 
 		Boolean Success = false;
 		
-		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
+		Computer newcomputer = MapperComputer.getComputerFromResponse(request);
 		
-		if(FormatServletRequest.checkCompany(newcomputer.getCompany().getId()))
-			Success = ServicesComputer.computerUpdate(newcomputer);
-		else 
+		if(FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
+			if(ServicesComputer.computerUpdate(newcomputer) != 0)
+				Success = true;
+		} else {
 			newcomputer.setName("Unknown");
+		}
 		
 		request.setAttribute("UpdateComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);

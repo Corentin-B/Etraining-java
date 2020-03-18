@@ -80,12 +80,12 @@ public class MapperComputerTest {
 		} catch (SQLException e5) {
 			fail("resultSet.getObject");
 		}
-        
+        /*
 		try {
 			computerTest = MapperComputer.getInstance().getComputerFromResultSet(resultSet);
 		} catch (SQLException e) {
 			fail("getComputerFromResultSet");
-		}		
+		}		*/
         assertEquals(computerRef, computerTest);	
 	}
 }

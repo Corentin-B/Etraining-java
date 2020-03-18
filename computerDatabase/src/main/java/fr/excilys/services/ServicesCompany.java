@@ -17,7 +17,7 @@ public class ServicesCompany {
 		ServicesCompany.companyDao = companyDao;
 	}
 	
-	public static boolean companyRemove(int idComputer) throws SQLException {
+	public static int[] companyRemove(int idComputer) throws SQLException {
 
 		return companyDao.remove(idComputer);
 	}
@@ -29,6 +29,6 @@ public class ServicesCompany {
 	
 	public static Company companySelectForCheck(long idCompany) {
 
-		return companyDao.selecOneCompany(idCompany).get();
+		return companyDao.selecOneCompany(idCompany); 
 	}
 }

@@ -1,14 +1,12 @@
 package fr.excilys.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fr.excilys.mapper.MapperComputer;
@@ -18,241 +16,92 @@ import fr.excilys.model.Computer;
 
 @Repository
 public class ComputerDao {
+	
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	private DaoFactory daoFactory;
-
-	private static Logger logger = Logger.getLogger(ComputerDao.class);
-
-	public ComputerDao(DaoFactory daoFactory) {
-		this.daoFactory = daoFactory;
+	@Autowired
+	public ComputerDao(DataSource dataSource) {
+		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	public boolean add(Computer computer) {
-		PreparedStatement preparedStatement = null;
+	public Computer selectComputerById(int idComputer) {
 
-		try {
-			Connection connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage());
-			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
-			preparedStatement.setLong(4, computer.getCompany().getId());
-
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connexion.close();
-
-			return true;
-
-		} catch (SQLException e) {
-			logger.debug(e);
-			return false;
-		}
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("idComputer", idComputer);
+		
+		return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestComputer.SELECT_ONECOMPUTER.getMessage(), mapParam, new MapperComputer());
 	}
 
-	public boolean remove(int id) {
+	public List<Computer> searchComputerByName(String nameComputer, int numberPage, int range, String order, String sort) {
 
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.DELETE_COMPUTER.getMessage());
-			preparedStatement.setLong(1, id);
-
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connexion.close();
-
-			return true;
-
-		} catch (SQLException e) {
-			logger.debug(e);
-			return false;
-		}
-	}
-
-	public boolean update(Computer computer) {
-
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.UPDATE_COMPUTER.getMessage());
-			preparedStatement.setString(1, computer.getName());
-			preparedStatement.setTimestamp(2, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()));
-			preparedStatement.setTimestamp(3, MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()));
-			preparedStatement.setLong(4, computer.getCompany().getId());
-			preparedStatement.setLong(5, computer.getId());
-
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
-			connexion.close();
-
-			return true;
-
-		} catch (SQLException e) {
-			logger.debug(e);
-			return false;
-		}
-	}
-
-	public int numberPage() {
-
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		int pagesNumber = 0;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERCOMPUTER.getMessage());
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			if (resultat.first()) {
-				pagesNumber = resultat.getInt(1);
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return pagesNumber;
-	}
-
-	public int numberSearch(String name) {
-
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		int pagesNumber = 0;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_NUMBERSEARCH.getMessage());
-			preparedStatement.setString(1, "%" + name.toUpperCase() + "%");
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			if (resultat.first()) {
-				pagesNumber = resultat.getInt(1);
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return pagesNumber;
-	}
-
-	public Optional<Computer> selectComputerById(int idComputer) {
-
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		Computer selectedComputer = new Computer.Builder().build();
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ONECOMPUTER.getMessage());
-			preparedStatement.setInt(1, idComputer);
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			if (resultat.first()) {
-
-				selectedComputer = MapperComputer.getInstance().getComputerFromResultSet(resultat);
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return Optional.ofNullable(selectedComputer);
-	}
-
-	public List<Computer> searchComputerByName(String nameComputer, int numberPage, int range, String order,
-			String sort) {
-
-		List<Computer> computer = new ArrayList<>();
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()));
-			preparedStatement.setString(1, "%" + nameComputer.toUpperCase() + "%");
-			preparedStatement.setInt(2, numberPage);
-			preparedStatement.setInt(3, range);
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			while (resultat.next()) {
-
-				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return computer;
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("nameComputer", "%" + nameComputer.toUpperCase() + "%")
+				.addValue("numberPage", numberPage)
+				.addValue("range", range);
+		
+		return namedParameterJdbcTemplate.query(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_SEARCHCOMPUTER.getMessage()), mapParam, new MapperComputer());
 	}
 
 	public List<Computer> list(int numberPage, int range) {
 
-		List<Computer> computer = new ArrayList<>();
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("numberPage", numberPage)
+				.addValue("range",range);
 
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(EnumSQLRequestComputer.SELECT_ALLCOMPUTER.getMessage());
-			preparedStatement.setInt(1, numberPage);
-			preparedStatement.setInt(2, range);
-
-			ResultSet resultat = preparedStatement.executeQuery();
-
-			while (resultat.next()) {
-
-				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
-			}
-
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return computer;
+		return namedParameterJdbcTemplate.query(EnumSQLRequestComputer.SELECT_ALLCOMPUTER.getMessage(), mapParam, new MapperComputer());
 	}
 
 	public List<Computer> listOrder(int numberPage, int range, String order, String sort) {
 
-		List<Computer> computer = new ArrayList<>();
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("numberPage", numberPage)
+				.addValue("range", range);
 
-		try {
-			connexion = daoFactory.getConnection();
-			preparedStatement = connexion.prepareStatement(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage()));
-			preparedStatement.setInt(1, numberPage);
-			preparedStatement.setInt(2, range);
+		return namedParameterJdbcTemplate.query(PrepareQuerry.checkOrderValueSuffix(order, sort, EnumSQLRequestComputer.SELECT_ALLCOMPUTER_ORDER.getMessage()), mapParam, new MapperComputer());
+	}
+	
+	public int numberPage() {
 
-			ResultSet resultat = preparedStatement.executeQuery();
+		MapSqlParameterSource mapParam = new MapSqlParameterSource();
+        return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestComputer.SELECT_NUMBERCOMPUTER.getMessage(), mapParam, Integer.class);
+	}
 
-			while (resultat.next()) {
+	public int numberSearch(String nameComputer) {
 
-				computer.add(MapperComputer.getInstance().getComputerFromResultSet(resultat));
-			}
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("nameComputer", "%" + nameComputer.toUpperCase() + "%");
 
-			preparedStatement.close();
-			connexion.close();
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		return computer;
+		return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestComputer.SELECT_NUMBERSEARCH.getMessage(), mapParam, Integer.class);
+	}
+
+	public int add(Computer computer) {
+		
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("nameComputer", computer.getName())
+				.addValue("introducedComputer", MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()))
+				.addValue("discontinuedComputer", MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()))
+				.addValue("idCompanyComputer", computer.getCompany().getId());
+		
+		return namedParameterJdbcTemplate.update(EnumSQLRequestComputer.INSERT_NEWCOMPUTER.getMessage(), mapParam);
+	}
+
+	public int remove(int idComputer) {
+
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("idComputer", idComputer);
+
+		return namedParameterJdbcTemplate.update(EnumSQLRequestComputer.DELETE_COMPUTER.getMessage(), mapParam);
+	}
+
+	public int update(Computer computer) {
+
+		MapSqlParameterSource mapParam = new MapSqlParameterSource()
+				.addValue("nameComputer", computer.getName())
+				.addValue("introducedComputer", MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getIntroduced()))
+				.addValue("discontinuedComputer", MapperDateTimeMidNight.getDatetimeToTimestamp(computer.getDiscontinued()))
+				.addValue("idCompanyComputer", computer.getCompany().getId())
+				.addValue("idComputer", computer.getId());
+
+		return namedParameterJdbcTemplate.update(EnumSQLRequestComputer.UPDATE_COMPUTER.getMessage(), mapParam);
 	}
 }

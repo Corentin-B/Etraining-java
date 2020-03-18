@@ -1,14 +1,12 @@
 package fr.excilys.dao;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,29 +16,35 @@ import fr.excilys.model.Company;
 @Repository
 public class CompanyDao {
 	
-	private JdbcTemplate jdbcTemplate;
-
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
 	@Autowired
 	public CompanyDao(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
+		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 	
 	@Transactional
-	public void remove(int id) throws SQLException {
+	public int[] remove(int idCompany) {
 		
-		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("companyId", id);
+		int[] returnValue = {0,0};
+		
+		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("idCompany", idCompany);
 
-		jdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage(), mapParam);
-		jdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANY.getMessage(), mapParam);
+		returnValue[0] = namedParameterJdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage(), mapParam);
+		returnValue[1] = namedParameterJdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANY.getMessage(), mapParam);
+	
+		return returnValue;
 	}
 
 	public List<Company> lister() {
 
-		return jdbcTemplate.query(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage(), new MapperCompany());
+		return namedParameterJdbcTemplate.query(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage(), new MapperCompany());
 	}
 
-	public Optional<Company> selecOneCompany(long idComputer) {
+	public Company selecOneCompany(long idCompany) {
 
-		return Optional.ofNullable(jdbcTemplate.queryForObject(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage(), new MapperCompany()));
+		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("idCompany", idCompany);
+
+		return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage(), mapParam, new MapperCompany());
 	}
 }

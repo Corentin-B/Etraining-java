@@ -16,20 +16,20 @@ public class PrepareQuerry {
 				
 		prepredQuerry = querryOrderBy(order, prepredQuerry);
 		prepredQuerry = querrySort(sort, prepredQuerry);
-		
+
 		return prepredQuerry.toString();
 	}
 	
 	private static StringBuilder querryOrderBy(String order, StringBuilder querry) {
 				
 		if ("introduced".equals(order))
-			querry.insert(querry.length() - 11, SQL_COMPUTER_INTRODUCED);
+			querry.insert(querry.length() - 26, SQL_COMPUTER_INTRODUCED);
 		else if ("discontinued".equals(order))
-			querry.insert(querry.length() - 11, SQL_COMPUTER_DISCONTINUED);
+			querry.insert(querry.length() - 26, SQL_COMPUTER_DISCONTINUED);
 		else if ("company_id".equals(order))
-			querry.insert(querry.length() - 11, SQL_COMPUTER_COMPANYID);
+			querry.insert(querry.length() - 26, SQL_COMPUTER_COMPANYID);
 		else
-			querry.insert(querry.length() - 11, SQL_COMPUTER_NAME);
+			querry.insert(querry.length() - 26, SQL_COMPUTER_NAME);
 			
 		return querry;
 	}
@@ -37,9 +37,9 @@ public class PrepareQuerry {
 	private static StringBuilder querrySort(String sort, StringBuilder querry) {
 		
 		if ("desc".equals(sort))
-			querry.insert(querry.length() - 11, SQL_DESC);
+			querry.insert(querry.length() - 26, SQL_DESC);
 		else
-			querry.insert(querry.length() - 11, SQL_ASC);
+			querry.insert(querry.length() - 26, SQL_ASC);
 			
 		return querry;
 	}

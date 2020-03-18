@@ -12,7 +12,6 @@ import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
-import fr.excilys.mapper.FormatServletRequest;
 import fr.excilys.mapper.MapperComputer;
 
 public class AddComputer extends HttpServlet {
@@ -24,7 +23,7 @@ public class AddComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		List<Company> companyList = ServicesCompany.companyList();
-				
+						
 		request.setAttribute("companyList", companyList);
 		this.getServletContext().getRequestDispatcher(ADDCOMPUTER).forward(request, response);
 	}
@@ -33,12 +32,14 @@ public class AddComputer extends HttpServlet {
 
 		Boolean Success = false;
 		
-		Computer newcomputer = MapperComputer.getInstance().getComputerFromResponse(request);
+		Computer newcomputer = MapperComputer.getComputerFromResponse(request);
 		
-		if(FormatServletRequest.checkString(newcomputer.getName()))
-			Success = ServicesComputer.computerAdd(newcomputer);
-		else
+		if(!newcomputer.getName().isBlank()) {
+			if(ServicesComputer.computerAdd(newcomputer) != 0)
+				Success = true;
+		} else {
 			newcomputer.setName("Unknown");
+		}
 		
 		request.setAttribute("newComputerName", newcomputer.getName());
 		request.setAttribute("Success", Success);
