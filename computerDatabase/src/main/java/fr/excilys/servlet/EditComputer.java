@@ -1,12 +1,13 @@
 package fr.excilys.servlet;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.mapper.FormatServletRequest;
@@ -15,43 +16,54 @@ import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
 
-public class EditComputer extends HttpServlet {
+@Controller
+@RequestMapping(value = "/editcomputer")
+public class EditComputer {
 
-	private static final long serialVersionUID = 1L;
+	public ServicesComputer serviceComputer;
 
-	private static final String EDITCOMPUTER = "/WEB-INF/views/editComputer.jsp";
+	public EditComputer (ServicesComputer serviceComputer) {
+		this.serviceComputer = serviceComputer;
+	}
+	
+	@GetMapping
+	protected ModelAndView doGet(@RequestParam(value = "computerid", required = false, defaultValue = "") int computerId) {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int computerId = 0;
-
-		if (request.getParameter("computerid") != null)
-			computerId = Integer.parseInt(request.getParameter("computerid"));
-
-		Computer computer = ServicesComputer.computerSelectForUpdate(computerId);
+		Computer computer = serviceComputer.computerSelectForUpdate(computerId);
 
 		List<Company> companyList = ServicesCompany.companyList();
+		
+		ModelAndView modelandview = new ModelAndView();
+		
+		modelandview.addObject("computer", computer);
+		modelandview.addObject("companyList", companyList);
 
-		request.setAttribute("computer", computer);
-		request.setAttribute("companyList", companyList);
-		this.getServletContext().getRequestDispatcher(EDITCOMPUTER).forward(request, response);
+		return modelandview;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-
+	@PostMapping
+	protected ModelAndView doPost(@RequestParam(value = "computerId", required = false) String computerId,
+			  					  @RequestParam(value = "computerName", required = false) String computerName,
+			  					  @RequestParam(value = "introduced", required = false) String introduced,
+			  					  @RequestParam(value = "discontinued", required = false) String discontinued,
+			  					  @RequestParam(value = "companyId", required = false) String companyId) {
+		
 		Boolean Success = false;
 		
-		Computer newcomputer = MapperComputer.getComputerFromResponse(request);
+		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced, discontinued, companyId);
 		
 		if(FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
-			if(ServicesComputer.computerUpdate(newcomputer) != 0)
+			if(serviceComputer.computerUpdate(newcomputer) != 0)
 				Success = true;
 		} else {
 			newcomputer.setName("Unknown");
 		}
 		
-		request.setAttribute("UpdateComputerName", newcomputer.getName());
-		request.setAttribute("Success", Success);
-		this.getServletContext().getRequestDispatcher(EDITCOMPUTER).forward(request, response);
+		ModelAndView modelandview = new ModelAndView();
+		
+		modelandview.addObject("UpdateComputerName", newcomputer.getName());
+		modelandview.addObject("Success", Success);
+		
+		return modelandview;
 	}
 }

@@ -40,7 +40,7 @@
 								</div>    
 							</c:when>
 						</c:choose>
-	                    <form action="editComputer" method="POST">
+	                    <form action="editcomputer" method="POST">
 	                        <input type="hidden" value="${computer.id}" id="computerId" name="computerId"/>
 	                        <fieldset>
 	                            <div class="form-group">

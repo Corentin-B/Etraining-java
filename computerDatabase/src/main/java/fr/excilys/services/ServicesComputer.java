@@ -10,51 +10,51 @@ import fr.excilys.model.Computer;
 @Service
 public class ServicesComputer {
 
-	private static ComputerDao computerDao;
+	private ComputerDao computerDao;
 	
 	public ServicesComputer(ComputerDao computerDao) {
-		ServicesComputer.computerDao = computerDao;
+		this.computerDao = computerDao;
 	}
 	
-	public static Computer computerSelectForUpdate(int idComputer) {
+	public Computer computerSelectForUpdate(int idComputer) {
 
 		return computerDao.selectComputerById(idComputer);
 	}
 	
-	public static List<Computer> computerSearchList(String nameComputer, int numberPage, int range, String order, String sort) {
+	public List<Computer> computerSearchList(String nameComputer, int numberPage, int range, String order, String sort) {
 
 		return computerDao.searchComputerByName(nameComputer, numberPage, range, order, sort);
 	}
 	
-	public static List<Computer> computerList(int numberPage, int range, String order, String sort) {
+	public List<Computer> computerList(int numberPage, int range, String order, String sort) {
 
 		if(order != null)			
 			return computerDao.listOrder(numberPage, range, order, sort);
 		else
-			return computerDao.list(numberPage, range);
+			return computerDao.list(numberPage, range);		
 	}
 	
-	public static int computerGetNumber() {
+	public int computerGetNumber() {
 
 		return computerDao.numberPage();
 	}
 	
-	public static int computerGetNumberSearch(String name) {
+	public int computerGetNumberSearch(String name) {
 
 		return computerDao.numberSearch(name);
 	}
 	
-	public static int computerAdd(Computer computerNew) {
+	public int computerAdd(Computer computerNew) {
 
 		return computerDao.add(computerNew);
 	}
 
-	public static int computerRemove(int idComputer) {
+	public int computerRemove(int idComputer) {
 
 		return computerDao.remove(idComputer);
 	}
 	
-	public static int computerUpdate(Computer modifiedComputer) {
+	public int computerUpdate(Computer modifiedComputer) {
 
 		return computerDao.update(modifiedComputer);
 	}

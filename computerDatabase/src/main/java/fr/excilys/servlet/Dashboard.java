@@ -1,31 +1,36 @@
 package fr.excilys.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import fr.excilys.services.ServicesComputer;
 import fr.excilys.mapper.PaginationDashboard;
 import fr.excilys.model.Computer;
 import fr.excilys.model.Pagination;
 
-public class Dashboard extends HttpServlet {
+@Controller
+@RequestMapping(value = "/dashboard")
+public class Dashboard {
+	
+	public ServicesComputer serviceComputer;
+	
+	public Dashboard (ServicesComputer serviceComputer) {
+		this.serviceComputer = serviceComputer;
+	}
 
-	private static final long serialVersionUID = 1L;
-
-	private static final String DASHBOARD = "/WEB-INF/views/dashboard.jsp";
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int page = requestParameter(request, "page", 1);
-		int range = requestParameter(request, "range", 10);
-		String search = requestParameter(request, "search", null);
-		String order = requestParameter(request, "order", null);
-		String sort = requestParameter(request, "sort", null);
+	@GetMapping
+	public ModelAndView doGet(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							  @RequestParam(value = "range", required = false, defaultValue = "10") int range,
+							  @RequestParam(value = "search", required = false) String search,
+							  @RequestParam(value = "order", required = false) String order,
+							  @RequestParam(value = "sort", required = false) String sort) {
 
 		if ("ascchange".equals(sort))
 			sort = "desc";
@@ -34,68 +39,49 @@ public class Dashboard extends HttpServlet {
 		else if ("change".equals(sort))
 			sort = "asc";
 
-		getListRequest(request, response, page, range, search, order, sort);
+		return getListRequest(page, range, search, order, sort);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@PostMapping
+	public ModelAndView doPost(@RequestParam(value = "selection", required = false, defaultValue = "null") String selection) {
 
-		if (request.getParameter("selection") != null) {
-			String[] computerDelete = request.getParameter("selection").split(",");
+		if (selection != null) {
+			String[] computerDelete = selection.split(",");
 
 			for (String selectComputer : computerDelete) {
-				ServicesComputer.computerRemove(Integer.parseInt(selectComputer));
+				serviceComputer.computerRemove(Integer.parseInt(selectComputer));
 			}
-			this.doGet(request, response);
 		}
+		ModelAndView modelandview = new ModelAndView("redirect:/dashboard");
+		return modelandview;
 	}
 
-	private void getListRequest(HttpServletRequest request, HttpServletResponse response, int page, int range, String search, String order, String sort) throws ServletException, IOException {
+	private ModelAndView getListRequest(int page, int range, String search, String order, String sort) {
 
 		int numberComputer;
 		List<Computer> computerList = new ArrayList<>();
 		int setSqlPage = (page - 1) * range;
 
 		if (search != null && !search.isEmpty()) {
-			computerList = ServicesComputer.computerSearchList(search, setSqlPage, range, order, sort);
-			numberComputer = ServicesComputer.computerGetNumberSearch(search);
+			computerList = serviceComputer.computerSearchList(search, setSqlPage, range, order, sort);
+			numberComputer = serviceComputer.computerGetNumberSearch(search);
 		} else {
-			computerList = ServicesComputer.computerList(setSqlPage, range, order, sort);
-			numberComputer = ServicesComputer.computerGetNumber();
+			computerList = serviceComputer.computerList(setSqlPage, range, order, sort);
+			numberComputer = serviceComputer.computerGetNumber();
 		}
 		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
+				
+		ModelAndView modelandview = new ModelAndView();
 		
-		request.setAttribute("prevPage", pagination.getPrevPage());
-		request.setAttribute("nextPage", pagination.getNextPage());
-		request.setAttribute("incrementPage", pagination.getIncrementPage());
-		request.setAttribute("incrementLastPage", pagination.getIncrementLastPage());
-		request.setAttribute("numberComputer", pagination.getNumberComputer());
-		request.setAttribute("order", order);
-		request.setAttribute("sort", sort);
-		request.setAttribute("computerList", computerList);
-		this.getServletContext().getRequestDispatcher(DASHBOARD).forward(request, response);
-	}
+		modelandview.addObject("prevPage", pagination.getPrevPage());
+		modelandview.addObject("nextPage", pagination.getNextPage());
+		modelandview.addObject("incrementPage", pagination.getIncrementPage());
+		modelandview.addObject("incrementLastPage", pagination.getIncrementLastPage());
+		modelandview.addObject("numberComputer", pagination.getNumberComputer());
+		modelandview.addObject("order", order);
+		modelandview.addObject("sort", sort);
+		modelandview.addObject("computerList", computerList);
 
-	private String requestParameter(HttpServletRequest request, String parameter, String defaultvalue) {
-		
-		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
-			String value = request.getParameter(parameter);
-			request.setAttribute(parameter, value);
-			return value;
-		} else {
-			request.setAttribute(parameter, defaultvalue);
-			return defaultvalue;
-		}
-	}
-
-	private int requestParameter(HttpServletRequest request, String parameter, int defaultvalue) {
-
-		if (request.getParameter(parameter) != null && !request.getParameter(parameter).isBlank()) {
-			int value = Integer.parseInt(request.getParameter(parameter));
-			request.setAttribute(parameter, value);
-			return value;
-		} else {
-			request.setAttribute(parameter, defaultvalue);
-			return defaultvalue;
-		}
+		return modelandview;
 	}
 }

@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.jdbc.core.RowMapper;
 
 import fr.excilys.model.Company;
@@ -29,15 +27,15 @@ public class MapperComputer implements RowMapper<Computer> {
 		return computer;
 	}
 	
-	public static Computer getComputerFromResponse(HttpServletRequest request) {
+	public static Computer getComputerFromResponse(String computerId, String computerName, String introduced, String discontinued, String companyId) {
 		
 		Computer computer = new Computer.Builder()
-										.setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("computerId")))
-									   	.setName(request.getParameter("computerName"))
-									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("introduced")))
-									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(request.getParameter("discontinued")))
+										.setId(FormatServletRequest.checkIntFormatAndConvert(computerId))
+									   	.setName(computerName)
+									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(introduced))
+									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(discontinued))
 									   	.setCompany(new Company.Builder()
-									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(request.getParameter("companyId")))
+									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(companyId))
 									 	 		 			   .build())
 									    .build();
 		
