@@ -16,7 +16,7 @@ public class CommandLineUi {
 
 	
 	public static void menuPrincipal() {
-
+		
 		boolean wantStay = true;
 
 		System.out.println("Que voulez vous faire ?" 

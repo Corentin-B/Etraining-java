@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <%@ page isELIgnored="false"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
 
 <html>
 	<head>
@@ -23,7 +24,7 @@
 		<section id="main">
 			<div class="container">
 				<h1 id="homeTitle">
-					<c:out value="${numberComputer}"></c:out> Computers found
+					<c:out value="${numberComputer}"></c:out> <fmt:message key="label.computersfound" />
 				</h1>
 				<div id="actions" class="form-horizontal">
 					<div class="pull-left">
@@ -55,7 +56,7 @@
 									</a>
 								</span>
 							</th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=name&sort=${sort}change"  class="btn btn-light">Computer name</a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=name&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.computername" /></a></th>
 							<th><a href="dashboard?range=${range}&search=${search}&order=introduced&sort=${sort}change"  class="btn btn-light">Introduced date</a></th>
 							<th><a href="dashboard?range=${range}&search=${search}&order=discontinued&sort=${sort}change"  class="btn btn-light">Discontinued date</a></th>
 							<th><a href="dashboard?range=${range}&search=${search}&order=company_id&sort=${sort}change"  class="btn btn-light">Company</a></th>
@@ -79,7 +80,18 @@
 		</section>
 	
 		<footer class="navbar-fixed-bottom">
-			<div class="container text-center">
+					<div class="container text-center">
+			<div class="dropdown pull-left pagination">
+			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Language
+			  </button>
+			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    <a class="dropdown-item" href="?lang=en"><fmt:message key="label.lang.en" /></a>
+			    <a class="dropdown-item" href="?lang=fr"><fmt:message key="label.lang.fr" /></a>
+			  </div>
+			</div>
+		
+
 				<ul class="pagination">
 					<li>
 						<a href="dashboard?page=${prevPage}&range=${range}&search=${search}&order=${order}&sort=${sort}" aria-label="Previous">
