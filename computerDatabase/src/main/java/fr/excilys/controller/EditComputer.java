@@ -1,4 +1,4 @@
-package fr.excilys.servlet;
+package fr.excilys.controller;
 
 import java.util.List;
 
@@ -27,14 +27,13 @@ public class EditComputer {
 	}
 	
 	@GetMapping
-	protected ModelAndView doGet(@RequestParam(value = "computerid", required = false, defaultValue = "") int computerId) {
+	protected ModelAndView doGet(@RequestParam(value = "computerid", required = false, defaultValue = "0") int computerId) {
 
 		Computer computer = serviceComputer.computerSelectForUpdate(computerId);
 
 		List<Company> companyList = ServicesCompany.companyList();
 		
 		ModelAndView modelandview = new ModelAndView();
-		
 		modelandview.addObject("computer", computer);
 		modelandview.addObject("companyList", companyList);
 
@@ -48,21 +47,20 @@ public class EditComputer {
 			  					  @RequestParam(value = "discontinued", required = false) String discontinued,
 			  					  @RequestParam(value = "companyId", required = false) String companyId) {
 		
-		Boolean Success = false;
+		Boolean success = false;
 		
 		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced, discontinued, companyId);
 		
 		if(FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
 			if(serviceComputer.computerUpdate(newcomputer) != 0)
-				Success = true;
+				success = true;
 		} else {
 			newcomputer.setName("Unknown");
 		}
 		
 		ModelAndView modelandview = new ModelAndView();
-		
-		modelandview.addObject("UpdateComputerName", newcomputer.getName());
-		modelandview.addObject("Success", Success);
+		modelandview.addObject("updateComputerName", newcomputer.getName());
+		modelandview.addObject("success", success);
 		
 		return modelandview;
 	}

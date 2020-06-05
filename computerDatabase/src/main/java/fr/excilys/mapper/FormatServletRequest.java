@@ -26,7 +26,7 @@ public class FormatServletRequest {
 		if (!value.isBlank()) {
 			LocalDate valueDate = LocalDate.parse(value);
 
-			if (valueDate.isBefore(LocalDate.parse("1970-01-01"))) {
+			if (valueDate.isBefore(LocalDate.parse("1970-01-02"))) {
 				return null;
 			} else if (valueDate.isAfter(LocalDate.parse("2038-01-19"))) {
 				return null;

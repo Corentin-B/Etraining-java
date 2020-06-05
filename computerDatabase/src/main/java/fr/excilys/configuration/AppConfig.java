@@ -17,7 +17,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
-@ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper, fr.excilys.servlet, fr.excilys.configuration")
+@ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper, fr.excilys.controller, fr.excilys.configuration")
 @PropertySource("classpath:database.properties")
 
 public class AppConfig implements WebApplicationInitializer{

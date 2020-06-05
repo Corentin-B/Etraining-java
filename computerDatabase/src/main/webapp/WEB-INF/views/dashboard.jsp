@@ -6,7 +6,7 @@
 
 <html>
 	<head>
-		<title>Computer Database</title>
+		<title><fmt:message key="label.title.computerdatabase" /></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<!-- Bootstrap -->
@@ -17,7 +17,7 @@
 	<body>
 		<header class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+				<a class="navbar-brand" href="dashboard"> <fmt:message key="label.applicationname" /></a>
 			</div>
 		</header>
 	
@@ -29,13 +29,13 @@
 				<div id="actions" class="form-horizontal">
 					<div class="pull-left">
 						<form id="searchForm" action="#" method="GET" class="form-inline">
-							<input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" /> 
-							<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+							<input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.searchname" />" /> 
+							<input type="submit" id="searchsubmit" value="<fmt:message key="label.button.filterbyname" />" class="btn btn-primary" />
 						</form>
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-success" id="addComputer" href="addcomputer">Add	Computer</a>
-						<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+						<a class="btn btn-success" id="addComputer" href="addcomputer"><fmt:message key="label.button.addcomputer" /></a>
+						<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.button.edit" /></a>
 					</div>
 				</div>
 			</div>
@@ -57,9 +57,9 @@
 								</span>
 							</th>
 							<th><a href="dashboard?range=${range}&search=${search}&order=name&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.computername" /></a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=introduced&sort=${sort}change"  class="btn btn-light">Introduced date</a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=discontinued&sort=${sort}change"  class="btn btn-light">Discontinued date</a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=company_id&sort=${sort}change"  class="btn btn-light">Company</a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=introduced&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.introduceddate" /></a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=discontinued&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.discontinueddate" /></a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=company_id&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.company" /></a></th>
 						</tr>
 					</thead>
 					<tbody id="results">
@@ -80,17 +80,21 @@
 		</section>
 	
 		<footer class="navbar-fixed-bottom">
-					<div class="container text-center">
-			<div class="dropdown pull-left pagination">
-			  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    Language
-			  </button>
-			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item" href="?lang=en"><fmt:message key="label.lang.en" /></a>
-			    <a class="dropdown-item" href="?lang=fr"><fmt:message key="label.lang.fr" /></a>
-			  </div>
-			</div>
-		
+			<div class="container text-center">		
+				<div class="pull-left pagination">	
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><fmt:message key="label.language" />
+						<span class="caret"></span></button>
+						<ul class="dropdown-menu">
+				  			<li>
+				  				<a class="dropdown-item" href="?lang=en"><fmt:message key="label.lang.en" /></a>
+				  			</li>
+				  			<li>
+				  				<a class="dropdown-item" href="?lang=fr"><fmt:message key="label.lang.fr" /></a>
+				  			</li>
+						</ul>
+			  		</div> 
+		    	</div>
 
 				<ul class="pagination">
 					<li>

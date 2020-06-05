@@ -28,7 +28,7 @@ public class ServicesComputer {
 	
 	public List<Computer> computerList(int numberPage, int range, String order, String sort) {
 
-		if(order != null)			
+		if(order != null && !order.isEmpty())			
 			return computerDao.listOrder(numberPage, range, order, sort);
 		else
 			return computerDao.list(numberPage, range);		

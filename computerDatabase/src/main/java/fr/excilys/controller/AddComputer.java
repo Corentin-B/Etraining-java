@@ -1,4 +1,4 @@
-package fr.excilys.servlet;
+package fr.excilys.controller;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
 import fr.excilys.services.ServicesCompany;
 import fr.excilys.services.ServicesComputer;
+import fr.excilys.mapper.FormatServletRequest;
 import fr.excilys.mapper.MapperComputer;
 
 @Controller
@@ -21,45 +22,48 @@ public class AddComputer {
 
 	public ServicesComputer serviceComputer;
 
-	public AddComputer (ServicesComputer serviceComputer) {
+	public AddComputer(ServicesComputer serviceComputer) {
 		this.serviceComputer = serviceComputer;
 	}
-	
+
 	@GetMapping
 	protected ModelAndView doGet() {
 
 		List<Company> companyList = ServicesCompany.companyList();
-								
+
 		ModelAndView modelandview = new ModelAndView();
-		
 		modelandview.addObject("companyList", companyList);
-		
+
 		return modelandview;
 	}
 
 	@PostMapping
 	protected ModelAndView doPost(@RequestParam(value = "computerId", required = false) String computerId,
-			  					  @RequestParam(value = "computerName", required = false) String computerName,
-			  					  @RequestParam(value = "introduced", required = false) String introduced,
-			  					  @RequestParam(value = "discontinued", required = false) String discontinued,
-			  					  @RequestParam(value = "companyId", required = false) String companyId) {
+			@RequestParam(value = "computerName", required = false) String computerName,
+			@RequestParam(value = "introduced", required = false) String introduced,
+			@RequestParam(value = "discontinued", required = false) String discontinued,
+			@RequestParam(value = "companyId", required = false) String companyId) {
 
-		Boolean Success = false;
-		
-		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced, discontinued, companyId);
-		
-		if(!newcomputer.getName().isBlank()) {
-			if(serviceComputer.computerAdd(newcomputer) != 0)
-				Success = true;
+		Boolean success = false;
+
+		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced,
+				discontinued, companyId);
+
+		if (!newcomputer.getName().isBlank()) {
+			if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
+				if (serviceComputer.computerAdd(newcomputer) != 0)
+					success = true;
+			} else {
+				newcomputer.setName("Unknown");
+			}
 		} else {
 			newcomputer.setName("Unknown");
 		}
-		
+
 		ModelAndView modelandview = new ModelAndView();
-		
 		modelandview.addObject("newComputerName", newcomputer.getName());
-		modelandview.addObject("Success", Success);
-		
+		modelandview.addObject("success", success);
+
 		return modelandview;
 	}
 }

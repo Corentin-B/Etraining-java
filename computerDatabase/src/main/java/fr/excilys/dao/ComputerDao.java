@@ -52,7 +52,7 @@ public class ComputerDao {
 	}
 
 	public List<Computer> listOrder(int numberPage, int range, String order, String sort) {
-
+		
 		MapSqlParameterSource mapParam = new MapSqlParameterSource()
 				.addValue("numberPage", numberPage)
 				.addValue("range", range);

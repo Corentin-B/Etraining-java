@@ -1,4 +1,4 @@
-package fr.excilys.servlet;
+package fr.excilys.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class Dashboard {
 	}
 
 	@PostMapping
-	public ModelAndView doPost(@RequestParam(value = "selection", required = false, defaultValue = "null") String selection) {
+	public ModelAndView doPost(@RequestParam(value = "selection", required = false) String selection) {
 
 		if (selection != null) {
 			String[] computerDelete = selection.split(",");
@@ -72,7 +72,6 @@ public class Dashboard {
 		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
 				
 		ModelAndView modelandview = new ModelAndView();
-		
 		modelandview.addObject("prevPage", pagination.getPrevPage());
 		modelandview.addObject("nextPage", pagination.getNextPage());
 		modelandview.addObject("incrementPage", pagination.getIncrementPage());
@@ -80,6 +79,7 @@ public class Dashboard {
 		modelandview.addObject("numberComputer", pagination.getNumberComputer());
 		modelandview.addObject("order", order);
 		modelandview.addObject("sort", sort);
+		modelandview.addObject("range", range);
 		modelandview.addObject("computerList", computerList);
 
 		return modelandview;
