@@ -1,7 +1,5 @@
 package fr.excilys.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,32 +7,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.excilys.model.Company;
-import fr.excilys.model.Computer;
-import fr.excilys.services.ServicesCompany;
-import fr.excilys.services.ServicesComputer;
-import fr.excilys.mapper.FormatServletRequest;
-import fr.excilys.mapper.MapperComputer;
+import fr.excilys.services.ServiceControllerAddComputer;
 
 @Controller
 @RequestMapping(value = "/addcomputer")
 public class AddComputer {
 
-	public ServicesComputer serviceComputer;
+	public ServiceControllerAddComputer serviceControllerAddComputer;
 
-	public AddComputer(ServicesComputer serviceComputer) {
-		this.serviceComputer = serviceComputer;
+	public AddComputer(ServiceControllerAddComputer serviceControllerAddComputer) {
+		this.serviceControllerAddComputer = serviceControllerAddComputer;
 	}
 
 	@GetMapping
 	protected ModelAndView doGet() {
 
-		List<Company> companyList = ServicesCompany.companyList();
-
-		ModelAndView modelandview = new ModelAndView();
-		modelandview.addObject("companyList", companyList);
-
-		return modelandview;
+		return serviceControllerAddComputer.getRequest();
 	}
 
 	@PostMapping
@@ -44,26 +32,6 @@ public class AddComputer {
 			@RequestParam(value = "discontinued", required = false) String discontinued,
 			@RequestParam(value = "companyId", required = false) String companyId) {
 
-		Boolean success = false;
-
-		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced,
-				discontinued, companyId);
-
-		if (!newcomputer.getName().isBlank()) {
-			if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
-				if (serviceComputer.computerAdd(newcomputer) != 0)
-					success = true;
-			} else {
-				newcomputer.setName("Unknown");
-			}
-		} else {
-			newcomputer.setName("Unknown");
-		}
-
-		ModelAndView modelandview = new ModelAndView();
-		modelandview.addObject("newComputerName", newcomputer.getName());
-		modelandview.addObject("success", success);
-
-		return modelandview;
+		return serviceControllerAddComputer.postRequest(computerId, computerName, introduced, discontinued, companyId);
 	}
 }

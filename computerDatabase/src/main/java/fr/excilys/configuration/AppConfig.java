@@ -22,7 +22,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public class AppConfig implements WebApplicationInitializer{
 
-	
 	@Autowired
 	Environment environment;
 
