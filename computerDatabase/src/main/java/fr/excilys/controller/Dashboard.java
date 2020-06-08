@@ -1,6 +1,7 @@
 package fr.excilys.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,12 @@ public class Dashboard {
 
 	@PostMapping
 	public ModelAndView doPost(@RequestParam(value = "selection", required = false) String selection) {
+
+		return serviceControllerDashboard.postRequest(selection);
+	}
+	
+	@DeleteMapping
+	public ModelAndView doDelete(@RequestParam(value = "selection", required = false) String selection) {
 
 		return serviceControllerDashboard.postRequest(selection);
 	}

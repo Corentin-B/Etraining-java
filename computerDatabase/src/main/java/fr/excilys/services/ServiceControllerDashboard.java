@@ -36,7 +36,7 @@ public class ServiceControllerDashboard {
 	
 	public ModelAndView postRequest(String selection) {
 
-		if (selection != null) {
+		if (selection != null && !selection.isBlank()) {
 			String[] computerDelete = selection.split(",");
 
 			for (String selectComputer : computerDelete) {
@@ -71,6 +71,7 @@ public class ServiceControllerDashboard {
 		modelandview.addObject("order", order);
 		modelandview.addObject("sort", sort);
 		modelandview.addObject("range", range);
+		modelandview.addObject("search", search);
 		modelandview.addObject("computerList", computerList);
 
 		return modelandview;

@@ -13,22 +13,11 @@ public class PaginationDashboard {
 		pagination.setSqlPage(setSqlPage);
 		pagination.setNumberComputer(numberComputer);
 		
-		if (page <= 1)
-			pagination.setPrevPage(1);
-		else
-			pagination.setPrevPage(page - 1);
+		pagination.setPrevPage(findPrevPage(page));
 		
-		if (page >= lastPage)
-			pagination.setNextPage(lastPage);
-		else
-			pagination.setNextPage(page + 1);
+		pagination.setNextPage(findNextPage(page, lastPage));
 
-		if (page - 2 < 2)
-			pagination.setIncrementPage(1);
-		else if (page + 2 > lastPage)
-			pagination.setIncrementPage(lastPage - 4);
-		else
-			pagination.setIncrementPage(page - 2);
+		pagination.setIncrementPage(findIncrementPage (page, lastPage));
 		
 		pagination.setIncrementLastPage(pagination.getIncrementPage() + 4);
 		
@@ -37,5 +26,28 @@ public class PaginationDashboard {
 			pagination.setIncrementLastPage(lastPage);
 		}
 		return pagination;
+	}
+	
+	private static int findPrevPage (int currentPage) {
+		if (currentPage <= 1)
+			return 1;
+		else
+			return currentPage - 1;
+	}
+	
+	private static int findNextPage (int currentPage, int lastPage) {
+		if (currentPage >= lastPage)
+			return lastPage;
+		else
+			return currentPage + 1;
+	}
+	
+	private static int findIncrementPage (int currentPage, int lastPage) {
+		if (currentPage - 2 < 2)
+			return 1;
+		else if (currentPage + 2 > lastPage)
+			return lastPage - 4;
+		else
+			return currentPage - 2;
 	}
 }
