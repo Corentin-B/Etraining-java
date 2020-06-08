@@ -9,6 +9,7 @@ import fr.excilys.mapper.FormatServletRequest;
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
+import fr.excilys.model.DoPostParameter;
 
 @Service
 public class ServiceControllerEditComputer {
@@ -32,13 +33,11 @@ public class ServiceControllerEditComputer {
 		return modelandview;
 	}
 
-	public ModelAndView postRequest(String computerId, String computerName, String introduced, String discontinued,
-			String companyId) {
+	public ModelAndView postRequest(DoPostParameter doPostParameter) {
 
 		Boolean success = false;
 
-		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced,
-				discontinued, companyId);
+		Computer newcomputer = MapperComputer.getComputerFromResponse(doPostParameter);
 
 		if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
 			if (serviceComputer.computerUpdate(newcomputer) != 0)

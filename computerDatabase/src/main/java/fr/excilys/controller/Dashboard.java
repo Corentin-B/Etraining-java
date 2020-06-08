@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.excilys.model.DoGetParameter;
 import fr.excilys.services.ServiceControllerDashboard;
 
 @Controller
@@ -20,13 +21,9 @@ public class Dashboard {
 	}
 
 	@GetMapping
-	public ModelAndView doGet(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-							  @RequestParam(value = "range", required = false, defaultValue = "10") int range,
-							  @RequestParam(value = "search", required = false) String search,
-							  @RequestParam(value = "order", required = false) String order,
-							  @RequestParam(value = "sort", required = false) String sort) {
+	public ModelAndView doGet(DoGetParameter parameterObject) {
 
-		return serviceControllerDashboard.getRequest(page, range, search, order, sort);
+		return serviceControllerDashboard.getRequest(parameterObject);
 	}
 
 	@PostMapping

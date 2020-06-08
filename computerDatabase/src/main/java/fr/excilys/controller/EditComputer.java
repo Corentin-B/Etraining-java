@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.excilys.model.DoPostParameter;
 import fr.excilys.services.ServiceControllerEditComputer;
 
 
@@ -27,12 +28,8 @@ public class EditComputer {
 	}
 
 	@PostMapping
-	protected ModelAndView doPost(@RequestParam(value = "computerId", required = false) String computerId,
-			  					  @RequestParam(value = "computerName", required = false) String computerName,
-			  					  @RequestParam(value = "introduced", required = false) String introduced,
-			  					  @RequestParam(value = "discontinued", required = false) String discontinued,
-			  					  @RequestParam(value = "companyId", required = false) String companyId) {
+	protected ModelAndView doPost(DoPostParameter doPostParameter) {
 		
-		return serviceControllerEditComputer.postRequest(computerId, computerName, introduced, discontinued, companyId);
+		return serviceControllerEditComputer.postRequest(doPostParameter);
 	}
 }

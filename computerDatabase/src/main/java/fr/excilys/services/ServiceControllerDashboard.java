@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.excilys.mapper.PaginationDashboard;
 import fr.excilys.model.Computer;
+import fr.excilys.model.DoGetParameter;
 import fr.excilys.model.Pagination;
 
 @Service
@@ -18,17 +19,19 @@ public class ServiceControllerDashboard {
 	public ServiceControllerDashboard (ServicesComputer serviceComputer) {
 		this.serviceComputer = serviceComputer;
 	}
-
-	public ModelAndView getRequest(int page, int range, String search, String order, String sort) {
+	public ModelAndView getRequest(DoGetParameter parameterObject) {
 		
-		if ("ascchange".equals(sort))
-			sort = "desc";
-		else if ("descchange".equals(sort))
-			sort = "asc";
-		else if ("change".equals(sort))
-			sort = "asc";
+		int pageNumber = requestParameter(parameterObject.getPage(), 1);
+		int rangeNumber = requestParameter(parameterObject.getRange(), 10);
+		
+		if ("ascchange".equals(parameterObject.getSort()))
+			parameterObject.setSort("desc");
+		else if ("descchange".equals(parameterObject.getSort()))
+			parameterObject.setSort("asc");
+		else if ("change".equals(parameterObject.getSort()))
+			parameterObject.setSort("asc");
 
-		return getListRequest(page, range, search, order, sort);
+		return getListRequest(pageNumber, rangeNumber, parameterObject.getSearch(), parameterObject.getOrder(), parameterObject.getSort());
 	}
 	
 	public ModelAndView postRequest(String selection) {
@@ -71,5 +74,15 @@ public class ServiceControllerDashboard {
 		modelandview.addObject("computerList", computerList);
 
 		return modelandview;
+	}
+	
+
+	private int requestParameter(String parameter, int defaultvalue) {
+	
+		if (parameter != null && !parameter.isBlank()) {
+			return Integer.parseInt(parameter);
+		} else {
+			return defaultvalue;
+		}
 	}
 }

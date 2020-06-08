@@ -3,13 +3,13 @@ package fr.excilys.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.excilys.mapper.FormatServletRequest;
 import fr.excilys.mapper.MapperComputer;
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
+import fr.excilys.model.DoPostParameter;
 
 @Service
 public class ServiceControllerAddComputer {
@@ -31,16 +31,11 @@ public class ServiceControllerAddComputer {
 		return modelandview;
 	}
 
-	public ModelAndView postRequest(@RequestParam(value = "computerId", required = false) String computerId,
-			@RequestParam(value = "computerName", required = false) String computerName,
-			@RequestParam(value = "introduced", required = false) String introduced,
-			@RequestParam(value = "discontinued", required = false) String discontinued,
-			@RequestParam(value = "companyId", required = false) String companyId) {
+	public ModelAndView postRequest(DoPostParameter parameterObject) {
 
 		Boolean success = false;
 
-		Computer newcomputer = MapperComputer.getComputerFromResponse(computerId, computerName, introduced,
-				discontinued, companyId);
+		Computer newcomputer = MapperComputer.getComputerFromResponse(parameterObject);
 
 		if (!newcomputer.getName().isBlank()) {
 			if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {

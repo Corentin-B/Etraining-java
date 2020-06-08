@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.excilys.model.Company;
 import fr.excilys.model.Computer;
+import fr.excilys.model.DoPostParameter;
 
 public class MapperComputer implements RowMapper<Computer> {
 	
@@ -26,16 +27,16 @@ public class MapperComputer implements RowMapper<Computer> {
 									    .build();
 		return computer;
 	}
-	
-	public static Computer getComputerFromResponse(String computerId, String computerName, String introduced, String discontinued, String companyId) {
+
+	public static Computer getComputerFromResponse(DoPostParameter parameterObject) {
 		
 		Computer computer = new Computer.Builder()
-										.setId(FormatServletRequest.checkIntFormatAndConvert(computerId))
-									   	.setName(computerName)
-									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(introduced))
-									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(discontinued))
+										.setId(FormatServletRequest.checkIntFormatAndConvert(parameterObject.getComputerId()))
+									   	.setName(parameterObject.getComputerName())
+									   	.setIntroduced(FormatServletRequest.checkDateFormatValueAndConvert(parameterObject.getIntroduced()))
+									   	.setDiscontinued(FormatServletRequest.checkDateFormatValueAndConvert(parameterObject.getDiscontinued()))
 									   	.setCompany(new Company.Builder()
-									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(companyId))
+									   						   .setId(FormatServletRequest.checkIntFormatAndConvert(parameterObject.getCompanyId()))
 									 	 		 			   .build())
 									    .build();
 		
