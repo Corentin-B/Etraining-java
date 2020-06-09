@@ -30,12 +30,12 @@ public class Dashboard {
 	@PostMapping
 	public ModelAndView doPost(@RequestParam(value = "selection", required = false) String selection) {
 
-		return serviceControllerDashboard.postRequest(selection);
+		return serviceControllerDashboard.deleteRequest(selection);
 	}
 	
 	@DeleteMapping
 	public ModelAndView doDelete(@RequestParam(value = "selection", required = false) String selection) {
 
-		return serviceControllerDashboard.postRequest(selection);
+		return serviceControllerDashboard.deleteRequest(selection);
 	}
 }

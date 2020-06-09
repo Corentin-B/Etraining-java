@@ -34,7 +34,7 @@ public class ServiceControllerDashboard {
 		return getListRequest(pageNumber, rangeNumber, parameterObject.getSearch(), parameterObject.getOrder(), parameterObject.getSort());
 	}
 	
-	public ModelAndView postRequest(String selection) {
+	public ModelAndView deleteRequest(String selection) {
 
 		if (selection != null && !selection.isBlank()) {
 			String[] computerDelete = selection.split(",");
