@@ -40,7 +40,8 @@ public class ServiceControllerEditComputer {
 		Computer newcomputer = MapperComputer.getComputerFromResponse(doPostParameter);
 
 		if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
-			if (serviceComputer.computerUpdate(newcomputer) != 0)
+			Computer updatedComputer = serviceComputer.computerUpdate(newcomputer);
+			if (updatedComputer.getId() != 0)
 				success = true;
 		} else {
 			newcomputer.setName("Unknown");

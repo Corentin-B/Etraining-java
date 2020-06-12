@@ -39,7 +39,8 @@ public class ServiceControllerAddComputer {
 
 		if (!newcomputer.getName().isBlank()) {
 			if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
-				if (serviceComputer.computerAdd(newcomputer) != 0)
+				Computer addedcomputer = serviceComputer.computerAdd(newcomputer);
+				if (addedcomputer.getId() != 0)
 					success = true;
 			} else {
 				newcomputer.setName("Unknown");

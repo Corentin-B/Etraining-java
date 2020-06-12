@@ -5,30 +5,33 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import fr.excilys.dao.CompanyDao;
 import fr.excilys.model.Company;
+import fr.excilys.repository.CompanyRepository;
 
 @Service
 public class ServicesCompany {
 	
-	private static CompanyDao companyDao;
-    
-	public ServicesCompany(CompanyDao companyDao) {
-		ServicesCompany.companyDao = companyDao;
-	}
+	private static CompanyRepository companyRepository;
 	
-	public static int[] companyRemove(int idComputer) throws SQLException {
+	public ServicesCompany(CompanyRepository companyRepository) {
+		ServicesCompany.companyRepository = companyRepository;
+	}
+	/*
+	@Autowired
+    private static CompanyRepository companyRepository;*/
+	
+	public static void companyRemove(int idComputer) throws SQLException {
 
-		return companyDao.remove(idComputer);
+		companyRepository.deleteById((long) idComputer);;
 	}
     
 	public static List<Company>  companyList() {
 
-		return companyDao.lister();
+		return companyRepository.findAll();
 	}
 	
 	public static Company companySelectForCheck(long idCompany) {
 
-		return companyDao.selecOneCompany(idCompany); 
+		return companyRepository.findById(idCompany).orElse(new Company());
 	}
 }
