@@ -72,12 +72,16 @@ public class Computer {
 		}
 	}
 
-	public Computer(Builder builder) {
+	private Computer(Builder builder) {
 		this.id = builder.idBuilder;
 		this.name = builder.nameBuilder;
 		this.introduced = builder.introducedBuilder;
 		this.discontinued = builder.discontinuedBuilder;
 		this.company = builder.companyBuilder;
+	}
+	
+	public Computer () {
+		
 	}
 
 	public long getId() {

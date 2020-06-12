@@ -1,5 +1,8 @@
 package fr.excilys.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +26,14 @@ public class Dashboard {
 		this.serviceControllerDashboard = serviceControllerDashboard;
 	}
     
+	@Autowired
     private CompanyRepository companyRepository;
 	
 	@GetMapping
 	public ModelAndView doGet(DoGetParameter parameterObject) {
 	        		
 	      System.out.println(" -- finding all company --");
-	      System.out.println("companyRepository - "+ companyRepository);
-	      Iterable<Company> all = companyRepository.findAll();
+	      List <Company> all = companyRepository.findAll();
 	      System.out.println(all);
 		
 		return serviceControllerDashboard.getRequest(parameterObject);

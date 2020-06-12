@@ -43,6 +43,10 @@ public class Company {
 		this.id = builder.idBuilder;
 		this.name = builder.nameBuilder;
 	}
+	
+	public Company () {
+		
+	}
 
 	public long getId() {
 		return id;
