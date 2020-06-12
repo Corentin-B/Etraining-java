@@ -1,5 +1,7 @@
 package fr.excilys.configuration;
 
+import java.util.Properties;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -11,15 +13,22 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+@EnableJpaRepositories("fr.excilys.repository")
 @Configuration
-@ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper, fr.excilys.controller, fr.excilys.configuration")
+@ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper, fr.excilys.controller, fr.excilys.configuration, fr.excilys.repository")
 @PropertySource("classpath:database.properties")
-
 public class AppConfig implements WebApplicationInitializer{
 
 	@Autowired
@@ -52,4 +61,38 @@ public class AppConfig implements WebApplicationInitializer{
 	    servlet.setLoadOnStartup(1);
 	    servlet.addMapping("/");
 	}
+	
+	   @Bean
+	   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	      LocalContainerEntityManagerFactoryBean em 
+	        = new LocalContainerEntityManagerFactoryBean();
+	      em.setDataSource(dataSource());
+	      em.setPackagesToScan(new String[] { "fr.excilys.model" });
+	 
+	      JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+	      em.setJpaVendorAdapter(vendorAdapter);
+	      em.setJpaProperties(additionalProperties());
+	 
+	      return em;
+	   }
+	   
+	   @Bean
+	   public PlatformTransactionManager transactionManager() {
+	       JpaTransactionManager transactionManager = new JpaTransactionManager();
+	       transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+	    
+	       return transactionManager;
+	   }
+	    
+	   @Bean
+	   public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+	       return new PersistenceExceptionTranslationPostProcessor();
+	   }
+	    
+	   Properties additionalProperties() {
+	       Properties properties = new Properties();
+	       properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+	           
+	       return properties;
+	   }
 }

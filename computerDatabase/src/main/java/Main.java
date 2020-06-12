@@ -4,6 +4,7 @@ import fr.excilys.client.CommandLineUi;
 import fr.excilys.configuration.AppConfig;
 import fr.excilys.dao.CompanyDao;
 
+
 public class Main {
 
 	public static void main(String[] args) {

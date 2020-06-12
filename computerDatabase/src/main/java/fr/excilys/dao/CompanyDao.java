@@ -15,36 +15,39 @@ import fr.excilys.model.Company;
 
 @Repository
 public class CompanyDao {
-	
+
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
+
 	@Autowired
 	public CompanyDao(DataSource dataSource) {
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
-	
+
 	@Transactional
 	public int[] remove(int idCompany) {
-		
-		int[] returnValue = {0,0};
-		
+
+		int[] returnValue = { 0, 0 };
+
 		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("idCompany", idCompany);
 
-		returnValue[0] = namedParameterJdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage(), mapParam);
+		returnValue[0] = namedParameterJdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANYCOMPUTER.getMessage(),
+				mapParam);
 		returnValue[1] = namedParameterJdbcTemplate.update(EnumSQLRequestCompany.DELETE_COMPANY.getMessage(), mapParam);
-	
+
 		return returnValue;
 	}
 
 	public List<Company> lister() {
 
-		return namedParameterJdbcTemplate.query(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage(), new MapperCompany());
+		return namedParameterJdbcTemplate.query(EnumSQLRequestCompany.SELECT_ALLCOMPANY.getMessage(),
+				new MapperCompany());
 	}
 
 	public Company selecOneCompany(long idCompany) {
 
 		MapSqlParameterSource mapParam = new MapSqlParameterSource().addValue("idCompany", idCompany);
 
-		return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage(), mapParam, new MapperCompany());
+		return namedParameterJdbcTemplate.queryForObject(EnumSQLRequestCompany.SELECT_ONECOMPANY.getMessage(), mapParam,
+				new MapperCompany());
 	}
 }

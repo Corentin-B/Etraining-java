@@ -15,19 +15,22 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit-version>4.11</junit-version>
 		<mockito-all-version>1.10.19</mockito-all-version>
-		<servlet-api-version>2.5</servlet-api-version>
 		<mysql-connector-version>8.0.19</mysql-connector-version>
 		<log4j-version>1.2.17</log4j-version>
 		<log4j-slf4j-impl-version>2.13.1</log4j-slf4j-impl-version>
 		<taglibs-standard-version>1.2.5</taglibs-standard-version>
 		<hikariCP-version>3.4.2</hikariCP-version>
 		<spring-version>5.2.4.RELEASE</spring-version>
-		<javax-servlet-version>4.0.1</javax-servlet-version>
+		<spring-data-jpa>2.3.0.RELEASE</spring-data-jpa>
 		<jstl-version>1.2</jstl-version>
-
+		<javax-servlet-version>4.0.1</javax-servlet-version>
+		<hibernate.manager>5.4.17.Final</hibernate.manager>
 	</properties>
 
 	<dependencies>
+
+		<!--TEST -->
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -42,12 +45,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--MYSQL -->
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-version}</version>
 		</dependency>
+
+		<!--Log4J -->
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -61,6 +67,8 @@
 			<version>${log4j-slf4j-impl-version}</version>
 		</dependency>
 
+		<!--Apache -->
+
 		<dependency>
 			<groupId>org.apache.taglibs</groupId>
 			<artifactId>taglibs-standard-spec</artifactId>
@@ -72,6 +80,8 @@
 			<artifactId>taglibs-standard-impl</artifactId>
 			<version>${taglibs-standard-version}</version>
 		</dependency>
+
+		<!--Spring -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -98,6 +108,22 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa}</version>
+		</dependency>
+
+		<!--JSTL -->
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl-version}</version>
+		</dependency>
+
+		<!-- Servlet -->
+
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${javax-servlet-version}</version>
@@ -105,9 +131,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl-version}</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.manager}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.manager}</version>
 		</dependency>
 	</dependencies>
 
