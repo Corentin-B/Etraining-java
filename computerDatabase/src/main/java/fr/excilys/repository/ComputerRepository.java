@@ -2,18 +2,17 @@ package fr.excilys.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.excilys.model.Computer;
 
-public interface ComputerRepository extends CrudRepository<Computer, Long>{
+public interface ComputerRepository extends JpaRepository<Computer, Long>{
 	
-	long CountLike(String name);
+	int countByNameContainingIgnoreCase(String nameComputer);
 	
-	@Query(value = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, computer.company_id, company.name "
-			 +"FROM computer " 
-			 +"LEFT JOIN company ON company_id = company.id " 
-			 +"LIMIT ?1, ?2", nativeQuery = true)
-	List<Computer> list(int numberPage, int range);
+	List<Computer> findBy(Pageable pageable);
+	
+	List<Computer> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
 }

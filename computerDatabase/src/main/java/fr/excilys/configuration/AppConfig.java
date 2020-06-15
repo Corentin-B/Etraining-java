@@ -1,7 +1,5 @@
 package fr.excilys.configuration;
 
-import java.util.Properties;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -29,7 +27,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 @ComponentScan(basePackages = "fr.excilys.dao, fr.excilys.services, fr.excilys.mapper, fr.excilys.controller, fr.excilys.configuration, fr.excilys.repository")
 @PropertySource("classpath:database.properties")
-public class AppConfig implements WebApplicationInitializer{
+public class AppConfig implements WebApplicationInitializer {
 
 	@Autowired
 	Environment environment;
@@ -52,48 +50,37 @@ public class AppConfig implements WebApplicationInitializer{
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		System.out.println("Starting . . .");
-		
+
 		AnnotationConfigWebApplicationContext webCtx = new AnnotationConfigWebApplicationContext();
 		webCtx.register(AppConfig.class);
 		webCtx.setServletContext(servletContext);
-		
-        ServletRegistration.Dynamic servlet = servletContext.addServlet("dashboard", new DispatcherServlet(webCtx));
-	    servlet.setLoadOnStartup(1);
-	    servlet.addMapping("/");
+
+		ServletRegistration.Dynamic servlet = servletContext.addServlet("dashboard", new DispatcherServlet(webCtx));
+		servlet.setLoadOnStartup(1);
+		servlet.addMapping("/");
 	}
-	
-	   @Bean
-	   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-	      LocalContainerEntityManagerFactoryBean em 
-	        = new LocalContainerEntityManagerFactoryBean();
-	      em.setDataSource(dataSource());
-	      em.setPackagesToScan(new String[] { "fr.excilys.model" });
-	 
-	      JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-	      em.setJpaVendorAdapter(vendorAdapter);
-	      em.setJpaProperties(additionalProperties());
-	 
-	      return em;
-	   }
-	   
-	   @Bean
-	   public PlatformTransactionManager transactionManager() {
-	       JpaTransactionManager transactionManager = new JpaTransactionManager();
-	       transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-	    
-	       return transactionManager;
-	   }
-	    
-	   @Bean
-	   public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-	       return new PersistenceExceptionTranslationPostProcessor();
-	   }
-	    
-	   Properties additionalProperties() {
-	       Properties properties = new Properties();
-	       properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-	       properties.setProperty("hibernate.show_sql", "true");
-	           
-	       return properties;
-	   }
+
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+		em.setDataSource(dataSource());
+		em.setPackagesToScan(new String[] { "fr.excilys.model" });
+
+		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		em.setJpaVendorAdapter(vendorAdapter);
+		return em;
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+
+		return transactionManager;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
 }

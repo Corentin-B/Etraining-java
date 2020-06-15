@@ -2,7 +2,6 @@ package fr.excilys.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,14 +18,11 @@ public class Computer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(name = "name")
 	private String name;
-	@Column(name = "introduced")
 	private LocalDate introduced;
-	@Column(name = "discontinued")
 	private LocalDate discontinued;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "company_id")
 	private Company company;
 
 	public static class Builder {
@@ -79,9 +75,9 @@ public class Computer {
 		this.discontinued = builder.discontinuedBuilder;
 		this.company = builder.companyBuilder;
 	}
-	
-	public Computer () {
-		
+
+	public Computer() {
+
 	}
 
 	public long getId() {

@@ -51,9 +51,9 @@ public class FormatServletRequest {
 		}
 	}
 
-	public static boolean checkCompany(long companyId) {
-
-		Company company = ServicesCompany.companySelectForCheck(companyId);
+	public static boolean checkCompany(long companyId, ServicesCompany servicesCompany) {
+		
+		Company company = servicesCompany.companySelectForCheck(companyId);
 
 		return company.getId() == companyId;
 	}

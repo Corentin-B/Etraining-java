@@ -1,46 +1,52 @@
 package fr.excilys.mapper;
 
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import fr.excilys.model.Computer;
+import fr.excilys.repository.ComputerRepository;
+
 public class PrepareQuerry {
-
-	private final static String SQL_COMPUTER_NAME = "computer.name ";
-	private final static String SQL_COMPUTER_INTRODUCED = "computer.introduced ";
-	private final static String SQL_COMPUTER_DISCONTINUED = "computer.discontinued ";
-	private final static String SQL_COMPUTER_COMPANYID = "computer.company_id ";
-
-	private final static String SQL_ASC = "ASC ";
-	private final static String SQL_DESC = "DESC ";
 	
-	public static String checkOrderValueSuffix(String order, String sort, String querry) {
-
-		StringBuilder prepredQuerry = new StringBuilder(querry);
-				
-		prepredQuerry = querryOrderBy(order, prepredQuerry);
-		prepredQuerry = querrySort(sort, prepredQuerry);
-
-		return prepredQuerry.toString();
+	ComputerRepository computerRepository;
+	
+	public PrepareQuerry(ComputerRepository computerRepository) {
+		// TODO Auto-generated constructor stub
+		this.computerRepository = computerRepository;
 	}
 	
-	private static StringBuilder querryOrderBy(String order, StringBuilder querry) {
-				
-		if ("introduced".equals(order))
-			querry.insert(querry.length() - 26, SQL_COMPUTER_INTRODUCED);
-		else if ("discontinued".equals(order))
-			querry.insert(querry.length() - 26, SQL_COMPUTER_DISCONTINUED);
-		else if ("company_id".equals(order))
-			querry.insert(querry.length() - 26, SQL_COMPUTER_COMPANYID);
-		else
-			querry.insert(querry.length() - 26, SQL_COMPUTER_NAME);
-			
-		return querry;
-	}
-	
-	private static StringBuilder querrySort(String sort, StringBuilder querry) {
+	public List<Computer> querrySortName(String nameComputer, int numberPage, int range, String sort, String order) {
 		
 		if ("desc".equals(sort))
-			querry.insert(querry.length() - 26, SQL_DESC);
+			return querryOrderByNameAsc(nameComputer, numberPage, range, order);
 		else
-			querry.insert(querry.length() - 26, SQL_ASC);
-			
-		return querry;
+			return querryOrderByNameDesc(nameComputer, numberPage, range, order);
+	}
+	
+	
+	private List<Computer> querryOrderByNameAsc(String nameComputer, int numberPage, int range, String order) {
+		
+		if ("introduced".equals(order))
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("introduced").ascending()));
+			else if ("discontinued".equals(order))
+				return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("discontinued").ascending()));
+		else if ("company_id".equals(order))
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("company_id").ascending()));
+		else
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("name").ascending()));
+	}
+	
+	private List<Computer> querryOrderByNameDesc(String nameComputer, int numberPage, int range, String order) {
+		
+		if ("introduced".equals(order))
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("introduced").descending()));
+		else if ("discontinued".equals(order))
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("discontinued").descending()));
+		else if ("company_id".equals(order))
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("company_id").descending()));
+		else
+			return computerRepository.findByNameContainingIgnoreCase(nameComputer, PageRequest.of(numberPage, range, Sort.by("name").descending()));
 	}
 }

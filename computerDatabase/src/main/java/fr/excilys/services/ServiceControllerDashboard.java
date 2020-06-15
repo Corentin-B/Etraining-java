@@ -14,7 +14,7 @@ import fr.excilys.model.Pagination;
 @Service
 public class ServiceControllerDashboard {
 	
-	public ServicesComputer serviceComputer;
+	private ServicesComputer serviceComputer;
 	
 	public ServiceControllerDashboard (ServicesComputer serviceComputer) {
 		this.serviceComputer = serviceComputer;
@@ -51,7 +51,7 @@ public class ServiceControllerDashboard {
 
 		int numberComputer;
 		List<Computer> computerList = new ArrayList<>();
-		int setSqlPage = (page - 1) * range;
+		int setSqlPage = (page - 1);
 
 		if (search != null && !search.isEmpty()) {
 			computerList = serviceComputer.computerSearchList(search, setSqlPage, range, order, sort);
@@ -60,6 +60,7 @@ public class ServiceControllerDashboard {
 			computerList = serviceComputer.computerList(setSqlPage, range, order, sort);
 			numberComputer = serviceComputer.computerGetNumber();
 		}
+		
 		Pagination pagination = PaginationDashboard.pagingValues(page, range, numberComputer);
 				
 		ModelAndView modelandview = new ModelAndView();

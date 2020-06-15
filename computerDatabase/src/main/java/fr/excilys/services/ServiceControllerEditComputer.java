@@ -14,17 +14,19 @@ import fr.excilys.model.DoPostParameter;
 @Service
 public class ServiceControllerEditComputer {
 
-	public ServicesComputer serviceComputer;
+	private ServicesComputer serviceComputer;
+	private ServicesCompany servicesCompany;
 
-	public ServiceControllerEditComputer(ServicesComputer serviceComputer) {
+	public ServiceControllerEditComputer(ServicesComputer serviceComputer, ServicesCompany servicesCompany) {
 		this.serviceComputer = serviceComputer;
+		this.servicesCompany = servicesCompany;
 	}
 
 	public ModelAndView getRequest(int computerId) {
 
 		Computer computer = serviceComputer.computerSelectForUpdate(computerId);
 
-		List<Company> companyList = ServicesCompany.companyList();
+		List<Company> companyList = servicesCompany.companyList();
 
 		ModelAndView modelandview = new ModelAndView();
 		modelandview.addObject("computer", computer);
@@ -39,7 +41,7 @@ public class ServiceControllerEditComputer {
 
 		Computer newcomputer = MapperComputer.getComputerFromResponse(doPostParameter);
 
-		if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId())) {
+		if (FormatServletRequest.checkCompany(newcomputer.getCompany().getId(), servicesCompany)) {
 			Computer updatedComputer = serviceComputer.computerUpdate(newcomputer);
 			if (updatedComputer.getId() != 0)
 				success = true;
