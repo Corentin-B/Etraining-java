@@ -14,10 +14,6 @@ public class ServicesCompany {
 	
 	@Autowired
 	private CompanyRepository companyRepository;
-
-	public ServicesCompany(CompanyRepository companyRepository) {
-		this.companyRepository = companyRepository;
-	}
 	
 	public void companyRemove(int idComputer) throws SQLException {
 
@@ -26,7 +22,6 @@ public class ServicesCompany {
     
 	public List<Company>  companyList() {
 
-		System.out.println(companyRepository);
 		return companyRepository.findAll();
 	}
 	

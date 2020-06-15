@@ -1,6 +1,10 @@
 <html>
 	<meta charset="UTF-8">
+	<head> 
+  	  <meta http-equiv="refresh" content="0; URL=http://localhost:8080/computerDatabase/dashboard" />
+	</head>
+	
 	<body>
-		<h2>Hello World!</h2>
+		<h1>Redirect to Dashboard</h1>
 	</body>
 </html>

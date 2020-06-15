@@ -72,7 +72,8 @@ public class CommandLineUi {
 
 		do {
 			company.removeAll(company);
-			company = ServicesCompany.companyList();
+			ServicesCompany serviceCompany = new ServicesCompany();
+			company = serviceCompany.companyList();
 			
 			if(!company.isEmpty()) {
 				
@@ -95,7 +96,8 @@ public class CommandLineUi {
 
 		do {
 			computer.removeAll(computer);
-			computer = ServicesComputer.computerList(range,numberPage, null ,null);
+			ServicesComputer servicesComputer = new ServicesComputer();
+			computer = servicesComputer.computerList(range,numberPage, null ,null);
 			
 			if(!computer.isEmpty()) {
 				
@@ -135,15 +137,17 @@ public class CommandLineUi {
 												   				  .build())
 										   .build();
 
-		ServicesComputer.computerAdd(computerNew);
+		ServicesComputer servicesComputer = new ServicesComputer();
+		servicesComputer.computerAdd(computerNew);
 	}
 
 	public static void menuUpdateComputer() {
 
 		boolean fini = false;
 		boolean execute = true;
-
-		Computer computerUpdate = ServicesComputer.computerSelectForUpdate(Integer.parseInt(getInputWithTest("Quel est l'id de l'ordinateur que vous voulez modifier ?\n",REGEX_ANYNUMBER)));
+		
+		ServicesComputer servicesComputer = new ServicesComputer();
+		Computer computerUpdate = servicesComputer.computerSelectForUpdate(Integer.parseInt(getInputWithTest("Quel est l'id de l'ordinateur que vous voulez modifier ?\n",REGEX_ANYNUMBER)));
 
 		do {
 			System.out.println("Ordinateur : " + computerUpdate.getName() 
@@ -196,14 +200,15 @@ public class CommandLineUi {
 		} while (!fini);
 
 		if (execute) {
-			ServicesComputer.computerUpdate(computerUpdate);
+			servicesComputer.computerUpdate(computerUpdate);
 		}
 	}
 
 	public static void menuRemoveComputer() {
 
 		System.out.println("Id de l'ordinateur ?");
-		ServicesComputer.computerRemove(Integer.parseInt(getInputWithTest("Id de l'ordinateur ?\n",REGEX_ANYNUMBER)));
+		ServicesComputer servicesComputer = new ServicesComputer();
+		servicesComputer.computerRemove(Integer.parseInt(getInputWithTest("Id de l'ordinateur ?\n",REGEX_ANYNUMBER)));
 	}
 	
 	public static String getInputWithTest(String message, String regex) {
