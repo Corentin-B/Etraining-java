@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.excylis</groupId>
+	<groupId>fr.excilys</groupId>
 	<artifactId>computerDatabase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<junit-version>4.11</junit-version>
 		<mockito-all-version>1.10.19</mockito-all-version>
 		<mysql-connector-version>8.0.19</mysql-connector-version>
 		<log4j-version>1.2.17</log4j-version>
 		<log4j-slf4j-impl-version>2.13.1</log4j-slf4j-impl-version>
 		<taglibs-standard-version>1.2.5</taglibs-standard-version>
-		<hikariCP-version>3.4.2</hikariCP-version>
 		<spring-version>5.2.4.RELEASE</spring-version>
 		<spring-data-jpa>2.3.0.RELEASE</spring-data-jpa>
 		<jstl-version>1.2</jstl-version>
@@ -130,6 +130,8 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Hhibernate -->
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
@@ -178,4 +180,12 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<modules>
+		<module>core</module>
+		<module>persistence</module>
+		<module>service</module>
+		<module>binding</module>
+		<module>webapp</module>
+		<module>console</module>
+	</modules>
 </project>
