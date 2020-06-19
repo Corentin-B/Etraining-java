@@ -42,7 +42,7 @@ proguard/
 
 # Apple Files
 .DS_Store
-/.metadata/
+.metadata/
 
 #This project
 *.log
