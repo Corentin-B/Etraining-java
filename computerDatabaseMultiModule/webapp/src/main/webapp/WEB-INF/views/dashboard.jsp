@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 
 <%@ page isELIgnored="false"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt"%>
 
 <html>
 	<head>
-		<title>Computer Database</title>
+		<title><fmt:message key="label.title.computerdatabase" /></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<!-- Bootstrap -->
@@ -16,25 +18,26 @@
 	<body>
 		<header class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+				<a class="navbar-brand" href="dashboard"> <fmt:message key="label.applicationname"/></a>
+				<a class="btn btn-default pull-right" href="logout">Logout</a>
 			</div>
 		</header>
 	
 		<section id="main">
-			<div class="container">
+			<div class="container text-center">
 				<h1 id="homeTitle">
-					<c:out value="${numberComputer}"></c:out> Computers found
+					<c:out value="${numberComputer}"></c:out> <fmt:message key="label.computersfound"/>
 				</h1>
 				<div id="actions" class="form-horizontal">
-					<div class="pull-left">
+					<div class="pull-left pagination">
 						<form id="searchForm" action="#" method="GET" class="form-inline">
-							<input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" /> 
-							<input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+							<input type="search" id="searchbox" name="search" class="form-control" placeholder="<fmt:message key="label.searchname" />" /> 
+							<input type="submit" id="searchsubmit" value="<fmt:message key="label.button.filterbyname" />" class="btn btn-primary" />
 						</form>
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-success" id="addComputer" href="addcomputer">Add	Computer</a>
-						<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+						<a class="btn btn-success" id="addComputer" href="addcomputer"><fmt:message key="label.button.addcomputer" /></a>
+						<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();"><fmt:message key="label.button.edit" /></a>
 					</div>
 				</div>
 			</div>
@@ -55,10 +58,10 @@
 									</a>
 								</span>
 							</th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=name&sort=${sort}change"  class="btn btn-light">Computer name</a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=introduced&sort=${sort}change"  class="btn btn-light">Introduced date</a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=discontinued&sort=${sort}change"  class="btn btn-light">Discontinued date</a></th>
-							<th><a href="dashboard?range=${range}&search=${search}&order=company_id&sort=${sort}change"  class="btn btn-light">Company</a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=name&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.computername" /></a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=introduced&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.introduceddate" /></a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=discontinued&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.discontinueddate" /></a></th>
+							<th><a href="dashboard?range=${range}&search=${search}&order=company_id&sort=${sort}change"  class="btn btn-light"><fmt:message key="label.company" /></a></th>
 						</tr>
 					</thead>
 					<tbody id="results">
@@ -79,7 +82,22 @@
 		</section>
 	
 		<footer class="navbar-fixed-bottom">
-			<div class="container text-center">
+			<div class="container text-center">		
+				<div class="pull-left pagination">	
+					<div class="dropdown">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><fmt:message key="label.language" />
+						<span class="caret"></span></button>
+						<ul class="dropdown-menu">
+				  			<li>
+				  				<a class="dropdown-item" href="?lang=en"><fmt:message key="label.lang.en" /></a>
+				  			</li>
+				  			<li>
+				  				<a class="dropdown-item" href="?lang=fr"><fmt:message key="label.lang.fr" /></a>
+				  			</li>
+						</ul>
+			  		</div> 
+		    	</div>
+
 				<ul class="pagination">
 					<li>
 						<a href="dashboard?page=${prevPage}&range=${range}&search=${search}&order=${order}&sort=${sort}" aria-label="Previous">

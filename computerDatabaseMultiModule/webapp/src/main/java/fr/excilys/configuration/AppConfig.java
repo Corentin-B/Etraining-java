@@ -55,11 +55,16 @@ public class AppConfig implements WebApplicationInitializer {
 		webCtx.register(AppConfig.class);
 		webCtx.setServletContext(servletContext);
 
-		ServletRegistration.Dynamic servlet = servletContext.addServlet("dashboard", new DispatcherServlet(webCtx));
+		ServletRegistration.Dynamic servlet = servletContext.addServlet("SpringDispatcher", new DispatcherServlet(webCtx));
 		servlet.setLoadOnStartup(1);
 		servlet.addMapping("/");
 	}
 
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
+	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -77,10 +82,5 @@ public class AppConfig implements WebApplicationInitializer {
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 
 		return transactionManager;
-	}
-
-	@Bean
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-		return new PersistenceExceptionTranslationPostProcessor();
 	}
 }
