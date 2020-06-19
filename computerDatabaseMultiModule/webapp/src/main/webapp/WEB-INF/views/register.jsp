@@ -28,7 +28,7 @@
 	       
 	   <h3>Enter new user name and password:</h3>  
 	     
-	   <form name='from' action="/regsiter" method='POST'>			
+	   <form name='from' action="register" method='POST'>			
 			
 			<input type="text" id="username" name="username" th:placeholder="Username or email" class="form-control" /> <br/> 
 			<input type="password"  th:placeholder="Password" id="password" name="password" class="form-control" /> <br />

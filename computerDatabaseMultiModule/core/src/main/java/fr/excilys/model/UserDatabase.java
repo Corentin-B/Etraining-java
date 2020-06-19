@@ -2,12 +2,9 @@ package fr.excilys.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,16 +17,14 @@ public class UserDatabase {
 	@Column(nullable = false, unique = true)
 	private String username;
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "role_id")
-	private Role role;
+	private String role;
 
 	public static class Builder {
 
 		private long idBuilder;
 		private String usernameBuilder;
 		private String passwordBuilder;
-		private Role roleBuilder;
+		private String roleBuilder;
 
 		public Builder setId(long id) {
 			this.idBuilder = id;
@@ -49,7 +44,7 @@ public class UserDatabase {
 			return this;
 		}
 
-		public Builder setBuiler(Role role) {
+		public Builder setBuiler(String role) {
 			this.roleBuilder = role;
 
 			return this;
@@ -95,11 +90,11 @@ public class UserDatabase {
 		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 }

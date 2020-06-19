@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.csrf().disable();
 
-		http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+		http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register").permitAll();
 
 		http.authorizeRequests().antMatchers("/dashboard").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 
@@ -60,9 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureAuthenticationManagerBuilder(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		
-		authenticationManagerBuilder.inMemoryAuthentication().withUser("toto").password(bCryptPasswordEncoder().encode("toto")).roles("USER");
-		authenticationManagerBuilder.inMemoryAuthentication().withUser("tata").password(bCryptPasswordEncoder().encode("tata")).roles("ADMIN");
-
 		authenticationManagerBuilder.userDetailsService(cdbUserDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 	

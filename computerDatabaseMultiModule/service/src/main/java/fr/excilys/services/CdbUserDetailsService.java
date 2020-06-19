@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import fr.excilys.model.Role;
 import fr.excilys.model.UserDatabase;
 import fr.excilys.repository.UserRepository;
 
@@ -23,7 +23,10 @@ public class CdbUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,8 +34,7 @@ public class CdbUserDetailsService implements UserDetailsService {
 		if (username.trim().isEmpty()) {
 			throw new UsernameNotFoundException("Username is empty");
 		}
-		System.out.println("username " + username);
-
+		
 		UserDatabase user = new UserDatabase();
 
 		try {
@@ -47,11 +49,16 @@ public class CdbUserDetailsService implements UserDetailsService {
 
 		return new User(user.getUsername(), user.getPassword(), getGrantedAuthorities(user));
 	}
+	
+    public void save(UserDatabase userDatabase) {
+    	userDatabase.setPassword(bCryptPasswordEncoder.encode(userDatabase.getPassword()));
+    	userDatabase.setRole("ROLE_USER");
+    	userRepository.save(userDatabase);
+    }
 
 	private List<GrantedAuthority> getGrantedAuthorities(UserDatabase user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		Role role = user.getRole();
-		authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+		authorities.add(new SimpleGrantedAuthority(user.getRole()));
 		return authorities;
 	}
 }
